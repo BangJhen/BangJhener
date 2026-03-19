@@ -1,0 +1,21 @@
+.scrollFloat {
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.scrollFloatText {
+  display: inline-block;
+  line-height: inherit;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.char {
+  display: inline-block;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
