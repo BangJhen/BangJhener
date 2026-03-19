@@ -2,7 +2,6 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  perspective: 980px;
 }
 
 .link {
@@ -10,26 +9,26 @@
 }
 
 .card {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 14px);
+  position: fixed;
+  left: 0;
+  top: 0;
   z-index: 18;
   width: min(330px, 80vw);
   display: grid;
   gap: 0.48rem;
   padding: 0.74rem 0.8rem 0.78rem;
   border-radius: 0.92rem;
-  border: 1px solid rgba(125, 211, 252, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.92);
   background:
     radial-gradient(circle at 20% 18%, rgba(56, 189, 248, 0.24), rgba(56, 189, 248, 0) 46%),
     linear-gradient(165deg, rgba(10, 14, 31, 0.98), rgba(8, 18, 41, 0.96));
   box-shadow:
     0 24px 58px rgba(2, 8, 23, 0.78),
     0 0 36px rgba(56, 189, 248, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.16),
     inset 0 0 0 1px rgba(224, 242, 254, 0.07);
-  transform: translateX(-50%);
+  transform: translate(-50%, calc(-100% - 18px));
   transform-origin: 50% 100%;
-  transform-style: preserve-3d;
   backdrop-filter: blur(10px);
   pointer-events: none;
   will-change: transform;
@@ -47,7 +46,6 @@
   box-shadow:
     0 12px 26px rgba(2, 8, 23, 0.55),
     inset 0 0 0 1px rgba(224, 242, 254, 0.08);
-  transform: translateZ(20px);
 }
 
 .previewImage {
@@ -71,8 +69,8 @@
   bottom: -7px;
   width: 13px;
   height: 13px;
-  border-right: 1px solid rgba(125, 211, 252, 0.42);
-  border-bottom: 1px solid rgba(125, 211, 252, 0.42);
+  border-right: 1px solid rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.92);
   background: rgba(10, 15, 31, 0.98);
   transform: translateX(-50%) rotate(45deg);
 }

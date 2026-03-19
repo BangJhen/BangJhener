@@ -572,18 +572,49 @@
 }
 
 .heroHighlight {
-  color: #ecfeff;
-  font-weight: 600;
+  position: relative;
+  display: inline-block;
+  color: #f8fdff;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
   text-shadow:
-    0 0 14px rgba(186, 230, 253, 0.74),
-    0 0 36px rgba(56, 189, 248, 0.34);
+    0 0 6px rgba(186, 230, 253, 0.52),
+    0 0 14px rgba(56, 189, 248, 0.26);
+  animation: subtitleHighlightPulse 3.2s ease-in-out infinite;
 }
 
 .heroHighlightSoft {
-  color: rgba(224, 242, 254, 0.94);
+  position: relative;
+  display: inline-block;
+  color: #e6f7ff;
+  font-weight: 600;
+  letter-spacing: 0.045em;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
   text-shadow:
-    0 0 12px rgba(125, 211, 252, 0.58),
-    0 0 24px rgba(14, 165, 233, 0.24);
+    0 0 5px rgba(186, 230, 253, 0.46),
+    0 0 12px rgba(14, 165, 233, 0.2);
+  animation: subtitleHighlightPulse 3.6s ease-in-out infinite;
+}
+
+.heroHighlight::after,
+.heroHighlightSoft::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.08em;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(34, 211, 238, 0), rgba(186, 230, 253, 0.95) 50%, rgba(34, 211, 238, 0));
+  opacity: 0.72;
+  transform-origin: 50% 50%;
+  animation: subtitleHighlightLine 3.6s ease-in-out infinite;
 }
 
 .heroSubtitleMeta {
@@ -596,11 +627,17 @@
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 .heroLinkFloat {
   min-height: 1.5em;
   padding-block: 0.08em;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 .heroLinkCard {
@@ -736,6 +773,28 @@
   100% {
     transform: translate(-50%, -50%) scale(1.82);
     opacity: 0;
+  }
+}
+
+@keyframes subtitleHighlightPulse {
+  0%,
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    filter: brightness(1.08) saturate(1.06);
+  }
+}
+
+@keyframes subtitleHighlightLine {
+  0%,
+  100% {
+    opacity: 0.52;
+    transform: scaleX(0.76);
+  }
+  50% {
+    opacity: 0.92;
+    transform: scaleX(1);
   }
 }
 
