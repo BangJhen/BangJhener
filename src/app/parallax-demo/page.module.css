@@ -19,6 +19,8 @@
   height: 120vh;
   overflow: hidden;
   isolation: isolate;
+  --intro-duration: 7.8s;
+  --title-appear-delay: 7.05s;
 }
 
 .introBombReveal {
@@ -29,7 +31,7 @@
   background: #010104;
   opacity: 1;
   transform-origin: 50% 52%;
-  animation: introBombCurtain 7.8s cubic-bezier(0.18, 0.9, 0.24, 1) forwards;
+  animation: introBombCurtain var(--intro-duration) cubic-bezier(0.18, 0.9, 0.24, 1) forwards;
 }
 
 .introBombReveal::before,
@@ -419,9 +421,12 @@
   justify-items: center;
   margin-top: -10rem;
   transform-origin: 50% 18%;
-  transform: translateZ(0);
+  transform: translateY(44px) scale(0.9) rotateX(14deg) translateZ(0);
   perspective: 1000px;
   will-change: transform, opacity, filter;
+  opacity: 0;
+  filter: blur(10px) brightness(0.76);
+  animation: titleWarpIn 1.85s cubic-bezier(0.22, 0.9, 0.22, 1) var(--title-appear-delay) both;
 }
 
 .sinkTitle,
@@ -622,6 +627,24 @@
   100% {
     transform: translate(-50%, -50%) scale(1.82);
     opacity: 0;
+  }
+}
+
+@keyframes titleWarpIn {
+  0% {
+    opacity: 0;
+    transform: translateY(44px) scale(0.9) rotateX(14deg) translateZ(0);
+    filter: blur(10px) brightness(0.76);
+  }
+  58% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.012) rotateX(0deg) translateZ(0);
+    filter: blur(0) brightness(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg) translateZ(0);
+    filter: blur(0) brightness(1);
   }
 }
 
