@@ -19,6 +19,10 @@ export function ScrollFloat({
   scrollEnd = "bottom bottom-=40%",
   stagger = 0.03,
   reverse = false,
+  reverseToYPercent = -120,
+  reverseToScaleY = 1.6,
+  reverseToScaleX = 0.82,
+  reverseToOpacity = 0,
 }) {
   const containerRef = useRef(null);
 
@@ -61,10 +65,10 @@ export function ScrollFloat({
 
     const toVars = reverse
       ? {
-          opacity: 0,
-          yPercent: -120,
-          scaleY: 1.6,
-          scaleX: 0.82,
+          opacity: reverseToOpacity,
+          yPercent: reverseToYPercent,
+          scaleY: reverseToScaleY,
+          scaleX: reverseToScaleX,
         }
       : {
           opacity: 1,
@@ -92,7 +96,19 @@ export function ScrollFloat({
     return () => {
       context.revert();
     };
-  }, [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger, reverse]);
+  }, [
+    scrollContainerRef,
+    animationDuration,
+    ease,
+    scrollStart,
+    scrollEnd,
+    stagger,
+    reverse,
+    reverseToYPercent,
+    reverseToScaleY,
+    reverseToScaleX,
+    reverseToOpacity,
+  ]);
 
   return (
     <Tag ref={containerRef} className={`${styles.scrollFloat} ${containerClassName}`}>

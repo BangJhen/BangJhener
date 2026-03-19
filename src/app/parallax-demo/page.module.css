@@ -528,10 +528,13 @@
 }
 
 .heroSubtitle {
-  margin: 0.85rem auto 0;
+  margin: 0;
   max-width: min(66ch, 84vw);
-  display: grid;
-  gap: 0.22rem;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  min-height: 1.8em;
+  padding-block: 0.22em;
   font-size: clamp(0.82rem, 1.15vw, 1.08rem);
   line-height: 1.5;
   letter-spacing: 0.045em;
@@ -545,8 +548,21 @@
   animation: subtitleNebulaPulse 5.6s ease-in-out infinite;
 }
 
+.heroSubtitleWrap {
+  margin: 0.85rem auto 0;
+  max-width: min(66ch, 84vw);
+  display: grid;
+  justify-items: center;
+  gap: 0.16rem;
+  overflow: visible;
+}
+
+.heroSubtitleLine {
+  display: inline-block;
+  line-height: inherit;
+}
+
 .heroSubtitleMeta {
-  display: block;
   color: rgba(224, 242, 254, 0.86);
   font-size: clamp(0.78rem, 1.05vw, 0.95rem);
   letter-spacing: 0.038em;
@@ -1105,9 +1121,16 @@
 }
 
 @media (max-width: 768px) {
-  .heroSubtitle {
+  .heroSubtitleWrap {
     margin-top: 0.7rem;
     max-width: min(74ch, 90vw);
+    gap: 0.18rem;
+  }
+
+  .heroSubtitle {
+    max-width: min(74ch, 90vw);
+    min-height: 1.72em;
+    padding-block: 0.2em;
     letter-spacing: 0.032em;
     line-height: 1.45;
   }

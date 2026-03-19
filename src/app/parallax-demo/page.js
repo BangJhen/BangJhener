@@ -533,10 +533,36 @@ export default function ParallaxDemoPage() {
                   textClassName={`${styles.floatInlineText} ${styles.titleStarfield}`}>
                   Ammar Ridho
                 </ScrollFloat>
-                <p className={styles.heroSubtitle}>
-                  I am an AI/ML Engineer and Web Developer.
-                  <span className={styles.heroSubtitleMeta}>Active undergraduate Data Science student at Telkom University.</span>
-                </p>
+                <div className={styles.heroSubtitleWrap}>
+                  <ScrollFloat
+                    as="p"
+                    reverse
+                    scrollStart="top top+=52%"
+                    scrollEnd="bottom top+=0%"
+                    stagger={0.016}
+                    reverseToYPercent={-50}
+                    reverseToScaleY={1.14}
+                    reverseToScaleX={0.96}
+                    reverseToOpacity={0}
+                    containerClassName={styles.heroSubtitle}
+                    textClassName={styles.heroSubtitleLine}>
+                    I am an AI/ML Engineer and Web Developer.
+                  </ScrollFloat>
+                  <ScrollFloat
+                    as="p"
+                    reverse
+                    scrollStart="top top+=52%"
+                    scrollEnd="bottom top+=0%"
+                    stagger={0.016}
+                    reverseToYPercent={-50}
+                    reverseToScaleY={1.14}
+                    reverseToScaleX={0.96}
+                    reverseToOpacity={0}
+                    containerClassName={`${styles.heroSubtitle} ${styles.heroSubtitleMeta}`}
+                    textClassName={styles.heroSubtitleLine}>
+                    Active undergraduate Data Science student at Telkom University.
+                  </ScrollFloat>
+                </div>
               </div>
             </Lens>
           </div>
