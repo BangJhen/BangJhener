@@ -527,6 +527,31 @@
   animation: titleStarTwinkle 4.8s ease-in-out infinite;
 }
 
+.heroSubtitle {
+  margin: 0.85rem auto 0;
+  max-width: min(66ch, 84vw);
+  display: grid;
+  gap: 0.22rem;
+  font-size: clamp(0.82rem, 1.15vw, 1.08rem);
+  line-height: 1.5;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  font-family: var(--font-space-grotesk), var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  color: rgba(186, 230, 253, 0.92);
+  text-shadow:
+    0 0 10px rgba(125, 211, 252, 0.42),
+    0 0 26px rgba(14, 165, 233, 0.24);
+  opacity: 0.96;
+  animation: subtitleNebulaPulse 5.6s ease-in-out infinite;
+}
+
+.heroSubtitleMeta {
+  display: block;
+  color: rgba(224, 242, 254, 0.86);
+  font-size: clamp(0.78rem, 1.05vw, 0.95rem);
+  letter-spacing: 0.038em;
+}
+
 .subtitle {
   margin-top: 1rem;
   max-width: 58ch;
@@ -652,6 +677,18 @@
   100% {
     transform: translate(-50%, -50%) scale(1.82);
     opacity: 0;
+  }
+}
+
+@keyframes subtitleNebulaPulse {
+  0%,
+  100% {
+    opacity: 0.84;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-1.5px);
   }
 }
 
@@ -1068,6 +1105,17 @@
 }
 
 @media (max-width: 768px) {
+  .heroSubtitle {
+    margin-top: 0.7rem;
+    max-width: min(74ch, 90vw);
+    letter-spacing: 0.032em;
+    line-height: 1.45;
+  }
+
+  .heroSubtitleMeta {
+    letter-spacing: 0.028em;
+  }
+
   .saturnIcon {
     width: 124px;
     height: 82px;

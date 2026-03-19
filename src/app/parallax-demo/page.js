@@ -521,7 +521,7 @@ export default function ParallaxDemoPage() {
 
         <div className={styles.content} data-layer="content">
           <div className={styles.sinkTitle} data-sink-title="hero">
-            <Lens zoomFactor={1.1} lensSize={110}>
+            <Lens zoomFactor={1} lensSize={110}>
               <div className={styles.sinkLensContent}>
                 <ScrollFloat
                   as="h1"
@@ -533,6 +533,10 @@ export default function ParallaxDemoPage() {
                   textClassName={`${styles.floatInlineText} ${styles.titleStarfield}`}>
                   Ammar Ridho
                 </ScrollFloat>
+                <p className={styles.heroSubtitle}>
+                  I am an AI/ML Engineer and Web Developer.
+                  <span className={styles.heroSubtitleMeta}>Active undergraduate Data Science student at Telkom University.</span>
+                </p>
               </div>
             </Lens>
           </div>
