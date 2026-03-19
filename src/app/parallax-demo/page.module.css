@@ -603,20 +603,6 @@
   animation: subtitleHighlightPulse 3.6s ease-in-out infinite;
 }
 
-.heroHighlight::after,
-.heroHighlightSoft::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0.08em;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(34, 211, 238, 0), rgba(186, 230, 253, 0.95) 50%, rgba(34, 211, 238, 0));
-  opacity: 0.72;
-  transform-origin: 50% 50%;
-  animation: subtitleHighlightLine 3.6s ease-in-out infinite;
-}
-
 .heroSubtitleMeta {
   color: rgba(224, 242, 254, 0.86);
   font-size: clamp(0.78rem, 1.05vw, 0.95rem);
@@ -638,6 +624,13 @@
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
+}
+
+.heroLinkFloat :global([data-scroll-char="true"]) {
+  text-decoration-line: underline;
+  text-decoration-color: rgba(186, 230, 253, 0.9);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
 }
 
 .heroLinkCard {
