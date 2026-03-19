@@ -12,6 +12,8 @@ import styles from "./page.module.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+const DECOR_APPEAR_DELAY_MS = 8000;
+
 export default function ParallaxDemoPage() {
   const containerRef = useRef(null);
   const lenisRef = useRef(null);
@@ -94,6 +96,7 @@ export default function ParallaxDemoPage() {
     let width = 0;
     let height = 0;
     let rafId = 0;
+    let startTimeoutId = 0;
     let lastTime = performance.now();
     let spawnTimer = 0;
 
@@ -217,11 +220,17 @@ export default function ParallaxDemoPage() {
       rafId = window.requestAnimationFrame(frame);
     };
 
+    const startAsteroidMotion = () => {
+      lastTime = performance.now();
+      rafId = window.requestAnimationFrame(frame);
+    };
+
     resize();
     window.addEventListener("resize", resize);
-    rafId = window.requestAnimationFrame(frame);
+    startTimeoutId = window.setTimeout(startAsteroidMotion, DECOR_APPEAR_DELAY_MS);
 
     return () => {
+      window.clearTimeout(startTimeoutId);
       window.cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
       ctx.clearRect(0, 0, width, height);
@@ -231,7 +240,7 @@ export default function ParallaxDemoPage() {
   useGSAP(
     () => {
       const heroElement = containerRef.current?.querySelector("[data-parallax='hero']");
-      const hoverTargets = gsap.utils.toArray("[data-hover-depth]");
+      const hoverTargets = gsap.utils.toArray("[data-hover-depth]:not([data-decor-delay='true'])");
 
       if (hoverTargets.length > 0) {
         gsap.from(hoverTargets, {
@@ -394,7 +403,7 @@ export default function ParallaxDemoPage() {
 
   return (
     <main ref={containerRef} className={styles.page}>
-      <section className={styles.hero} data-parallax="hero">
+      <section className={`${styles.hero} ${styles.heroCinematic}`} data-parallax="hero">
         <div className={styles.introBombReveal} aria-hidden="true" />
         <div className={styles.bg} data-layer="bg" data-hover-depth="6" />
         <div className={styles.stars} data-layer="stars" data-hover-depth="14" />
@@ -451,7 +460,7 @@ export default function ParallaxDemoPage() {
             </svg>
           </span>
 
-          <span className={`${styles.spaceIcon} ${styles.cometIcon} ${styles.cometUltra}`} data-hover-depth="32" aria-hidden="true">
+          <span className={`${styles.spaceIcon} ${styles.cometIcon} ${styles.cometUltra}`} data-hover-depth="32" data-decor-delay="true" aria-hidden="true">
             <svg viewBox="0 0 260 120" role="presentation">
               <defs>
                 <linearGradient id="cometTail" x1="0" y1="0" x2="1" y2="0">
