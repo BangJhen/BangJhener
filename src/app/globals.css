@@ -49,7 +49,7 @@
 }
 
 :root {
-  --cursor-space: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='9.5' fill='none' stroke='%23e0f2fe' stroke-width='2'/%3E%3Ccircle cx='14' cy='14' r='2.2' fill='%23e0f2fe' fill-opacity='0.85'/%3E%3C/svg%3E") 14 14;
+  --cursor-space: url("/space-circle.svg") 14 14;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -119,9 +119,14 @@
 }
 
 @layer base {
+  html,
+  body {
+    cursor: var(--cursor-space), auto;
+  }
+
   * {
     @apply border-border outline-ring/50;
-    cursor: var(--cursor-space), auto;
+    cursor: var(--cursor-space), auto !important;
   }
   body {
     @apply bg-background text-foreground;
@@ -147,6 +152,6 @@
   [role="button"],
   summary,
   label {
-    cursor: var(--cursor-space), pointer;
+    cursor: var(--cursor-space), pointer !important;
   }
 }
