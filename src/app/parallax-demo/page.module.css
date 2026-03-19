@@ -527,14 +527,24 @@
   animation: titleStarTwinkle 4.8s ease-in-out infinite;
 }
 
-.heroSubtitle {
-  margin: 0;
+.heroSubtitleWrap {
+  margin: 0.85rem auto 0;
   max-width: min(66ch, 84vw);
-  width: 100%;
-  display: block;
-  overflow: hidden;
-  min-height: 1.8em;
-  padding-block: 0.22em;
+  display: grid;
+  justify-items: center;
+  gap: 0.14rem;
+  overflow: visible;
+}
+
+.heroSubtitleRow {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: 0.28rem;
+  row-gap: 0.1rem;
+  max-width: min(66ch, 84vw);
   font-size: clamp(0.82rem, 1.15vw, 1.08rem);
   line-height: 1.5;
   letter-spacing: 0.045em;
@@ -548,13 +558,12 @@
   animation: subtitleNebulaPulse 5.6s ease-in-out infinite;
 }
 
-.heroSubtitleWrap {
-  margin: 0.85rem auto 0;
-  max-width: min(66ch, 84vw);
-  display: grid;
-  justify-items: center;
-  gap: 0.16rem;
-  overflow: visible;
+.heroSubtitleSeg {
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  min-height: 1.65em;
+  padding-block: 0.16em;
 }
 
 .heroSubtitleLine {
@@ -562,10 +571,44 @@
   line-height: inherit;
 }
 
+.heroHighlight {
+  color: #ecfeff;
+  font-weight: 600;
+  text-shadow:
+    0 0 14px rgba(186, 230, 253, 0.74),
+    0 0 36px rgba(56, 189, 248, 0.34);
+}
+
+.heroHighlightSoft {
+  color: rgba(224, 242, 254, 0.94);
+  text-shadow:
+    0 0 12px rgba(125, 211, 252, 0.58),
+    0 0 24px rgba(14, 165, 233, 0.24);
+}
+
 .heroSubtitleMeta {
   color: rgba(224, 242, 254, 0.86);
   font-size: clamp(0.78rem, 1.05vw, 0.95rem);
   letter-spacing: 0.038em;
+}
+
+.heroLink {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.heroLinkFloat {
+  min-height: 1.5em;
+  padding-block: 0.08em;
+}
+
+.heroLinkCard {
+  border-color: rgba(56, 189, 248, 0.56);
+  box-shadow:
+    0 24px 64px rgba(2, 8, 23, 0.82),
+    0 0 42px rgba(14, 165, 233, 0.28),
+    inset 0 0 0 1px rgba(186, 230, 253, 0.12);
 }
 
 .subtitle {
@@ -1127,12 +1170,16 @@
     gap: 0.18rem;
   }
 
-  .heroSubtitle {
+  .heroSubtitleRow {
     max-width: min(74ch, 90vw);
-    min-height: 1.72em;
-    padding-block: 0.2em;
+    column-gap: 0.22rem;
     letter-spacing: 0.032em;
     line-height: 1.45;
+  }
+
+  .heroSubtitleSeg {
+    min-height: 1.56em;
+    padding-block: 0.12em;
   }
 
   .heroSubtitleMeta {

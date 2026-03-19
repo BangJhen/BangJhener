@@ -7,7 +7,9 @@ import { useGSAP } from "@gsap/react";
 import Lenis from "lenis";
 import { Particles } from "@/components/ui/particles";
 import { Lens } from "@/components/ui/lens";
+import { LinkPreview } from "@/components/ui/link-preview";
 import { ScrollFloat } from "@/components/ui/scroll-float";
+import telkomUniversityPreview from "../../../website-telkom-university-preview.jpeg";
 import styles from "./page.module.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -534,34 +536,106 @@ export default function ParallaxDemoPage() {
                   Ammar Ridho
                 </ScrollFloat>
                 <div className={styles.heroSubtitleWrap}>
-                  <ScrollFloat
-                    as="p"
-                    reverse
-                    scrollStart="top top+=52%"
-                    scrollEnd="bottom top+=0%"
-                    stagger={0.016}
-                    reverseToYPercent={-50}
-                    reverseToScaleY={1.14}
-                    reverseToScaleX={0.96}
-                    reverseToOpacity={0}
-                    containerClassName={styles.heroSubtitle}
-                    textClassName={styles.heroSubtitleLine}>
-                    I am an AI/ML Engineer and Web Developer.
-                  </ScrollFloat>
-                  <ScrollFloat
-                    as="p"
-                    reverse
-                    scrollStart="top top+=52%"
-                    scrollEnd="bottom top+=0%"
-                    stagger={0.016}
-                    reverseToYPercent={-50}
-                    reverseToScaleY={1.14}
-                    reverseToScaleX={0.96}
-                    reverseToOpacity={0}
-                    containerClassName={`${styles.heroSubtitle} ${styles.heroSubtitleMeta}`}
-                    textClassName={styles.heroSubtitleLine}>
-                    Active undergraduate Data Science student at Telkom University.
-                  </ScrollFloat>
+                  <p className={styles.heroSubtitleRow}>
+                    <ScrollFloat
+                      as="span"
+                      reverse
+                      scrollStart="top top+=52%"
+                      scrollEnd="bottom top+=20%"
+                      stagger={0.016}
+                      reverseToYPercent={-50}
+                      reverseToScaleY={1.14}
+                      reverseToScaleX={0.96}
+                      reverseToOpacity={0}
+                      containerClassName={styles.heroSubtitleSeg}
+                      textClassName={styles.heroSubtitleLine}>
+                      I am an
+                    </ScrollFloat>
+                    <ScrollFloat
+                      as="span"
+                      reverse
+                      scrollStart="top top+=52%"
+                      scrollEnd="bottom top+=20%"
+                      stagger={0.016}
+                      reverseToYPercent={-50}
+                      reverseToScaleY={1.14}
+                      reverseToScaleX={0.96}
+                      reverseToOpacity={0}
+                      containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
+                      textClassName={styles.heroSubtitleLine}>
+                      AI/ML Engineer
+                    </ScrollFloat>
+                    <ScrollFloat
+                      as="span"
+                      reverse
+                      scrollStart="top top+=52%"
+                      scrollEnd="bottom top+=20%"
+                      stagger={0.016}
+                      reverseToYPercent={-50}
+                      reverseToScaleY={1.14}
+                      reverseToScaleX={0.96}
+                      reverseToOpacity={0}
+                      containerClassName={styles.heroSubtitleSeg}
+                      textClassName={styles.heroSubtitleLine}>
+                      and
+                    </ScrollFloat>
+                    <ScrollFloat
+                      as="span"
+                      reverse
+                      scrollStart="top top+=52%"
+                      scrollEnd="bottom top+=20%"
+                      stagger={0.016}
+                      reverseToYPercent={-50}
+                      reverseToScaleY={1.14}
+                      reverseToScaleX={0.96}
+                      reverseToOpacity={0}
+                      containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
+                      textClassName={styles.heroSubtitleLine}>
+                      Web Developer.
+                    </ScrollFloat>
+                  </p>
+
+                  <p className={`${styles.heroSubtitleRow} ${styles.heroSubtitleMeta}`}>
+                    <ScrollFloat
+                      as="span"
+                      reverse
+                      scrollStart="top top+=52%"
+                      scrollEnd="bottom top+=20%"
+                      stagger={0.016}
+                      reverseToYPercent={-50}
+                      reverseToScaleY={1.14}
+                      reverseToScaleX={0.96}
+                      reverseToOpacity={0}
+                      containerClassName={styles.heroSubtitleSeg}
+                      textClassName={styles.heroSubtitleLine}>
+                      Active undergraduate Data Science student at
+                    </ScrollFloat>
+
+                    <LinkPreview
+                      url="https://smb.telkomuniversity.ac.id/program/s1-data-sains/"
+                      title="S1 Data Science"
+                      description="Discover the official undergraduate Data Science program at Telkom University."
+                      imageSrc={telkomUniversityPreview.src}
+                      imageAlt="Telkom University Data Science program preview"
+                      showDetails={false}
+                      className={`${styles.heroLink} ${styles.heroHighlightSoft}`}
+                      cardClassName={styles.heroLinkCard}>
+                      <ScrollFloat
+                        as="span"
+                        reverse
+                        scrollStart="top top+=52%"
+                        scrollEnd="bottom top+=20%"
+                        stagger={0.016}
+                        reverseToYPercent={-50}
+                        reverseToScaleY={1.14}
+                        reverseToScaleX={0.96}
+                        reverseToOpacity={0}
+                        containerClassName={`${styles.heroSubtitleSeg} ${styles.heroLinkFloat}`}
+                        textClassName={styles.heroSubtitleLine}>
+                        Telkom University.
+                      </ScrollFloat>
+                    </LinkPreview>
+                  </p>
                 </div>
               </div>
             </Lens>

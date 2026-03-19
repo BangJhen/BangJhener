@@ -1,0 +1,130 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  perspective: 980px;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.card {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 14px);
+  z-index: 18;
+  width: min(330px, 80vw);
+  display: grid;
+  gap: 0.48rem;
+  padding: 0.74rem 0.8rem 0.78rem;
+  border-radius: 0.92rem;
+  border: 1px solid rgba(125, 211, 252, 0.42);
+  background:
+    radial-gradient(circle at 20% 18%, rgba(56, 189, 248, 0.24), rgba(56, 189, 248, 0) 46%),
+    linear-gradient(165deg, rgba(10, 14, 31, 0.98), rgba(8, 18, 41, 0.96));
+  box-shadow:
+    0 24px 58px rgba(2, 8, 23, 0.78),
+    0 0 36px rgba(56, 189, 248, 0.2),
+    inset 0 0 0 1px rgba(224, 242, 254, 0.07);
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.previewFrame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.66rem;
+  overflow: hidden;
+  border: 1px solid rgba(125, 211, 252, 0.28);
+  background: rgba(8, 15, 31, 0.9);
+  box-shadow:
+    0 12px 26px rgba(2, 8, 23, 0.55),
+    inset 0 0 0 1px rgba(224, 242, 254, 0.08);
+  transform: translateZ(20px);
+}
+
+.previewImage {
+  object-fit: cover;
+}
+
+.previewGlow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.26), rgba(56, 189, 248, 0) 45%),
+    radial-gradient(circle at 80% 72%, rgba(14, 165, 233, 0.2), rgba(14, 165, 233, 0) 42%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 13px;
+  height: 13px;
+  border-right: 1px solid rgba(125, 211, 252, 0.42);
+  border-bottom: 1px solid rgba(125, 211, 252, 0.42);
+  background: rgba(10, 15, 31, 0.98);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.badge {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.16rem 0.5rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(186, 230, 253, 0.96);
+  background: rgba(14, 165, 233, 0.2);
+  border: 1px solid rgba(125, 211, 252, 0.34);
+}
+
+.title {
+  color: #f0f9ff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.description {
+  color: rgba(191, 219, 254, 0.86);
+  font-size: 0.74rem;
+  line-height: 1.38;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.12rem;
+  padding-top: 0.38rem;
+  border-top: 1px solid rgba(125, 211, 252, 0.2);
+}
+
+.domain {
+  color: rgba(147, 197, 253, 0.84);
+  font-size: 0.69rem;
+  letter-spacing: 0.03em;
+}
+
+.arrow {
+  color: rgba(186, 230, 253, 0.92);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: min(290px, 84vw);
+  }
+}
