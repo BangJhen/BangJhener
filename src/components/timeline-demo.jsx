@@ -131,7 +131,7 @@ export default function TimelineDemo() {
         <JourneyEvent
           title="Mentor & Curriculum Machine Learning - GDGoC"
           detail="Designed and delivered a beginner-friendly ML curriculum from data prep and model training to Streamlit deployment."
-          imageSrc="/assets/images/gdgoc2025.jpeg"
+          imageSrc="/assets/images/gdgoc2025-mnc.jpeg"
           imageAlt="GDGoC 2025 mentoring"
         />
       ),
