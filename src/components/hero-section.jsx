@@ -406,7 +406,7 @@ export default function HeroSection({ styles }) {
                     url="https://smb.telkomuniversity.ac.id/program/s1-data-sains/"
                     title="S1 Data Science"
                     description="Discover the official undergraduate Data Science program at Telkom University."
-                    imageSrc={telkomUniversityPreview.src}
+                    imageSrc={telkomUniversityPreview}
                     imageAlt="Telkom University Data Science program preview"
                     showDetails={false}
                     positionMode="anchor"

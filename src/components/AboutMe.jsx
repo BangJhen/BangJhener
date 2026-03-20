@@ -2,7 +2,6 @@ import { cciIgLinkPreview, gdgocLinkPreview } from "@/data/portfolio";
 import TechIconCloud from "@/components/TechIconCloud";
 import { LinkPreview } from "@/components/ui/link-preview";
 import { PixelatedCanvas } from "@/components/ui/pixelated-canvas";
-import ammarRidhoPicture from "../../ammar-ridho-picture.png";
 
 export default function AboutMe() {
   return (
@@ -22,7 +21,7 @@ export default function AboutMe() {
                 url="https://www.instagram.com/cciunitel/"
                 title="Central Computer Improvement"
                 description="Official Instagram page of CCI Telkom University."
-                imageSrc={cciIgLinkPreview.src}
+                imageSrc={cciIgLinkPreview}
                 imageAlt="CCI Instagram page preview"
                 showDetails={false}
                 positionMode="anchor"
@@ -34,7 +33,7 @@ export default function AboutMe() {
                 url="https://gdg.community.dev/gdg-on-campus-telkom-university-bandung-indonesia/"
                 title="GDG on Campus Telkom University"
                 description="Official GDGoC Telkom University page with community programs and events."
-                imageSrc={gdgocLinkPreview.src}
+                imageSrc={gdgocLinkPreview}
                 imageAlt="GDG on Campus Telkom University page preview"
                 showDetails={false}
                 positionMode="anchor"
@@ -58,7 +57,7 @@ export default function AboutMe() {
 
           <div className="w-full md:w-[45%] flex justify-center md:justify-end md:pt-2">
             <PixelatedCanvas
-              src={ammarRidhoPicture.src}
+              src="/assets/images/ammar-ridho-picture.png"
               width={420}
               height={700}
               cellSize={3}
