@@ -6,7 +6,7 @@ import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 const imagePlaceholderClass =
   "h-full w-full rounded-lg border border-dashed border-cyan-700/40 bg-[#0b1120]/70 grid place-items-center text-xs uppercase tracking-[0.14em] text-cyan-300/70";
 
-function JourneyEvent({ month, title, detail, imageSrc, imageAlt, imageHeightClass = "h-44" }) {
+function JourneyEvent({ month, title, detail, imageSrc, imageAlt, imageHeightClass = "h-[30rem] sm:h-[36rem]" }) {
   return (
     <div>
       <p className="text-xs uppercase tracking-[0.14em] text-cyan-300/80">{month}</p>
@@ -14,22 +14,24 @@ function JourneyEvent({ month, title, detail, imageSrc, imageAlt, imageHeightCla
       <p className="mt-2 text-slate-400">{detail}</p>
       <ContainerScroll
         compact
-        className="mt-4"
-        cardClassName={`overflow-hidden rounded-lg border border-cyan-700/35 bg-[#0b1120]/80 ${imageHeightClass}`}
+        className="mt-14 max-w-[28rem] sm:max-w-[40rem] lg:max-w-[50rem]"
+        cardClassName="w-full overflow-hidden rounded-[3rem] border-2 border-zinc-600/80 bg-[#1c1c1f] p-5 sm:p-7 shadow-[0_36px_72px_rgba(0,0,0,0.55)]"
         innerClassName="h-full w-full">
-        {imageSrc ? (
-          <div className="relative h-full w-full">
-            <Image
-              src={imageSrc}
-              alt={imageAlt ?? title}
-              fill
-              sizes="(max-width: 768px) 92vw, 480px"
-              className="object-cover scale-[1.08]"
-            />
+        <div className="h-full w-full rounded-[2.5rem] bg-zinc-100 p-5 sm:p-7">
+          <div className={`relative w-full overflow-hidden rounded-[2rem] bg-[#0b1120] ${imageHeightClass}`}>
+            {imageSrc ? (
+              <Image
+                src={imageSrc}
+                alt={imageAlt ?? title}
+                fill
+                sizes="(max-width: 768px) 92vw, 480px"
+                className="object-cover scale-[1.08]"
+              />
+            ) : (
+              <div className={imagePlaceholderClass}>Image Placeholder</div>
+            )}
           </div>
-        ) : (
-          <div className={imagePlaceholderClass}>Image Placeholder</div>
-        )}
+        </div>
       </ContainerScroll>
     </div>
   );
@@ -46,7 +48,7 @@ export default function TimelineDemo() {
           detail="Began vocational learning path in Teknik Komputer dan Jaringan, building core networking and system fundamentals."
           imageSrc="/assets/images/smkn2-depok2021.jpeg"
           imageAlt="SMK Negeri 2 Depok"
-          imageHeightClass="h-80"
+          imageHeightClass="h-[32rem] sm:h-[39rem]"
         />
       ),
     },
@@ -59,7 +61,7 @@ export default function TimelineDemo() {
           detail="Reached national finalist stage in MikroTik Networking Olympiad, strengthening practical network engineering and competitive discipline."
           imageSrc="/assets/images/olimpiade-jaringan-mikrotik-2023.jpg"
           imageAlt="Finalist Olimpiade Jaringan Mikrotik 2023"
-          imageHeightClass="h-72"
+          imageHeightClass="h-[30rem] sm:h-[36rem]"
         />
       ),
     },
@@ -72,7 +74,7 @@ export default function TimelineDemo() {
           detail="Started undergraduate journey in Data Science, combining statistics, machine learning, and software engineering practice."
           imageSrc="/assets/images/masuk-telkom-university.jpeg"
           imageAlt="Masuk Telkom University"
-          imageHeightClass="h-80"
+          imageHeightClass="h-[32rem] sm:h-[39rem]"
         />
       ),
     },
@@ -85,7 +87,7 @@ export default function TimelineDemo() {
           detail="Built a hybrid CNN-LSTM deep learning approach for multivariate food price forecasting."
           imageSrc="/assets/images/adikara2024-award.jpeg"
           imageAlt="ADIKARA 2024 award"
-          imageHeightClass="h-[19rem]"
+          imageHeightClass="h-[31rem] sm:h-[38rem]"
         />
       ),
     },
@@ -98,7 +100,7 @@ export default function TimelineDemo() {
           detail="Developed deep learning forecasting models for 13 commodities across 34 provinces in Indonesia."
           imageSrc="/assets/images/datavidia9-2025.png"
           imageAlt="Kaggle Datavidia 2025"
-          imageHeightClass="h-80"
+          imageHeightClass="h-[32rem] sm:h-[39rem]"
         />
       ),
     },
@@ -131,7 +133,7 @@ export default function TimelineDemo() {
           detail="Designed fraud detection for P2P lending using GCN and ensemble optimization with strong AUC performance."
           imageSrc="/assets/images/finalist-gemastik2025.jpeg"
           imageAlt="Finalist GEMASTIK 2025"
-          imageHeightClass="h-[19rem]"
+          imageHeightClass="h-[31rem] sm:h-[38rem]"
         />
       ),
     },

@@ -29,14 +29,14 @@ export const ContainerScroll = ({
 
   const scaleDimensions = () => {
     if (compact) {
-      return isMobile ? [0.92, 1] : [0.98, 1.02];
+      return isMobile ? [0.88, 1.04] : [0.94, 1.08];
     }
     return isMobile ? [0.7, 0.9] : [1.05, 1];
   };
 
-  const rotate = useTransform(scrollYProgress, [0, 1], compact ? [8, 0] : [20, 0]);
+  const rotate = useTransform(scrollYProgress, [0, 1], compact ? [12, 0] : [20, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 1], compact ? [0, -24] : [0, -100]);
+  const translate = useTransform(scrollYProgress, [0, 1], compact ? [0, -44] : [0, -100]);
 
   return (
     <div
