@@ -23,9 +23,9 @@ const techIcons = [
 
 export default function TechIconCloud() {
   return (
-    <div className="relative mx-auto flex w-full max-w-md justify-center py-2">
+    <div className="relative flex w-full max-w-none justify-start">
       <div>
-        <IconCloud images={techIcons} />
+        <IconCloud images={techIcons} size={350} />
       </div>
     </div>
   );

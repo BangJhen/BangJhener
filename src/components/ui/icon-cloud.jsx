@@ -8,8 +8,11 @@ function easeOutCubic(t) {
 
 export function IconCloud({
   icons,
-  images
+  images,
+  size = 500,
 }) {
+  const sphereRadius = size * 0.34
+  const iconBaseSize = Math.max(28, Math.round(size * 0.14))
   const canvasRef = useRef(null)
   const [isDragging, setIsDragging] = useState(false)
   const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 })
@@ -30,9 +33,10 @@ export function IconCloud({
 
     const newIconCanvases = items.map((item, index) => {
       const offscreen = document.createElement("canvas")
-      offscreen.width = 40
-      offscreen.height = 40
+      offscreen.width = iconBaseSize
+      offscreen.height = iconBaseSize
       const offCtx = offscreen.getContext("2d")
+      const iconCenter = iconBaseSize / 2
 
       if (offCtx) {
         if (images) {
@@ -45,18 +49,19 @@ export function IconCloud({
 
             // Create circular clipping path
             offCtx.beginPath()
-            offCtx.arc(20, 20, 20, 0, Math.PI * 2)
+            offCtx.arc(iconCenter, iconCenter, iconCenter, 0, Math.PI * 2)
             offCtx.closePath()
             offCtx.clip()
 
             // Draw the image
-            offCtx.drawImage(img, 0, 0, 40, 40)
+            offCtx.drawImage(img, 0, 0, iconBaseSize, iconBaseSize)
 
             imagesLoadedRef.current[index] = true
           }
         } else {
           // Handle SVG icons
-          offCtx.scale(0.4, 0.4)
+          const scale = iconBaseSize / 100
+          offCtx.scale(scale, scale)
           const svgString = renderToString(item)
           const img = new Image()
           img.src = "data:image/svg+xml;base64," + btoa(svgString)
@@ -71,7 +76,7 @@ export function IconCloud({
     })
 
     iconCanvasesRef.current = newIconCanvases
-  }, [icons, images])
+  }, [icons, images, iconBaseSize])
 
   // Generate initial icon positions on a sphere
   const iconPositions = useMemo(() => {
@@ -92,16 +97,16 @@ export function IconCloud({
       const z = Math.sin(phi) * r
 
       newIcons.push({
-        x: x * 100,
-        y: y * 100,
-        z: z * 100,
+        x: x * sphereRadius,
+        y: y * sphereRadius,
+        z: z * sphereRadius,
         scale: 1,
         opacity: 1,
         id: i,
       })
     }
     return newIcons
-  }, [icons, images])
+  }, [icons, images, sphereRadius])
 
   // Handle mouse events
   const handleMouseDown = (e) => {
@@ -127,8 +132,8 @@ export function IconCloud({
       const screenX = canvasRef.current.width / 2 + rotatedX
       const screenY = canvasRef.current.height / 2 + rotatedY
 
-      const scale = (rotatedZ + 200) / 300
-      const radius = 20 * scale
+      const scale = (rotatedZ + sphereRadius * 2) / (sphereRadius * 3)
+      const radius = (iconBaseSize / 2) * scale
       const dx = x - screenX
       const dy = y - screenY
 
@@ -240,8 +245,9 @@ export function IconCloud({
           const rotatedZ = icon.x * sinY + icon.z * cosY
           const rotatedY = icon.y * cosX + rotatedZ * sinX
 
-          const scale = (rotatedZ + 200) / 300
-          const opacity = Math.max(0.2, Math.min(1, (rotatedZ + 150) / 200))
+          const scale = (rotatedZ + sphereRadius * 2) / (sphereRadius * 3)
+          const opacity = Math.max(0.2, Math.min(1, (rotatedZ + sphereRadius * 1.5) / (sphereRadius * 2)))
+          const halfIconSize = iconBaseSize / 2
 
           ctx.save()
           ctx.translate(canvas.width / 2 + rotatedX, canvas.height / 2 + rotatedY)
@@ -254,7 +260,7 @@ export function IconCloud({
               iconCanvasesRef.current[index] &&
               imagesLoadedRef.current[index]
             ) {
-              ctx.drawImage(iconCanvasesRef.current[index], -20, -20, 40, 40)
+              ctx.drawImage(iconCanvasesRef.current[index], -halfIconSize, -halfIconSize, iconBaseSize, iconBaseSize)
             }
           } else {
             // Show numbered circles if no icons/images are provided
@@ -282,13 +288,13 @@ export function IconCloud({
         cancelAnimationFrame(animationFrameRef.current)
       }
     };
-  }, [icons, images, iconPositions, isDragging, mousePos, targetRotation])
+  }, [icons, images, iconPositions, iconBaseSize, isDragging, mousePos, sphereRadius, targetRotation])
 
   return (
     <canvas
       ref={canvasRef}
-      width={400}
-      height={400}
+      width={size}
+      height={size}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
