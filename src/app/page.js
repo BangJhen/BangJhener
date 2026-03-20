@@ -19,13 +19,11 @@ export default function Home() {
   const containerRef = useRef(null);
   const lenisRef = useRef(null);
   const [showBigBang, setShowBigBang] = useState(true);
-  const [explode, setExplode] = useState(false);
+  const [explode, setExplode] = useState(true);
 
   useEffect(() => {
-    let explodeTimer;
     let hideTimer;
-    explodeTimer = window.setTimeout(() => setExplode(true), 140);
-    hideTimer = window.setTimeout(() => setShowBigBang(false), 2600);
+    hideTimer = window.setTimeout(() => setShowBigBang(false), 100);
 
     document.documentElement.classList.add("parallax-no-bounce");
     document.body.classList.add("parallax-no-bounce");
@@ -47,7 +45,6 @@ export default function Home() {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
-      if (explodeTimer) window.clearTimeout(explodeTimer);
       if (hideTimer) window.clearTimeout(hideTimer);
       gsap.ticker.remove(update);
       lenis.destroy();
@@ -246,12 +243,12 @@ export default function Home() {
           <div className="relative grid place-items-center">
             <div
               className={`absolute h-24 w-24 rounded-full bg-cyan-300/40 blur-xl transition-all duration-[1400ms] ease-out ${
-                explode ? "scale-[3.8] opacity-0" : "scale-75 opacity-45"
+                explode ? "scale-[3.8] opacity-0" : "scale-75 opacity-0"
               }`}
             />
             <div
               className={`h-3 w-3 rounded-full bg-cyan-100 shadow-[0_0_24px_rgba(186,230,253,1)] transition-all duration-[1200ms] ease-out ${
-                explode ? "scale-[8] opacity-0" : "scale-100 opacity-100"
+                explode ? "scale-[8] opacity-0" : "scale-100 opacity-0"
               }`}
             />
           </div>
