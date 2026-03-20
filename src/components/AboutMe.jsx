@@ -14,7 +14,7 @@ export default function AboutMe() {
               <span className="w-12 h-[1px] bg-cyan-500"></span>
               About Me
             </h2>
-            <p className="text-gray-400 leading-relaxed mb-8 text-lg">
+            <p className="text-gray-400 leading-relaxed mb-0 text-lg">
               I am <span className="font-semibold text-cyan-300">Muhammad Ammar Ridho</span>, a{" "}
               <span className="font-semibold text-cyan-300">Data Science undergraduate at Telkom University (GPA 3.91)</span>{" "}
               focused on building practical AI products, from web scraping pipelines with TypeScript (Puppeteer, Axios) to machine learning systems in forecasting and computer vision; currently I contribute as{" "}
@@ -34,11 +34,11 @@ export default function AboutMe() {
               <span className="font-semibold text-cyan-300">Finalist GEMASTIK XVIII Data Mining</span>.
             </p>
 
-            <div className="mt-4">
-              <div className="w-full flex justify-start">
+            <div className="mt-0">
+              <div className="w-full flex justify-center">
                 <TechIconCloud />
               </div>
-              <div className="mt-2 flex justify-center md:justify-start">
+              <div className="mt-0 flex justify-center">
                 <span className="inline-flex items-center rounded-full border border-cyan-700/40 bg-cyan-900/20 px-2.5 py-0.5 text-xs font-medium uppercase tracking-[0.12em] text-cyan-200">
                   Tech Stack
                 </span>
