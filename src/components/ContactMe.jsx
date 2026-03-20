@@ -13,7 +13,7 @@ export default function ContactMe() {
     {
       label: "LinkedIn",
       value: "linkedin.com",
-      href: "https://linkedin.com",
+      href: "https://www.linkedin.com/in/ammar-ridho",
       accent: "from-blue-500/20 to-indigo-500/20 border-blue-300/35",
       icon: Linkedin,
     },
@@ -27,7 +27,7 @@ export default function ContactMe() {
     {
       label: "Instagram",
       value: "@bangjhener",
-      href: "https://instagram.com/bangjhener",
+      href: "https://www.instagram.com/ammarridhojr/",
       accent: "from-pink-500/20 to-violet-500/20 border-pink-300/35",
       icon: Instagram,
     },
