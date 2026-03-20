@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 
 export default function Navigation() {
-  const [scrollY, setScrollY] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("hero");
   const [sectionPoints, setSectionPoints] = useState([]);
@@ -45,7 +44,6 @@ export default function Navigation() {
       const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 1);
       const progress = Math.min(Math.max(currentY / maxScroll, 0), 1);
 
-      setScrollY(Math.round(currentY));
       setScrollProgress(progress);
 
       let currentSection = "hero";
@@ -88,14 +86,12 @@ export default function Navigation() {
           }}
           aria-hidden="true"
         />
-        <div className="absolute left-[18px] top-4 bottom-4" aria-hidden="true">
+        <div className="absolute left-[22px] top-4 bottom-4" aria-hidden="true">
           <div
-            className="absolute h-3 w-3 -translate-y-1/2 rounded-full border border-cyan-200 bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]"
+            className="absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-100 bg-cyan-400/85 shadow-[0_0_14px_rgba(34,211,238,0.9)]"
             style={{ top: `${scrollProgress * 100}%` }}
           />
         </div>
-        <div className="absolute right-2 top-3 text-[10px] font-semibold tracking-wider text-cyan-300">{scrollY}px</div>
-        <div className="absolute right-2 top-7 text-[9px] tracking-wider text-slate-400">{Math.round(scrollProgress * 100)}%</div>
 
         <ul className="absolute inset-0">
           {sectionPoints.map((section) => {
