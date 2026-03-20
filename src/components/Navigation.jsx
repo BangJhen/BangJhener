@@ -20,10 +20,6 @@ export default function Navigation() {
   const rulerTicks = useMemo(() => Array.from({ length: 44 }, (_, index) => index / 43), []);
   const influenceRadius = 0.28;
   const maxPull = 26;
-  const userDistance = hoverProgress === null ? Number.POSITIVE_INFINITY : Math.abs(hoverProgress - scrollProgress);
-  const userInfluence = Number.isFinite(userDistance) ? Math.exp(-((userDistance / influenceRadius) ** 2)) : 0;
-  const userPullX = userInfluence * maxPull;
-  const userScale = 1 + userInfluence * 1.35;
   const handleSectionClick = (event, id) => {
     event.preventDefault();
     const sectionEl = document.getElementById(id);
@@ -33,21 +29,11 @@ export default function Navigation() {
 
   useEffect(() => {
     const computeSections = () => {
-      const doc = document.documentElement;
-      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 1);
-
-      const points = sections
-        .map((section) => {
-          const el = document.getElementById(section.id);
-          if (!el) return null;
-          const y = el.offsetTop;
-          return {
-            ...section,
-            y,
-            ratio: Math.min(Math.max(y / maxScroll, 0), 1),
-          };
-        })
-        .filter(Boolean);
+      const total = sections.length;
+      const points = sections.map((section, index) => ({
+        ...section,
+        ratio: total > 1 ? index / (total - 1) : 0,
+      }));
 
       setSectionPoints(points);
     };
@@ -80,6 +66,13 @@ export default function Navigation() {
       window.removeEventListener("resize", computeSections);
     };
   }, [sections]);
+
+  const activePoint = sectionPoints.find((section) => section.id === activeSection);
+  const userTrackProgress = activePoint ? activePoint.ratio : scrollProgress;
+  const userDistance = hoverProgress === null ? Number.POSITIVE_INFINITY : Math.abs(hoverProgress - userTrackProgress);
+  const userInfluence = Number.isFinite(userDistance) ? Math.exp(-((userDistance / influenceRadius) ** 2)) : 0;
+  const userPullX = userInfluence * maxPull;
+  const userScale = 1 + userInfluence * 1.35;
 
   return (
     <nav className="fixed left-3 top-1/2 z-50 hidden -translate-y-1/2 md:block" aria-label="Section ruler navigation">
@@ -116,8 +109,8 @@ export default function Navigation() {
         </div>
         <div className="absolute left-[22px] top-4 bottom-4 z-30" aria-hidden="true">
           <div
-            className="absolute left-1/2 h-5 w-5 rounded-full border-2 border-cyan-50 bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,1)]"
-            style={{ top: `${scrollProgress * 100}%`, transform: `translate(-50%, -50%) translateX(${userPullX}px) scale(${userScale})` }}
+            className="absolute left-1/2 h-5 w-5 rounded-full border-2 border-cyan-50 bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,1)] transition-[top,transform] duration-200 ease-out"
+            style={{ top: `${userTrackProgress * 100}%`, transform: `translate(-50%, -50%) translateX(${userPullX}px) scale(${userScale})` }}
           />
         </div>
 
