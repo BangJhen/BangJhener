@@ -79,14 +79,14 @@ export default function Navigation() {
     <nav className="fixed left-3 top-1/2 z-50 hidden -translate-y-1/2 md:block" aria-label="Section ruler navigation">
       <div className="relative h-[78vh] w-24">
         <div
-          className="absolute left-[22px] top-4 bottom-4 w-px"
+          className="absolute left-[22px] top-4 bottom-4 z-0 w-px"
           style={{
             background:
               "repeating-linear-gradient(to bottom, rgba(148,163,184,0.85) 0px, rgba(148,163,184,0.85) 1px, transparent 1px, transparent 12px)",
           }}
           aria-hidden="true"
         />
-        <div className="absolute left-[22px] top-4 bottom-4" aria-hidden="true">
+        <div className="absolute left-[22px] top-4 bottom-4 z-30" aria-hidden="true">
           <div
             className="absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-100 bg-cyan-400/85 shadow-[0_0_14px_rgba(34,211,238,0.9)]"
             style={{ top: `${scrollProgress * 100}%` }}
@@ -101,9 +101,9 @@ export default function Navigation() {
                 key={section.id}
                 className="absolute left-0 right-0 -translate-y-1/2"
                 style={{ top: `calc(16px + (100% - 32px) * ${section.ratio})` }}>
-                <a href={`#${section.id}`} className="group relative flex items-center pl-4">
+                <a href={`#${section.id}`} className="group relative flex items-center pl-9">
                   <span
-                    className={`block h-2 w-2 rounded-full border transition-all ${
+                    className={`absolute left-[22px] z-10 block h-2 w-2 -translate-x-1/2 rounded-full border transition-all ${
                       isActive ? "border-cyan-100 bg-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.8)]" : "border-slate-400 bg-slate-700"
                     }`}
                   />
