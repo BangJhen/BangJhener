@@ -61,9 +61,17 @@ export default function Navigation() {
 
     computeSections();
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
+    let rafId = 0;
+    const loop = () => {
+      handleScroll();
+      rafId = window.requestAnimationFrame(loop);
+    };
+    rafId = window.requestAnimationFrame(loop);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", computeSections);
     return () => {
+      window.cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", computeSections);
     };
@@ -71,7 +79,7 @@ export default function Navigation() {
 
   return (
     <nav className="fixed left-3 top-1/2 z-50 hidden -translate-y-1/2 md:block" aria-label="Section ruler navigation">
-      <div className="relative h-[78vh] w-24 rounded-2xl border border-cyan-900/60 bg-slate-950/60 backdrop-blur-md">
+      <div className="relative h-[78vh] w-24">
         <div
           className="absolute left-[22px] top-4 bottom-4 w-px"
           style={{
@@ -82,7 +90,7 @@ export default function Navigation() {
         />
         <div className="absolute left-[18px] top-4 bottom-4" aria-hidden="true">
           <div
-            className="absolute h-3 w-3 -translate-y-1/2 rounded-full border border-cyan-200 bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)] transition-[top]"
+            className="absolute h-3 w-3 -translate-y-1/2 rounded-full border border-cyan-200 bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]"
             style={{ top: `${scrollProgress * 100}%` }}
           />
         </div>
