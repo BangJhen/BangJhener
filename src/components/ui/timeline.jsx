@@ -58,8 +58,8 @@ export const Timeline = ({
         className="max-w-7xl mx-auto min-h-[92vh] py-20 px-4 md:px-8 lg:px-10 text-center flex flex-col items-center justify-center">
         <ScrollFloat
           as="h2"
-          scrollStart="top bottom+=28%"
-          scrollEnd="bottom top+=6%"
+          scrollStart="top bottom+=40%"
+          scrollEnd="bottom top+=20%"
           animationDuration={3.4}
           stagger={0.04}
           containerClassName="text-5xl md:text-7xl mb-5 text-white font-bold tracking-tight"
@@ -69,7 +69,7 @@ export const Timeline = ({
         <motion.div style={{ opacity: scrollHintOpacityTransform }}>
           <ScrollFloat
             as="p"
-            scrollStart="top bottom+=30%"
+            scrollStart="top bottom+=40%"
             scrollEnd="bottom top+=20%"
             animationDuration={2.4}
             stagger={0.008}
