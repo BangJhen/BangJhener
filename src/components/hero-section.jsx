@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { Particles } from "@/components/ui/particles";
-import { Lens } from "@/components/ui/lens";
 import { LinkPreview } from "@/components/ui/link-preview";
 import { ScrollFloat } from "@/components/ui/scroll-float";
 import { DECOR_APPEAR_DELAY_MS, telkomUniversityPreview } from "@/data/portfolio";
@@ -314,79 +313,104 @@ export default function HeroSection({ styles }) {
 
       <div className={styles.content} data-layer="content">
         <div className={styles.sinkTitle} data-sink-title="hero">
-          <Lens zoomFactor={1} lensSize={110}>
-            <div className={styles.sinkLensContent}>
-              <ScrollFloat
-                as="h1"
-                reverse
-                scrollStart="top top+=50%"
-                scrollEnd="bottom top+=0%"
-                stagger={0.022}
-                containerClassName={`${styles.title} ${styles.titleNebula}`}
-                textClassName={`${styles.floatInlineText} ${styles.titleStarfield}`}>
-                Ammar Ridho
-              </ScrollFloat>
-              <div className={styles.heroSubtitleWrap}>
-                <p className={styles.heroSubtitleRow}>
-                  <ScrollFloat
-                    as="span"
-                    reverse
-                    scrollStart="top top+=52%"
-                    scrollEnd="bottom top+=20%"
-                    stagger={0.016}
-                    reverseToYPercent={-50}
-                    reverseToScaleY={1.14}
-                    reverseToScaleX={0.96}
-                    reverseToOpacity={0}
-                    containerClassName={styles.heroSubtitleSeg}
-                    textClassName={styles.heroSubtitleLine}>
-                    I am an
-                  </ScrollFloat>
-                  <ScrollFloat
-                    as="span"
-                    reverse
-                    scrollStart="top top+=52%"
-                    scrollEnd="bottom top+=20%"
-                    stagger={0.016}
-                    reverseToYPercent={-50}
-                    reverseToScaleY={1.14}
-                    reverseToScaleX={0.96}
-                    reverseToOpacity={0}
-                    containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
-                    textClassName={styles.heroSubtitleLine}>
-                    AI/ML Engineer
-                  </ScrollFloat>
-                  <ScrollFloat
-                    as="span"
-                    reverse
-                    scrollStart="top top+=52%"
-                    scrollEnd="bottom top+=20%"
-                    stagger={0.016}
-                    reverseToYPercent={-50}
-                    reverseToScaleY={1.14}
-                    reverseToScaleX={0.96}
-                    reverseToOpacity={0}
-                    containerClassName={styles.heroSubtitleSeg}
-                    textClassName={styles.heroSubtitleLine}>
-                    and
-                  </ScrollFloat>
-                  <ScrollFloat
-                    as="span"
-                    reverse
-                    scrollStart="top top+=52%"
-                    scrollEnd="bottom top+=20%"
-                    stagger={0.016}
-                    reverseToYPercent={-50}
-                    reverseToScaleY={1.14}
-                    reverseToScaleX={0.96}
-                    reverseToOpacity={0}
-                    containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
-                    textClassName={styles.heroSubtitleLine}>
-                    Web Developer.
-                  </ScrollFloat>
-                </p>
+          <div className={styles.sinkLensContent}>
+            <ScrollFloat
+              as="h1"
+              reverse
+              scrollStart="top top+=50%"
+              scrollEnd="bottom top+=0%"
+              stagger={0.022}
+              containerClassName={`${styles.title} ${styles.titleNebula}`}
+              textClassName={`${styles.floatInlineText} ${styles.titleStarfield}`}>
+              Ammar Ridho
+            </ScrollFloat>
+            <div className={styles.heroSubtitleWrap}>
+              <p className={styles.heroSubtitleRow}>
+                <ScrollFloat
+                  as="span"
+                  reverse
+                  scrollStart="top top+=52%"
+                  scrollEnd="bottom top+=20%"
+                  stagger={0.016}
+                  reverseToYPercent={-50}
+                  reverseToScaleY={1.14}
+                  reverseToScaleX={0.96}
+                  reverseToOpacity={0}
+                  containerClassName={styles.heroSubtitleSeg}
+                  textClassName={styles.heroSubtitleLine}>
+                  I am an
+                </ScrollFloat>
+                <ScrollFloat
+                  as="span"
+                  reverse
+                  scrollStart="top top+=52%"
+                  scrollEnd="bottom top+=20%"
+                  stagger={0.016}
+                  reverseToYPercent={-50}
+                  reverseToScaleY={1.14}
+                  reverseToScaleX={0.96}
+                  reverseToOpacity={0}
+                  containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
+                  textClassName={styles.heroSubtitleLine}>
+                  AI/ML Engineer
+                </ScrollFloat>
+                <ScrollFloat
+                  as="span"
+                  reverse
+                  scrollStart="top top+=52%"
+                  scrollEnd="bottom top+=20%"
+                  stagger={0.016}
+                  reverseToYPercent={-50}
+                  reverseToScaleY={1.14}
+                  reverseToScaleX={0.96}
+                  reverseToOpacity={0}
+                  containerClassName={styles.heroSubtitleSeg}
+                  textClassName={styles.heroSubtitleLine}>
+                  and
+                </ScrollFloat>
+                <ScrollFloat
+                  as="span"
+                  reverse
+                  scrollStart="top top+=52%"
+                  scrollEnd="bottom top+=20%"
+                  stagger={0.016}
+                  reverseToYPercent={-50}
+                  reverseToScaleY={1.14}
+                  reverseToScaleX={0.96}
+                  reverseToOpacity={0}
+                  containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
+                  textClassName={styles.heroSubtitleLine}>
+                  Web Developer.
+                </ScrollFloat>
+              </p>
 
-                <p className={`${styles.heroSubtitleRow} ${styles.heroSubtitleMeta}`}>
+              <p className={`${styles.heroSubtitleRow} ${styles.heroSubtitleMeta}`}>
+                <ScrollFloat
+                  as="span"
+                  reverse
+                  scrollStart="top top+=52%"
+                  scrollEnd="bottom top+=20%"
+                  stagger={0.016}
+                  reverseToYPercent={-50}
+                  reverseToScaleY={1.14}
+                  reverseToScaleX={0.96}
+                  reverseToOpacity={0}
+                  containerClassName={styles.heroSubtitleSeg}
+                  textClassName={styles.heroSubtitleLine}>
+                  Active undergraduate Data Science student at
+                </ScrollFloat>
+
+                <LinkPreview
+                  url="https://smb.telkomuniversity.ac.id/program/s1-data-sains/"
+                  title="S1 Data Science"
+                  description="Discover the official undergraduate Data Science program at Telkom University."
+                  imageSrc={telkomUniversityPreview}
+                  imageAlt="Telkom University Data Science program preview"
+                  showDetails={false}
+                  positionMode="anchor"
+                  previewOffsetY={0}
+                  className={`${styles.heroLink} ${styles.heroHighlightSoft}`}
+                  cardClassName={styles.heroLinkCard}>
                   <ScrollFloat
                     as="span"
                     reverse
@@ -397,41 +421,14 @@ export default function HeroSection({ styles }) {
                     reverseToScaleY={1.14}
                     reverseToScaleX={0.96}
                     reverseToOpacity={0}
-                    containerClassName={styles.heroSubtitleSeg}
+                    containerClassName={`${styles.heroSubtitleSeg} ${styles.heroLinkFloat}`}
                     textClassName={styles.heroSubtitleLine}>
-                    Active undergraduate Data Science student at
+                    Telkom University.
                   </ScrollFloat>
-
-                  <LinkPreview
-                    url="https://smb.telkomuniversity.ac.id/program/s1-data-sains/"
-                    title="S1 Data Science"
-                    description="Discover the official undergraduate Data Science program at Telkom University."
-                    imageSrc={telkomUniversityPreview}
-                    imageAlt="Telkom University Data Science program preview"
-                    showDetails={false}
-                    positionMode="anchor"
-                    previewOffsetY={0}
-                    className={`${styles.heroLink} ${styles.heroHighlightSoft}`}
-                    cardClassName={styles.heroLinkCard}>
-                    <ScrollFloat
-                      as="span"
-                      reverse
-                      scrollStart="top top+=52%"
-                      scrollEnd="bottom top+=20%"
-                      stagger={0.016}
-                      reverseToYPercent={-50}
-                      reverseToScaleY={1.14}
-                      reverseToScaleX={0.96}
-                      reverseToOpacity={0}
-                      containerClassName={`${styles.heroSubtitleSeg} ${styles.heroLinkFloat}`}
-                      textClassName={styles.heroSubtitleLine}>
-                      Telkom University.
-                    </ScrollFloat>
-                  </LinkPreview>
-                </p>
-              </div>
+                </LinkPreview>
+              </p>
             </div>
-          </Lens>
+          </div>
         </div>
       </div>
       <div className={styles.rippleLayer} data-layer="ripple" data-hover-depth="10">
