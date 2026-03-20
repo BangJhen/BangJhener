@@ -35,7 +35,16 @@ export default function RootLayout({ children }) {
       className={`${spaceGrotesk.variable} ${orbitron.variable} ${audiowide.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <SplashCursor />
+        <SplashCursor
+          DYE_RESOLUTION={720}
+          DENSITY_DISSIPATION={5}
+          VELOCITY_DISSIPATION={4}
+          PRESSURE={0.08}
+          CURL={0.6}
+          SPLAT_RADIUS={0.1}
+          SPLAT_FORCE={1400}
+          COLOR_UPDATE_SPEED={4}
+        />
         {children}
       </body>
     </html>
