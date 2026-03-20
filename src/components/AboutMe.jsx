@@ -1,5 +1,7 @@
 import { missionMetrics } from "@/data/portfolio";
+import { gdgocLinkPreview } from "@/data/portfolio";
 import TechIconCloud from "@/components/TechIconCloud";
+import { LinkPreview } from "@/components/ui/link-preview";
 
 export default function AboutMe() {
   return (
@@ -13,11 +15,21 @@ export default function AboutMe() {
             </h2>
             <p className="text-gray-400 leading-relaxed mb-8 text-lg">
               I am <span className="font-semibold text-cyan-300">Muhammad Ammar Ridho</span>, a{" "}
-              <span className="font-semibold text-cyan-300">Data Science undergraduate at Telkom University (GPA 3.81)</span>{" "}
+              <span className="font-semibold text-cyan-300">Data Science undergraduate at Telkom University (GPA 3.91)</span>{" "}
               focused on building practical AI products, from web scraping pipelines with TypeScript (Puppeteer, Axios) to machine learning systems in forecasting and computer vision; currently I contribute as{" "}
               <span className="rounded-md border border-cyan-700/40 bg-cyan-900/20 px-1.5 py-0.5 font-medium text-cyan-200">Mentor of Data Research</span>{" "}
               and{" "}
-              <span className="rounded-md border border-cyan-700/40 bg-cyan-900/20 px-1.5 py-0.5 font-medium text-cyan-200">Mentor & Curriculum Machine Learning</span>, with key achievements including{" "}
+              <LinkPreview
+                url="https://gdg.community.dev/gdg-on-campus-telkom-university-bandung-indonesia/"
+                title="GDG on Campus Telkom University"
+                description="Official GDGoC Telkom University page with community programs and events."
+                imageSrc={gdgocLinkPreview.src}
+                imageAlt="GDG on Campus Telkom University page preview"
+                showDetails={false}
+                previewOffsetX={120}
+                previewOffsetY={200}>
+                <span className="rounded-md border border-cyan-700/40 bg-cyan-900/20 px-1.5 py-0.5 font-medium text-cyan-200">Mentor & Curriculum Machine Learning</span>
+              </LinkPreview>, with key achievements including{" "}
               <span className="font-semibold text-cyan-300">Finalist GEMASTIK XVIII Data Mining</span>.
             </p>
             

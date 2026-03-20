@@ -17,9 +17,9 @@ export function LinkPreview({
   showDetails,
   className = "",
   cardClassName = "",
+  previewOffsetX = 165,
+  previewOffsetY = 210,
 }) {
-  const cursorOffsetX = 165;
-  const cursorOffsetY = 210;
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef(null);
   const cardRef = useRef(null);
@@ -64,8 +64,8 @@ export function LinkPreview({
   };
 
   const setCardPosition = (x, y) => {
-    const adjustedX = x - cursorOffsetX;
-    const adjustedY = y - cursorOffsetY;
+    const adjustedX = x - previewOffsetX;
+    const adjustedY = y - previewOffsetY;
     const { x: nextLeft, y: nextTop } = getClampedPosition(adjustedX, adjustedY);
     pointerLeft.set(nextLeft);
     pointerTop.set(nextTop);
