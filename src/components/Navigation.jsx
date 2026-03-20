@@ -12,7 +12,7 @@ export default function Navigation() {
     () => [
       { id: "hero", label: "HERO" },
       { id: "about", label: "ABOUT" },
-      { id: "projects", label: "PROJECT" },
+      { id: "projects", label: "JOURNEY" },
       { id: "contact", label: "CONTACT" },
     ],
     []

@@ -6,7 +6,7 @@ import { PixelatedCanvas } from "@/components/ui/pixelated-canvas";
 export default function AboutMe() {
   return (
     <section id="about" className="py-20 bg-[#0b1120] text-white">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-[5%]">
         <div className="flex flex-col md:flex-row gap-6 lg:gap-8 items-start">
           <div className="w-full md:w-[55%]">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 flex items-center gap-3">

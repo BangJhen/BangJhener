@@ -62,7 +62,7 @@ export default function PortfolioSection({ styles }) {
           </article>
 
           <article className={`${styles.panel} ${styles.panelWide}`}>
-            <h3 className={styles.panelHeading}>Featured Projects</h3>
+            <h3 className={styles.panelHeading}>Journey Highlights</h3>
             <div className={styles.projectGrid}>
               {featuredProjects.map((project) => (
                 <article key={project.title} className={styles.projectCard}>

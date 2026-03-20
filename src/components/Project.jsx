@@ -5,8 +5,11 @@ export default function Project() {
     <section id="projects" className="py-20 bg-[#0f172a] text-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-cyan-400 uppercase tracking-widest text-sm mb-2">My Work</p>
-          <h2 className="text-3xl md:text-4xl font-bold">Featured Projects</h2>
+          <p className="text-cyan-400 uppercase tracking-widest text-sm mb-2">My Journey</p>
+          <h2 className="text-3xl md:text-4xl font-bold">Journey Highlights</h2>
+          <p className="mt-3 text-sm text-slate-400">
+            A timeline of my learning path, achievements, and impactful work.
+          </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
