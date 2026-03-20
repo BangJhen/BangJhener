@@ -8,8 +8,8 @@ export default function AboutMe() {
   return (
     <section id="about" className="py-20 bg-[#0b1120] text-white">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row gap-10 items-start">
-          <div className="w-full md:w-2/5">
+        <div className="flex flex-col md:flex-row gap-6 lg:gap-8 items-start">
+          <div className="w-full md:w-[55%]">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 flex items-center gap-3">
               <span className="w-12 h-[1px] bg-cyan-500"></span>
               About Me
@@ -42,7 +42,7 @@ export default function AboutMe() {
             </div>
           </div>
 
-          <div className="w-full md:w-3/5 flex justify-center md:justify-end md:pt-2">
+          <div className="w-full md:w-[45%] flex justify-center md:justify-end md:pt-2">
             <PixelatedCanvas
               src={ammarRidhoPicture.src}
               width={420}
