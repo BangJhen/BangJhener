@@ -5,13 +5,17 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Lenis from "lenis";
+
+import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/hero-section";
-import PortfolioSection from "@/components/portfolio-section";
+import AboutMe from "@/components/AboutMe";
+import Project from "@/components/Project";
+import ContactMe from "@/components/ContactMe";
 import styles from "./page.module.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-export default function PortfolioPage() {
+export default function Home() {
   const containerRef = useRef(null);
   const lenisRef = useRef(null);
 
@@ -209,9 +213,12 @@ export default function PortfolioPage() {
   );
 
   return (
-    <main ref={containerRef} className={styles.page}>
+    <main ref={containerRef} className={`${styles.page} bg-[#0f172a] min-h-screen text-white selection:bg-cyan-500/30 font-sans`}>
+      <Navigation />
       <HeroSection styles={styles} />
-      <PortfolioSection styles={styles} />
+      <AboutMe />
+      <Project />
+      <ContactMe />
     </main>
   );
 }
