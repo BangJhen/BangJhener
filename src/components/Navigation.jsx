@@ -18,10 +18,12 @@ export default function Navigation() {
     []
   );
   const rulerTicks = useMemo(() => Array.from({ length: 44 }, (_, index) => index / 43), []);
+  const influenceRadius = 0.28;
+  const maxPull = 26;
   const userDistance = hoverProgress === null ? Number.POSITIVE_INFINITY : Math.abs(hoverProgress - scrollProgress);
-  const userInfluence = Number.isFinite(userDistance) ? Math.exp(-((userDistance / 0.2) ** 2)) : 0;
-  const userPullX = userInfluence * 16;
-  const userScale = 1 + userInfluence * 0.95;
+  const userInfluence = Number.isFinite(userDistance) ? Math.exp(-((userDistance / influenceRadius) ** 2)) : 0;
+  const userPullX = userInfluence * maxPull;
+  const userScale = 1 + userInfluence * 1.35;
 
   useEffect(() => {
     const computeSections = () => {
@@ -88,10 +90,10 @@ export default function Navigation() {
         <div className="absolute left-[22px] top-4 bottom-4 z-0" aria-hidden="true">
           {rulerTicks.map((tickRatio) => {
             const tickDistance = hoverProgress === null ? Number.POSITIVE_INFINITY : Math.abs(hoverProgress - tickRatio);
-            const tickInfluence = Number.isFinite(tickDistance) ? Math.exp(-((tickDistance / 0.17) ** 2)) : 0;
-            const lineScale = 1 + tickInfluence * 2.6;
-            const tickScale = 1 + tickInfluence * 2.1;
-            const tickPullX = tickInfluence * 10;
+            const tickInfluence = Number.isFinite(tickDistance) ? Math.exp(-((tickDistance / influenceRadius) ** 2)) : 0;
+            const lineScale = 1 + tickInfluence * 3.2;
+            const tickScale = 1 + tickInfluence * 2.9;
+            const tickPullX = tickInfluence * maxPull;
             return (
               <div key={tickRatio} className="absolute left-1/2" style={{ top: `${tickRatio * 100}%` }}>
                 <span
@@ -108,7 +110,7 @@ export default function Navigation() {
         </div>
         <div className="absolute left-[22px] top-4 bottom-4 z-30" aria-hidden="true">
           <div
-            className="absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-100 bg-cyan-400/85 shadow-[0_0_14px_rgba(34,211,238,0.9)]"
+            className="absolute left-1/2 h-5 w-5 rounded-full border-2 border-cyan-50 bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,1)]"
             style={{ top: `${scrollProgress * 100}%`, transform: `translate(-50%, -50%) translateX(${userPullX}px) scale(${userScale})` }}
           />
         </div>
@@ -117,10 +119,10 @@ export default function Navigation() {
           {sectionPoints.map((section) => {
             const isActive = section.id === activeSection;
             const distance = hoverProgress === null ? Number.POSITIVE_INFINITY : Math.abs(hoverProgress - section.ratio);
-            const influence = Number.isFinite(distance) ? Math.exp(-((distance / 0.24) ** 2)) : 0;
-            const markerScale = 1 + influence * 1.25;
-            const labelScale = 1 + influence * 0.48;
-            const pullX = influence * 16;
+            const influence = Number.isFinite(distance) ? Math.exp(-((distance / influenceRadius) ** 2)) : 0;
+            const markerScale = 1 + influence * 1.75;
+            const labelScale = 1 + influence * 0.72;
+            const pullX = influence * maxPull;
             return (
               <li key={section.id} className="absolute left-0 right-0" style={{ top: `${section.ratio * 100}%` }}>
                 <a href={`#${section.id}`} className="group relative block">
