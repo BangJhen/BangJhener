@@ -24,6 +24,12 @@ export default function Navigation() {
   const userInfluence = Number.isFinite(userDistance) ? Math.exp(-((userDistance / influenceRadius) ** 2)) : 0;
   const userPullX = userInfluence * maxPull;
   const userScale = 1 + userInfluence * 1.35;
+  const handleSectionClick = (event, id) => {
+    event.preventDefault();
+    const sectionEl = document.getElementById(id);
+    if (!sectionEl) return;
+    sectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   useEffect(() => {
     const computeSections = () => {
@@ -125,7 +131,7 @@ export default function Navigation() {
             const pullX = influence * maxPull;
             return (
               <li key={section.id} className="absolute left-0 right-0" style={{ top: `${section.ratio * 100}%` }}>
-                <a href={`#${section.id}`} className="group relative block">
+                <a href={`#${section.id}`} onClick={(event) => handleSectionClick(event, section.id)} className="group relative block">
                   <span
                     className={`absolute left-0 top-0 z-10 block h-2 w-2 rounded-full border transition-[transform,box-shadow,background-color,border-color] duration-180 ease-out ${
                       isActive ? "border-cyan-100 bg-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.8)]" : "border-slate-400 bg-slate-700"
