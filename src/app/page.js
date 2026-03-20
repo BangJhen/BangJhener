@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -18,8 +18,15 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 export default function Home() {
   const containerRef = useRef(null);
   const lenisRef = useRef(null);
+  const [showBigBang, setShowBigBang] = useState(true);
+  const [explode, setExplode] = useState(false);
 
   useEffect(() => {
+    let explodeTimer;
+    let hideTimer;
+    explodeTimer = window.setTimeout(() => setExplode(true), 140);
+    hideTimer = window.setTimeout(() => setShowBigBang(false), 2600);
+
     document.documentElement.classList.add("parallax-no-bounce");
     document.body.classList.add("parallax-no-bounce");
 
@@ -40,6 +47,8 @@ export default function Home() {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      if (explodeTimer) window.clearTimeout(explodeTimer);
+      if (hideTimer) window.clearTimeout(hideTimer);
       gsap.ticker.remove(update);
       lenis.destroy();
       lenisRef.current = null;
@@ -47,6 +56,24 @@ export default function Home() {
       document.body.classList.remove("parallax-no-bounce");
     };
   }, []);
+
+  useEffect(() => {
+    if (showBigBang) {
+      document.documentElement.classList.add("overflow-hidden");
+      document.body.classList.add("overflow-hidden");
+      lenisRef.current?.stop();
+      return;
+    }
+
+    document.documentElement.classList.remove("overflow-hidden");
+    document.body.classList.remove("overflow-hidden");
+    lenisRef.current?.start();
+
+    return () => {
+      document.documentElement.classList.remove("overflow-hidden");
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [showBigBang]);
 
   useGSAP(
     () => {
@@ -214,6 +241,22 @@ export default function Home() {
 
   return (
     <main ref={containerRef} className={`${styles.page} bg-[#0f172a] min-h-screen text-white selection:bg-cyan-500/30 font-sans`}>
+      {showBigBang ? (
+        <div className="pointer-events-auto fixed inset-0 z-[2147483647] grid place-items-center bg-black">
+          <div className="relative grid place-items-center">
+            <div
+              className={`absolute h-24 w-24 rounded-full bg-cyan-300/40 blur-xl transition-all duration-[1400ms] ease-out ${
+                explode ? "scale-[3.8] opacity-0" : "scale-75 opacity-45"
+              }`}
+            />
+            <div
+              className={`h-3 w-3 rounded-full bg-cyan-100 shadow-[0_0_24px_rgba(186,230,253,1)] transition-all duration-[1200ms] ease-out ${
+                explode ? "scale-[8] opacity-0" : "scale-100 opacity-100"
+              }`}
+            />
+          </div>
+        </div>
+      ) : null}
       <Navigation />
       <HeroSection styles={styles} />
       <AboutMe />

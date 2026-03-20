@@ -1,4 +1,5 @@
 import { Audiowide, Geist_Mono, Orbitron, Space_Grotesk } from "next/font/google";
+import SplashCursor from "@/components/SplashCursor";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -33,7 +34,10 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${spaceGrotesk.variable} ${orbitron.variable} ${audiowide.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SplashCursor />
+        {children}
+      </body>
     </html>
   );
 }
