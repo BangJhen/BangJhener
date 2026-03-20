@@ -18,6 +18,7 @@ export function LinkPreview({
   className = "",
   cardClassName = "",
   positionMode = "anchor",
+  followCursorX = true,
   previewOffsetX = 0,
   previewOffsetY = 0,
 }) {
@@ -26,6 +27,7 @@ export function LinkPreview({
   const cardRef = useRef(null);
   const pointerLeft = useMotionValue(0);
   const pointerTop = useMotionValue(0);
+  const lastMouseXRef = useRef(null);
   const springPointerLeft = useSpring(pointerLeft, { stiffness: 300, damping: 30, mass: 0.45 });
   const springPointerTop = useSpring(pointerTop, { stiffness: 300, damping: 30, mass: 0.45 });
 
@@ -66,7 +68,7 @@ export function LinkPreview({
     pointerTop.set(nextTop);
   }, [pointerLeft, pointerTop]);
 
-  const setCardPositionFromAnchor = useCallback(() => {
+  const setCardPositionFromAnchor = useCallback((mouseX) => {
     const rootRect = rootRef.current?.getBoundingClientRect();
     if (!rootRect) return;
     const cardRect = cardRef.current?.getBoundingClientRect();
@@ -74,10 +76,11 @@ export function LinkPreview({
     const cardHeight = cardRect?.height ?? 220;
     const anchorX = rootRect.left + rootRect.width / 2;
     const anchorY = rootRect.top + rootRect.height / 2;
-    const left = anchorX - cardWidth / 2 + previewOffsetX;
+    const referenceX = mouseX ?? (followCursorX ? lastMouseXRef.current : null) ?? anchorX;
+    const left = referenceX - cardWidth / 2 + previewOffsetX;
     const top = anchorY - cardHeight - 18 + previewOffsetY;
     setCardPosition(left, top);
-  }, [previewOffsetX, previewOffsetY, setCardPosition]);
+  }, [followCursorX, previewOffsetX, previewOffsetY, setCardPosition]);
 
   const handleMove = (event) => {
     if (positionMode === "cursor") {
@@ -89,7 +92,8 @@ export function LinkPreview({
       setCardPosition(left, top);
       return;
     }
-    setCardPositionFromAnchor();
+    lastMouseXRef.current = event.clientX;
+    setCardPositionFromAnchor(event.clientX);
   };
 
   useEffect(() => {
@@ -151,7 +155,8 @@ export function LinkPreview({
           handleMove(event);
           return;
         }
-        setCardPositionFromAnchor();
+        lastMouseXRef.current = event.clientX;
+        setCardPositionFromAnchor(event.clientX);
       }}
       onMouseMove={handleMove}
       onMouseLeave={() => {
