@@ -1,65 +1,217 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import Lenis from "lenis";
+import HeroSection from "@/components/hero-section";
+import PortfolioSection from "@/components/portfolio-section";
+import styles from "./page.module.css";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+export default function PortfolioPage() {
+  const containerRef = useRef(null);
+  const lenisRef = useRef(null);
+
+  useEffect(() => {
+    document.documentElement.classList.add("parallax-no-bounce");
+    document.body.classList.add("parallax-no-bounce");
+
+    const lenis = new Lenis({
+      duration: 1.1,
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+
+    lenisRef.current = lenis;
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const update = (time) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(update);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove(update);
+      lenis.destroy();
+      lenisRef.current = null;
+      document.documentElement.classList.remove("parallax-no-bounce");
+      document.body.classList.remove("parallax-no-bounce");
+    };
+  }, []);
+
+  useGSAP(
+    () => {
+      const heroElement = containerRef.current?.querySelector("[data-parallax='hero']");
+      const hoverTargets = gsap.utils.toArray("[data-hover-depth]:not([data-decor-delay='true'])");
+
+      if (hoverTargets.length > 0) {
+        gsap.from(hoverTargets, {
+          opacity: 0,
+          y: 30,
+          filter: "blur(12px)",
+          duration: 1.15,
+          stagger: 0.06,
+          ease: "power2.out",
+        });
+      }
+
+      gsap.to("[data-layer='bg']", {
+        yPercent: -18,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "[data-parallax='hero']",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      gsap.fromTo(
+        "[data-layer='ripple']",
+        { yPercent: 10, opacity: 0.65, scale: 0.95 },
+        {
+          yPercent: -30,
+          opacity: 1,
+          scale: 1.08,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "[data-parallax='hero']",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        }
+      );
+
+      gsap.to("[data-layer='stars']", {
+        yPercent: -35,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "[data-parallax='hero']",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      gsap.to("[data-layer='particles']", {
+        yPercent: -42,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "[data-parallax='hero']",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      gsap.to("[data-layer='decor']", {
+        yPercent: -55,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "[data-parallax='hero']",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      gsap.to("[data-layer='content']", {
+        yPercent: 34,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "[data-parallax='hero']",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      ScrollTrigger.create({
+        trigger: "[data-parallax='hero']",
+        start: "100% top",
+        onEnter: () => {
+          gsap
+            .timeline({ defaults: { overwrite: "auto" } })
+            .to("[data-sink-title='hero']", {
+              y: () => window.innerHeight * 0.24,
+              scale: 0.98,
+              autoAlpha: 1,
+              duration: 0.24,
+              ease: "power1.in",
+            })
+            .to("[data-sink-title='hero']", {
+              y: () => window.innerHeight * 1.75,
+              scale: 0.66,
+              autoAlpha: 0,
+              duration: 0.5,
+              ease: "power4.in",
+            });
+        },
+        onLeaveBack: () => {
+          gsap.to("[data-sink-title='hero']", {
+            y: 0,
+            autoAlpha: 1,
+            scale: 1,
+            duration: 0.4,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        },
+      });
+
+      if (!heroElement || hoverTargets.length === 0 || !window.matchMedia("(pointer: fine)").matches) {
+        return;
+      }
+
+      const setters = hoverTargets.map((target) => {
+        const setX = gsap.quickTo(target, "x", { duration: 0.55, ease: "power3.out" });
+        const setY = gsap.quickTo(target, "y", { duration: 0.55, ease: "power3.out" });
+        const setRotate = gsap.quickTo(target, "rotation", { duration: 0.6, ease: "power2.out" });
+        return { target, setX, setY, setRotate };
+      });
+
+      const onPointerMove = (event) => {
+        const rect = heroElement.getBoundingClientRect();
+        const nx = (event.clientX - rect.left) / rect.width - 0.5;
+        const ny = (event.clientY - rect.top) / rect.height - 0.5;
+
+        setters.forEach(({ target, setX, setY, setRotate }) => {
+          const depth = Number(target.getAttribute("data-hover-depth")) || 16;
+          setX(nx * depth * 2.4);
+          setY(ny * depth * 2.4);
+          setRotate(nx * depth * 0.16);
+        });
+      };
+
+      const onPointerLeave = () => {
+        setters.forEach(({ setX, setY, setRotate }) => {
+          setX(0);
+          setY(0);
+          setRotate(0);
+        });
+      };
+
+      heroElement.addEventListener("pointermove", onPointerMove);
+      heroElement.addEventListener("pointerleave", onPointerLeave);
+
+      return () => {
+        heroElement.removeEventListener("pointermove", onPointerMove);
+        heroElement.removeEventListener("pointerleave", onPointerLeave);
+      };
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main ref={containerRef} className={styles.page}>
+      <HeroSection styles={styles} />
+      <PortfolioSection styles={styles} />
+    </main>
   );
 }
