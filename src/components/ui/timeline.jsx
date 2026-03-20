@@ -1,11 +1,11 @@
 "use client";
 import { useScroll, useTransform, useMotionValueEvent, motion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
+import { ScrollFloat } from "@/components/ui/scroll-float";
 
 export const Timeline = ({
   data,
   title = "My Journey",
-  description = "A timeline of my growth, milestones, and impact.",
 }) => {
   const headerRef = useRef(null);
   const ref = useRef(null);
@@ -39,9 +39,6 @@ export const Timeline = ({
     offset: ["start start", "end start"],
   });
 
-  const titleYTransform = useTransform(headerScrollProgress, [0, 1], [0, 220]);
-  const titleScaleTransform = useTransform(headerScrollProgress, [0, 1], [1, 0.78]);
-  const titleOpacityTransform = useTransform(headerScrollProgress, [0, 1], [1, 0.6]);
   const scrollHintOpacityTransform = useTransform(headerScrollProgress, [0, 0.7], [1, 0]);
 
   const { scrollYProgress } = useScroll({
@@ -58,24 +55,29 @@ export const Timeline = ({
     <div className="w-full font-sans md:px-10">
       <motion.div
         ref={headerRef}
-        style={{
-          y: titleYTransform,
-          scale: titleScaleTransform,
-          opacity: titleOpacityTransform,
-          transformOrigin: "center top",
-        }}
-        className="max-w-7xl mx-auto min-h-[70vh] py-20 px-4 md:px-8 lg:px-10 text-center flex flex-col items-center justify-center">
-        <h2 className="text-5xl md:text-7xl mb-5 text-white font-bold tracking-tight">
-          {title}
-        </h2>
-        <p className="text-slate-400 text-sm md:text-base max-w-3xl mx-auto">
-          {description}
-        </p>
-        <motion.p
-          style={{ opacity: scrollHintOpacityTransform }}
-          className="mt-12 text-xs md:text-sm uppercase tracking-[0.2em] text-cyan-300/80">
-          Scroll down to explore the journey
-        </motion.p>
+        className="max-w-7xl mx-auto min-h-[92vh] py-20 px-4 md:px-8 lg:px-10 text-center flex flex-col items-center justify-center">
+        <ScrollFloat
+          as="h2"
+          scrollStart="top bottom+=28%"
+          scrollEnd="bottom top+=6%"
+          animationDuration={3.4}
+          stagger={0.04}
+          containerClassName="text-5xl md:text-7xl mb-5 text-white font-bold tracking-tight"
+          textClassName="inline-block">
+          {typeof title === "string" ? title : "My Journey"}
+        </ScrollFloat>
+        <motion.div style={{ opacity: scrollHintOpacityTransform }}>
+          <ScrollFloat
+            as="p"
+            scrollStart="top bottom+=30%"
+            scrollEnd="bottom top+=20%"
+            animationDuration={2.4}
+            stagger={0.008}
+            containerClassName="mt-12 text-xs md:text-sm uppercase tracking-[0.2em] text-cyan-300/80"
+            textClassName="inline-block">
+            Scroll down to explore the journey
+          </ScrollFloat>
+        </motion.div>
       </motion.div>
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {data.map((item, index) => (
