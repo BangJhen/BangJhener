@@ -34,11 +34,11 @@ export default function AboutMe() {
               <span className="font-semibold text-cyan-300">Finalist GEMASTIK XVIII Data Mining</span>.
             </p>
 
-            <div className="mt-0">
+            <div className="mt-5">
               <div className="w-full flex justify-center">
                 <TechIconCloud />
               </div>
-              <div className="mt-0 flex justify-center">
+              <div className="mt-5 flex justify-center">
                 <span className="inline-flex items-center rounded-full border border-cyan-700/40 bg-cyan-900/20 px-2.5 py-0.5 text-xs font-medium uppercase tracking-[0.12em] text-cyan-200">
                   Tech Stack
                 </span>

@@ -11,7 +11,7 @@ export function IconCloud({
   images,
   size = 500,
 }) {
-  const sphereRadius = size * 0.34
+  const sphereRadius = size * 0.36
   const iconBaseSize = Math.max(28, Math.round(size * 0.14))
   const canvasRef = useRef(null)
   const [isDragging, setIsDragging] = useState(false)
