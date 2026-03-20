@@ -17,6 +17,7 @@ export function IconCloud({
   const [targetRotation, setTargetRotation] = useState(null)
   const animationFrameRef = useRef(0)
   const rotationRef = useRef({ x: 0, y: 0 })
+  const lastTimeRef = useRef(0)
   const iconCanvasesRef = useRef([])
   const imagesLoadedRef = useRef([])
 
@@ -189,6 +190,10 @@ export function IconCloud({
     const ctx = canvas?.getContext("2d")
     if (canvas && ctx) {
       const animate = () => {
+        const now = performance.now()
+        const t = now * 0.001
+        const dt = Math.min(0.04, (now - (lastTimeRef.current || now)) / 1000)
+        lastTimeRef.current = now
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         const centerX = canvas.width / 2
@@ -217,9 +222,11 @@ export function IconCloud({
             setTargetRotation(null)
           }
         } else if (!isDragging) {
+          const driftX = Math.sin(t * 0.7) * 0.12
+          const driftY = Math.cos(t * 0.9) * 0.15
           rotationRef.current = {
-            x: rotationRef.current.x + (dy / canvas.height) * speed,
-            y: rotationRef.current.y + (dx / canvas.width) * speed,
+            x: rotationRef.current.x + (dy / canvas.height) * speed + driftX * dt,
+            y: rotationRef.current.y + (dx / canvas.width) * speed + driftY * dt,
           }
         }
 
@@ -286,7 +293,7 @@ export function IconCloud({
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className="rounded-lg"
+      className="mx-auto block"
       aria-label="Interactive 3D Icon Cloud"
       role="img" />
   );

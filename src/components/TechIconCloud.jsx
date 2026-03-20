@@ -23,10 +23,10 @@ const techIcons = [
 
 export default function TechIconCloud() {
   return (
-    <div className="relative mx-auto w-full max-w-sm rounded-2xl border border-cyan-900/40 bg-[#0f172a]/70 p-4 shadow-[0_0_40px_rgba(6,182,212,0.1)]">
-      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_30%_20%,rgba(34,211,238,0.2),transparent_55%)]" />
-      <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-cyan-400/15 blur-2xl" />
-      <IconCloud images={techIcons} />
+    <div className="relative mx-auto flex w-full max-w-md justify-center py-2">
+      <div>
+        <IconCloud images={techIcons} />
+      </div>
     </div>
   );
 }

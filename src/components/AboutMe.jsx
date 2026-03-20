@@ -31,9 +31,9 @@ export default function AboutMe() {
             </div>
           </div>
 
-          <div className="w-full md:w-1/2">
-            <h3 className="text-xl font-semibold mb-6 text-gray-200">Tech Constellation</h3>
-            <div className="mb-8">
+          <div className="w-full md:w-1/2 flex flex-col items-center">
+            <h3 className="text-xl font-semibold mb-6 text-gray-200 text-center">Tech Stack</h3>
+            <div className="mb-8 w-full flex justify-center">
               <TechIconCloud />
             </div>
             
