@@ -1,4 +1,4 @@
-import { missionMetrics, skillConstellation } from "@/data/portfolio";
+import { missionMetrics } from "@/data/portfolio";
 import TechIconCloud from "@/components/TechIconCloud";
 
 export default function AboutMe() {
@@ -12,13 +12,16 @@ export default function AboutMe() {
               About Me
             </h2>
             <p className="text-gray-400 leading-relaxed mb-6 text-lg">
-              I am an explorer in the digital realm, navigating through data streams and code galaxies.
-              Currently pursuing my B.Sc. in Data Science at Telkom University, I bridge the gap
-              between analytical precision and creative web engineering.
+              I am Muhammad Ammar Ridho, a Data Science undergraduate at Telkom University
+              (GPA 3.81) who builds practical AI and web solutions. I currently contribute as
+              Mentor of Data Research at Central Computer Improvement and Mentor & Curriculum
+              Machine Learning at GDGOC Telkom University.
             </p>
             <p className="text-gray-400 leading-relaxed mb-8">
-              My mission is to build intelligent systems that not only function flawlessly but also
-              provide stellar user experiences.
+              My work spans web scraping pipelines with TypeScript (Puppeteer, Axios) and machine
+              learning projects from forecasting to computer vision. Recent highlights include 1st
+              place on the Kaggle Data Slayer 2025 leaderboard and finalist at GEMASTIK XVIII
+              Data Mining.
             </p>
             
             <div className="grid grid-cols-2 gap-6">

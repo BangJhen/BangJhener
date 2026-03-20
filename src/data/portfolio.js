@@ -5,10 +5,10 @@ export { telkomUniversityPreview };
 export const DECOR_APPEAR_DELAY_MS = 8000;
 
 export const missionMetrics = [
-  { label: "Years Building", value: "4+" },
-  { label: "AI/ML Projects", value: "18" },
-  { label: "Web Products", value: "26" },
-  { label: "Current Focus", value: "GenAI x UX" },
+  { label: "Current GPA", value: "3.81" },
+  { label: "Mentorship Roles", value: "2+" },
+  { label: "Kaggle Highlight", value: "1st Place" },
+  { label: "Current Focus", value: "AI & Data Science" },
 ];
 
 export const skillConstellation = [
