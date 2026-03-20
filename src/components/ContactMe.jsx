@@ -99,8 +99,20 @@ export default function ContactMe() {
         </div>
       </div>
 
-      <footer className="mt-16 border-t border-cyan-900/40 pt-7 text-center text-xs text-slate-400">
-        <p>© {new Date().getFullYear()} Ammar Ridho · Designed for the stars.</p>
+      <footer className="mt-16">
+        <div className="mx-auto w-full max-w-7xl px-[5%]">
+          <div className="rounded-2xl border border-cyan-900/45 bg-[#061022]/75 px-5 py-4 backdrop-blur-sm">
+            <div className="flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
+              <div>
+                <p className="text-sm font-semibold text-cyan-100">Ammar Ridho</p>
+                <p className="text-xs text-slate-400">AI/ML Engineer · Web Developer</p>
+              </div>
+              <div className="flex items-center gap-2 text-slate-400">
+                <span className="text-xs">© {new Date().getFullYear()}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </footer>
     </section>
   );
