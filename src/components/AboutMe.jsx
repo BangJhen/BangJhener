@@ -11,17 +11,14 @@ export default function AboutMe() {
               <span className="w-12 h-[1px] bg-cyan-500"></span>
               About Me
             </h2>
-            <p className="text-gray-400 leading-relaxed mb-6 text-lg">
-              I am Muhammad Ammar Ridho, a Data Science undergraduate at Telkom University
-              (GPA 3.81) who builds practical AI and web solutions. I currently contribute as
-              Mentor of Data Research at Central Computer Improvement and Mentor & Curriculum
-              Machine Learning at GDGOC Telkom University.
-            </p>
-            <p className="text-gray-400 leading-relaxed mb-8">
-              My work spans web scraping pipelines with TypeScript (Puppeteer, Axios) and machine
-              learning projects from forecasting to computer vision. Recent highlights include 1st
-              place on the Kaggle Data Slayer 2025 leaderboard and finalist at GEMASTIK XVIII
-              Data Mining.
+            <p className="text-gray-400 leading-relaxed mb-8 text-lg">
+              I am <span className="font-semibold text-cyan-300">Muhammad Ammar Ridho</span>, a{" "}
+              <span className="font-semibold text-cyan-300">Data Science undergraduate at Telkom University (GPA 3.81)</span>{" "}
+              focused on building practical AI products, from web scraping pipelines with TypeScript (Puppeteer, Axios) to machine learning systems in forecasting and computer vision; currently I contribute as{" "}
+              <span className="rounded-md border border-cyan-700/40 bg-cyan-900/20 px-1.5 py-0.5 font-medium text-cyan-200">Mentor of Data Research</span>{" "}
+              and{" "}
+              <span className="rounded-md border border-cyan-700/40 bg-cyan-900/20 px-1.5 py-0.5 font-medium text-cyan-200">Mentor & Curriculum Machine Learning</span>, with key achievements including{" "}
+              <span className="font-semibold text-cyan-300">Finalist GEMASTIK XVIII Data Mining</span>.
             </p>
             
             <div className="grid grid-cols-2 gap-6">
