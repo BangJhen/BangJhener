@@ -45,7 +45,7 @@ export const Timeline = ({
             <div
               className="flex flex-col md:flex-row z-40 items-center self-start max-w-xs lg:max-w-sm md:w-full">
               <div
-                className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-[#0f172a] flex items-center justify-center">
+                className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-transparent flex items-center justify-center">
                 <div
                   className="h-4 w-4 rounded-full bg-cyan-300 border border-cyan-100 p-2" />
               </div>

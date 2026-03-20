@@ -1,31 +1,36 @@
 import React from "react";
 import Image from "next/image";
 import { Timeline } from "@/components/ui/timeline";
+import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
-const itemClass =
-  "rounded-xl border border-cyan-900/40 bg-[#111a2b]/70 p-5 text-sm leading-relaxed text-slate-300";
 const imagePlaceholderClass =
-  "mt-4 h-36 w-full rounded-lg border border-dashed border-cyan-700/40 bg-[#0b1120]/70 grid place-items-center text-xs uppercase tracking-[0.14em] text-cyan-300/70";
+  "h-full w-full rounded-lg border border-dashed border-cyan-700/40 bg-[#0b1120]/70 grid place-items-center text-xs uppercase tracking-[0.14em] text-cyan-300/70";
 
 function JourneyEvent({ month, title, detail, imageSrc, imageAlt, imageHeightClass = "h-44" }) {
   return (
-    <div className={itemClass}>
+    <div>
       <p className="text-xs uppercase tracking-[0.14em] text-cyan-300/80">{month}</p>
       <p className="mt-2 font-semibold text-cyan-200">{title}</p>
       <p className="mt-2 text-slate-400">{detail}</p>
-      {imageSrc ? (
-        <div className={`relative mt-4 w-full overflow-hidden rounded-lg border border-cyan-700/35 bg-[#0b1120]/80 ${imageHeightClass}`}>
-          <Image
-            src={imageSrc}
-            alt={imageAlt ?? title}
-            fill
-            sizes="(max-width: 768px) 92vw, 480px"
-            className="object-cover scale-[1.08]"
-          />
-        </div>
-      ) : (
-        <div className={`${imagePlaceholderClass} ${imageHeightClass}`}>Image Placeholder</div>
-      )}
+      <ContainerScroll
+        compact
+        className="mt-4"
+        cardClassName={`overflow-hidden rounded-lg border border-cyan-700/35 bg-[#0b1120]/80 ${imageHeightClass}`}
+        innerClassName="h-full w-full">
+        {imageSrc ? (
+          <div className="relative h-full w-full">
+            <Image
+              src={imageSrc}
+              alt={imageAlt ?? title}
+              fill
+              sizes="(max-width: 768px) 92vw, 480px"
+              className="object-cover scale-[1.08]"
+            />
+          </div>
+        ) : (
+          <div className={imagePlaceholderClass}>Image Placeholder</div>
+        )}
+      </ContainerScroll>
     </div>
   );
 }
@@ -41,7 +46,7 @@ export default function TimelineDemo() {
           detail="Began vocational learning path in Teknik Komputer dan Jaringan, building core networking and system fundamentals."
           imageSrc="/assets/images/smkn2-depok2021.jpeg"
           imageAlt="SMK Negeri 2 Depok"
-          imageHeightClass="h-100"
+          imageHeightClass="h-80"
         />
       ),
     },
@@ -54,7 +59,7 @@ export default function TimelineDemo() {
           detail="Reached national finalist stage in MikroTik Networking Olympiad, strengthening practical network engineering and competitive discipline."
           imageSrc="/assets/images/olimpiade-jaringan-mikrotik-2023.jpg"
           imageAlt="Finalist Olimpiade Jaringan Mikrotik 2023"
-          imageHeightClass="h-200"
+          imageHeightClass="h-72"
         />
       ),
     },
@@ -67,7 +72,7 @@ export default function TimelineDemo() {
           detail="Started undergraduate journey in Data Science, combining statistics, machine learning, and software engineering practice."
           imageSrc="/assets/images/masuk-telkom-university.jpeg"
           imageAlt="Masuk Telkom University"
-          imageHeightClass="h-200"
+          imageHeightClass="h-80"
         />
       ),
     },
@@ -78,9 +83,22 @@ export default function TimelineDemo() {
           month="Nov 2024"
           title="3rd Place ADIKARA Data Mining Competition"
           detail="Built a hybrid CNN-LSTM deep learning approach for multivariate food price forecasting."
-          imageSrc="/assets/images/adikara2024.jpeg"
+          imageSrc="/assets/images/adikara2024-award.jpeg"
           imageAlt="ADIKARA 2024 award"
-          imageHeightClass="h-200"
+          imageHeightClass="h-[19rem]"
+        />
+      ),
+    },
+    {
+      title: "Mar 2025",
+      content: (
+        <JourneyEvent
+          month="Mar 2025"
+          title="10th Place Kaggle Datavidia"
+          detail="Developed deep learning forecasting models for 13 commodities across 34 provinces in Indonesia."
+          imageSrc="/assets/images/datavidia9-2025.png"
+          imageAlt="Kaggle Datavidia 2025"
+          imageHeightClass="h-80"
         />
       ),
     },
@@ -113,7 +131,7 @@ export default function TimelineDemo() {
           detail="Designed fraud detection for P2P lending using GCN and ensemble optimization with strong AUC performance."
           imageSrc="/assets/images/finalist-gemastik2025.jpeg"
           imageAlt="Finalist GEMASTIK 2025"
-          imageHeightClass="h-200"
+          imageHeightClass="h-[19rem]"
         />
       ),
     },
@@ -124,16 +142,6 @@ export default function TimelineDemo() {
           month="Nov 2025"
           title="Mentor & Curriculum Machine Learning - GDGoC"
           detail="Designed and delivered a beginner-friendly ML curriculum from data prep and model training to Streamlit deployment."
-        />
-      ),
-    },
-    {
-      title: "Nov 2025",
-      content: (
-        <JourneyEvent
-          month="Nov 2025"
-          title="1st Place Kaggle Data Slayer 2025"
-          detail="Built a landmark-based video analytics pipeline and ensemble model to secure 1st place leaderboard ranking."
         />
       ),
     },
@@ -150,7 +158,7 @@ export default function TimelineDemo() {
   ];
 
   return (
-    <div className="relative w-full overflow-clip rounded-2xl border border-cyan-900/30 bg-[#0b1120]">
+    <div className="relative w-full">
       <Timeline
         data={data}
         title="My Journey"
