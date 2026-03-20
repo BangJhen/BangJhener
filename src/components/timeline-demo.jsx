@@ -4,7 +4,7 @@ import { Timeline } from "@/components/ui/timeline";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 const imagePlaceholderClass =
-  "h-full w-full rounded-lg border border-dashed border-cyan-700/40 bg-[#0b1120]/70 grid place-items-center text-xs uppercase tracking-[0.14em] text-cyan-300/70";
+  "h-full w-full rounded-[1.2rem] border-2 border-dashed border-cyan-300/50 bg-[#020617] grid place-items-center text-xs uppercase tracking-[0.14em] text-cyan-100/90";
 
 function JourneyEvent({ month, title, detail, imageSrc, imageAlt, imageHeightClass = "h-[30rem] sm:h-[36rem]" }) {
   return (
@@ -15,10 +15,14 @@ function JourneyEvent({ month, title, detail, imageSrc, imageAlt, imageHeightCla
       <ContainerScroll
         compact
         className="mt-14 max-w-[28rem] sm:max-w-[40rem] lg:max-w-[50rem]"
-        cardClassName="w-full overflow-hidden rounded-[3rem] border-2 border-zinc-600/80 bg-[#1c1c1f] p-5 sm:p-7 shadow-[0_36px_72px_rgba(0,0,0,0.55)]"
+        cardClassName="w-full overflow-hidden rounded-[2.2rem] border-2 border-cyan-300/70 bg-[#020617] p-4 sm:p-5 shadow-[0_0_0_2px_rgba(34,211,238,0.25),0_24px_56px_rgba(8,47,73,0.45)]"
         innerClassName="h-full w-full">
-        <div className="h-full w-full rounded-[2.5rem] bg-zinc-100 p-5 sm:p-7">
-          <div className={`relative w-full overflow-hidden rounded-[2rem] bg-[#0b1120] ${imageHeightClass}`}>
+        <div className="relative h-full w-full rounded-[1.8rem] border border-cyan-300/40 bg-[linear-gradient(180deg,#061225_0%,#091a34_100%)] p-4 sm:p-5">
+          <div className="pointer-events-none absolute left-5 top-4 h-2 w-2 rounded-full bg-cyan-200/90 shadow-[18px_0_0_rgba(103,232,249,0.7),36px_0_0_rgba(103,232,249,0.5)]" />
+          <div className="pointer-events-none absolute right-5 top-4 h-6 w-6 rounded-full border border-cyan-300/60">
+            <div className="absolute -left-1 top-1/2 h-px w-8 -translate-y-1/2 bg-cyan-300/70" />
+          </div>
+          <div className={`relative mt-6 w-full overflow-hidden rounded-[1.2rem] border border-cyan-300/45 bg-[#0b1120] ${imageHeightClass}`}>
             {imageSrc ? (
               <Image
                 src={imageSrc}
@@ -43,7 +47,6 @@ export default function TimelineDemo() {
       title: "Jun 2021",
       content: (
         <JourneyEvent
-          month="Jun 2021"
           title="Started SMK Negeri 2 Depok (Computer & Network Engineering)"
           detail="Began vocational learning path in Teknik Komputer dan Jaringan, building core networking and system fundamentals."
           imageSrc="/assets/images/smkn2-depok2021.jpeg"
@@ -56,7 +59,6 @@ export default function TimelineDemo() {
       title: "Oct 2023",
       content: (
         <JourneyEvent
-          month="Oct 2023"
           title="Finalist Olimpiade Jaringan Mikrotik (National)"
           detail="Reached national finalist stage in MikroTik Networking Olympiad, strengthening practical network engineering and competitive discipline."
           imageSrc="/assets/images/olimpiade-jaringan-mikrotik-2023.jpg"
@@ -69,7 +71,6 @@ export default function TimelineDemo() {
       title: "Aug 2024",
       content: (
         <JourneyEvent
-          month="Aug 2024"
           title="Started S1 Data Science - Telkom University"
           detail="Started undergraduate journey in Data Science, combining statistics, machine learning, and software engineering practice."
           imageSrc="/assets/images/masuk-telkom-university.jpeg"
@@ -82,25 +83,11 @@ export default function TimelineDemo() {
       title: "Nov 2024",
       content: (
         <JourneyEvent
-          month="Nov 2024"
           title="3rd Place ADIKARA Data Mining Competition"
           detail="Built a hybrid CNN-LSTM deep learning approach for multivariate food price forecasting."
-          imageSrc="/assets/images/adikara2024-award.jpeg"
+          imageSrc="/assets/images/adikara2024.jpeg"
           imageAlt="ADIKARA 2024 award"
           imageHeightClass="h-[31rem] sm:h-[38rem]"
-        />
-      ),
-    },
-    {
-      title: "Mar 2025",
-      content: (
-        <JourneyEvent
-          month="Mar 2025"
-          title="10th Place Kaggle Datavidia"
-          detail="Developed deep learning forecasting models for 13 commodities across 34 provinces in Indonesia."
-          imageSrc="/assets/images/datavidia9-2025.png"
-          imageAlt="Kaggle Datavidia 2025"
-          imageHeightClass="h-[32rem] sm:h-[39rem]"
         />
       ),
     },
@@ -108,9 +95,10 @@ export default function TimelineDemo() {
       title: "Apr 2025",
       content: (
         <JourneyEvent
-          month="Apr 2025"
           title="Web Scraping R&D - Central Computer Improvement"
           detail="Developed scalable crawling pipelines with TypeScript, Puppeteer, Axios, and session-based retrieval strategies."
+          imageSrc="/assets/images/cci-R&D-webscraping.png"
+          imageAlt="CCI R&D Web Scraping"
         />
       ),
     },
@@ -118,9 +106,10 @@ export default function TimelineDemo() {
       title: "May 2025",
       content: (
         <JourneyEvent
-          month="May 2025"
           title="PIC Data Mining Competition - PRODIGI"
           detail="Led Data Mining division, mentoring members and building a learning ecosystem for competitions and AI innovation."
+          imageSrc="/assets/images/prodigi-datamining2025.jpeg"
+          imageAlt="PRODIGI Data Mining 2025"
         />
       ),
     },
@@ -128,7 +117,6 @@ export default function TimelineDemo() {
       title: "Sep 2025",
       content: (
         <JourneyEvent
-          month="Sep 2025"
           title="Finalist GEMASTIK XVIII Data Mining"
           detail="Designed fraud detection for P2P lending using GCN and ensemble optimization with strong AUC performance."
           imageSrc="/assets/images/finalist-gemastik2025.jpeg"
@@ -141,9 +129,10 @@ export default function TimelineDemo() {
       title: "Nov 2025",
       content: (
         <JourneyEvent
-          month="Nov 2025"
           title="Mentor & Curriculum Machine Learning - GDGoC"
           detail="Designed and delivered a beginner-friendly ML curriculum from data prep and model training to Streamlit deployment."
+          imageSrc="/assets/images/gdgoc2025.jpeg"
+          imageAlt="GDGoC 2025 mentoring"
         />
       ),
     },
@@ -151,9 +140,10 @@ export default function TimelineDemo() {
       title: "Jan 2026",
       content: (
         <JourneyEvent
-          month="Jan 2026"
           title="Mentor of Data Research - CCI"
           detail="Mentoring research-focused projects and guiding practical AI implementation for student and community initiatives."
+          imageSrc="/assets/images/cci2026.jpeg"
+          imageAlt="CCI 2026 mentorship"
         />
       ),
     },
