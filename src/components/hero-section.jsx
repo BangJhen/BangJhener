@@ -201,7 +201,7 @@ export default function HeroSection({ styles }) {
   }, []);
 
   return (
-    <section ref={heroRef} className={`${styles.hero} ${styles.heroCinematic}`} data-parallax="hero">
+    <section id="hero" ref={heroRef} className={`${styles.hero} ${styles.heroCinematic}`} data-parallax="hero">
       <div className={styles.introBombReveal} aria-hidden="true" />
       <div className={styles.bg} data-layer="bg" data-hover-depth="6" />
       <div className={styles.stars} data-layer="stars" data-hover-depth="14" />

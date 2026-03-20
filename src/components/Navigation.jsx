@@ -1,47 +1,118 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Navigation() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState("hero");
+  const [sectionPoints, setSectionPoints] = useState([]);
+
+  const sections = useMemo(
+    () => [
+      { id: "hero", label: "HERO" },
+      { id: "about", label: "ABOUT" },
+      { id: "projects", label: "PROJECT" },
+      { id: "contact", label: "CONTACT" },
+    ],
+    []
+  );
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const computeSections = () => {
+      const doc = document.documentElement;
+      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 1);
 
-  const navLinks = [
-    { name: "Home", href: "#hero" },
-    { name: "About", href: "#about" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
-  ];
+      const points = sections
+        .map((section) => {
+          const el = document.getElementById(section.id);
+          if (!el) return null;
+          const y = el.offsetTop;
+          return {
+            ...section,
+            y,
+            ratio: Math.min(Math.max(y / maxScroll, 0), 1),
+          };
+        })
+        .filter(Boolean);
+
+      setSectionPoints(points);
+    };
+
+    const handleScroll = () => {
+      const doc = document.documentElement;
+      const currentY = window.scrollY;
+      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 1);
+      const progress = Math.min(Math.max(currentY / maxScroll, 0), 1);
+
+      setScrollY(Math.round(currentY));
+      setScrollProgress(progress);
+
+      let currentSection = "hero";
+      for (const section of sections) {
+        const el = document.getElementById(section.id);
+        if (!el) continue;
+        if (currentY + window.innerHeight * 0.35 >= el.offsetTop) {
+          currentSection = section.id;
+        }
+      }
+      setActiveSection(currentSection);
+    };
+
+    computeSections();
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", computeSections);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", computeSections);
+    };
+  }, [sections]);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-[#0f172a]/80 backdrop-blur-md py-4" : "bg-transparent py-6"
-      }`}
-    >
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold text-white tracking-tighter">
-          AR<span className="text-cyan-400">.</span>
-        </Link>
-        <ul className="hidden md:flex space-x-8">
-          {navLinks.map((link) => (
-            <li key={link.name}>
-              <a
-                href={link.href}
-                className="text-gray-300 hover:text-cyan-400 transition-colors text-sm uppercase tracking-widest"
-              >
-                {link.name}
-              </a>
-            </li>
-          ))}
+    <nav className="fixed left-3 top-1/2 z-50 hidden -translate-y-1/2 md:block" aria-label="Section ruler navigation">
+      <div className="relative h-[78vh] w-24 rounded-2xl border border-cyan-900/60 bg-slate-950/60 backdrop-blur-md">
+        <div
+          className="absolute left-[22px] top-4 bottom-4 w-px"
+          style={{
+            background:
+              "repeating-linear-gradient(to bottom, rgba(148,163,184,0.85) 0px, rgba(148,163,184,0.85) 1px, transparent 1px, transparent 12px)",
+          }}
+          aria-hidden="true"
+        />
+        <div className="absolute left-[18px] top-4 bottom-4" aria-hidden="true">
+          <div
+            className="absolute h-3 w-3 -translate-y-1/2 rounded-full border border-cyan-200 bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)] transition-[top]"
+            style={{ top: `${scrollProgress * 100}%` }}
+          />
+        </div>
+        <div className="absolute right-2 top-3 text-[10px] font-semibold tracking-wider text-cyan-300">{scrollY}px</div>
+        <div className="absolute right-2 top-7 text-[9px] tracking-wider text-slate-400">{Math.round(scrollProgress * 100)}%</div>
+
+        <ul className="absolute inset-0">
+          {sectionPoints.map((section) => {
+            const isActive = section.id === activeSection;
+            return (
+              <li
+                key={section.id}
+                className="absolute left-0 right-0 -translate-y-1/2"
+                style={{ top: `calc(16px + (100% - 32px) * ${section.ratio})` }}>
+                <a href={`#${section.id}`} className="group relative flex items-center pl-4">
+                  <span
+                    className={`block h-2 w-2 rounded-full border transition-all ${
+                      isActive ? "border-cyan-100 bg-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.8)]" : "border-slate-400 bg-slate-700"
+                    }`}
+                  />
+                  <span
+                    className={`ml-2 text-[9px] font-semibold tracking-[0.14em] transition-colors ${
+                      isActive ? "text-cyan-200" : "text-slate-400 group-hover:text-cyan-300"
+                    }`}>
+                    {section.label}
+                  </span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </nav>
