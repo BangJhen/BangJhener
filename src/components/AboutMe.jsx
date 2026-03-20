@@ -1,4 +1,5 @@
 import { missionMetrics, skillConstellation } from "@/data/portfolio";
+import TechIconCloud from "@/components/TechIconCloud";
 
 export default function AboutMe() {
   return (
@@ -32,16 +33,10 @@ export default function AboutMe() {
 
           <div className="w-full md:w-1/2">
             <h3 className="text-xl font-semibold mb-6 text-gray-200">Tech Constellation</h3>
-            <div className="flex flex-wrap gap-3">
-              {skillConstellation.map((skill) => (
-                <span
-                  key={skill}
-                  className="px-4 py-2 bg-[#1e293b] rounded-full text-cyan-300 text-sm border border-cyan-900/30 hover:border-cyan-500/50 hover:shadow-[0_0_10px_rgba(6,182,212,0.2)] transition-all cursor-default"
-                >
-                  {skill}
-                </span>
-              ))}
+            <div className="mb-8">
+              <TechIconCloud />
             </div>
+            
           </div>
         </div>
       </div>
