@@ -7,8 +7,8 @@ export const Timeline = ({
   title = "My Journey",
   description = "A timeline of my growth, milestones, and impact.",
 }) => {
+  const headerRef = useRef(null);
   const ref = useRef(null);
-  const containerRef = useRef(null);
   const markerRefs = useRef([]);
   const [height, setHeight] = useState(0);
   const [markerPositions, setMarkerPositions] = useState([]);
@@ -34,11 +34,20 @@ export const Timeline = ({
     return () => window.removeEventListener("resize", updateMeasurements);
   }, [data]);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 10%", "end 50%"],
+  const { scrollYProgress: headerScrollProgress } = useScroll({
+    target: headerRef,
+    offset: ["start start", "end start"],
   });
 
+  const titleYTransform = useTransform(headerScrollProgress, [0, 1], [0, 220]);
+  const titleScaleTransform = useTransform(headerScrollProgress, [0, 1], [1, 0.78]);
+  const titleOpacityTransform = useTransform(headerScrollProgress, [0, 1], [1, 0.6]);
+  const scrollHintOpacityTransform = useTransform(headerScrollProgress, [0, 0.7], [1, 0]);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 10%", "end 50%"],
+  });
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -46,18 +55,28 @@ export const Timeline = ({
   });
 
   return (
-    <div
-      className="w-full font-sans md:px-10"
-      ref={containerRef}>
-      <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-        <h2 className="text-3xl md:text-4xl mb-4 text-white max-w-4xl font-bold">
+    <div className="w-full font-sans md:px-10">
+      <motion.div
+        ref={headerRef}
+        style={{
+          y: titleYTransform,
+          scale: titleScaleTransform,
+          opacity: titleOpacityTransform,
+          transformOrigin: "center top",
+        }}
+        className="max-w-7xl mx-auto min-h-[70vh] py-20 px-4 md:px-8 lg:px-10 text-center flex flex-col items-center justify-center">
+        <h2 className="text-5xl md:text-7xl mb-5 text-white font-bold tracking-tight">
           {title}
         </h2>
-        <p
-          className="text-slate-400 text-sm md:text-base max-w-2xl">
+        <p className="text-slate-400 text-sm md:text-base max-w-3xl mx-auto">
           {description}
         </p>
-      </div>
+        <motion.p
+          style={{ opacity: scrollHintOpacityTransform }}
+          className="mt-12 text-xs md:text-sm uppercase tracking-[0.2em] text-cyan-300/80">
+          Scroll down to explore the journey
+        </motion.p>
+      </motion.div>
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {data.map((item, index) => (
           <div key={index} className="flex justify-start pt-10 md:pt-20 md:gap-10">
