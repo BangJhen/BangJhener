@@ -79,8 +79,8 @@ export default function PortfolioSection({ styles }) {
                         imageSrc={project.previewImage}
                         imageAlt={project.previewAlt}
                         showDetails={false}
-                        previewOffsetX={165}
-                        previewOffsetY={210}
+                        positionMode="anchor"
+                        previewOffsetY={0}
                         className={styles.projectLink}
                         cardClassName={styles.heroLinkCard}>
                         {project.linkLabel}

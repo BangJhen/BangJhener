@@ -26,8 +26,8 @@ export default function AboutMe() {
                 imageSrc={gdgocLinkPreview.src}
                 imageAlt="GDG on Campus Telkom University page preview"
                 showDetails={false}
-                previewOffsetX={120}
-                previewOffsetY={200}>
+                positionMode="anchor"
+                previewOffsetY={0}>
                 <span className="rounded-md border border-cyan-700/40 bg-cyan-900/20 px-1.5 py-0.5 font-medium text-cyan-200">Mentor & Curriculum Machine Learning</span>
               </LinkPreview>, with key achievements including{" "}
               <span className="font-semibold text-cyan-300">Finalist GEMASTIK XVIII Data Mining</span>.

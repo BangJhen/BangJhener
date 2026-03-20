@@ -409,8 +409,8 @@ export default function HeroSection({ styles }) {
                     imageSrc={telkomUniversityPreview.src}
                     imageAlt="Telkom University Data Science program preview"
                     showDetails={false}
-                    previewOffsetX={165}
-                    previewOffsetY={210}
+                    positionMode="anchor"
+                    previewOffsetY={0}
                     className={`${styles.heroLink} ${styles.heroHighlightSoft}`}
                     cardClassName={styles.heroLinkCard}>
                     <ScrollFloat

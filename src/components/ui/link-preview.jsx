@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 import { createPortal } from "react-dom";
@@ -17,8 +17,9 @@ export function LinkPreview({
   showDetails,
   className = "",
   cardClassName = "",
-  previewOffsetX = 165,
-  previewOffsetY = 210,
+  positionMode = "anchor",
+  previewOffsetX = 0,
+  previewOffsetY = 0,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef(null);
@@ -39,7 +40,7 @@ export function LinkPreview({
   const shouldShowDetails = showDetails ?? !imageSrc;
   const isMounted = typeof window !== "undefined";
 
-  const getClampedPosition = (x, y) => {
+  const getClampedPosition = (left, top) => {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const cardRect = cardRef.current?.getBoundingClientRect();
@@ -47,33 +48,62 @@ export function LinkPreview({
     const cardHeight = cardRect?.height ?? 220;
     const edge = 14;
 
-    const clampedX = Math.min(
-      Math.max(x, edge + cardWidth / 2),
-      viewportWidth - edge - cardWidth / 2
+    const clampedLeft = Math.min(
+      Math.max(left, edge),
+      viewportWidth - edge - cardWidth
+    );
+    const clampedTop = Math.min(
+      Math.max(top, edge),
+      viewportHeight - edge - cardHeight
     );
 
-    const preferredTopAnchor = y - 18;
-    const minTopAnchor = edge + cardHeight;
-    const maxTopAnchor = viewportHeight - edge;
-    const clampedY = Math.min(
-      Math.max(preferredTopAnchor, minTopAnchor),
-      maxTopAnchor
-    );
-
-    return { x: clampedX, y: clampedY };
+    return { x: clampedLeft, y: clampedTop };
   };
 
-  const setCardPosition = (x, y) => {
-    const adjustedX = x - previewOffsetX;
-    const adjustedY = y - previewOffsetY;
-    const { x: nextLeft, y: nextTop } = getClampedPosition(adjustedX, adjustedY);
+  const setCardPosition = useCallback((left, top) => {
+    const { x: nextLeft, y: nextTop } = getClampedPosition(left, top);
     pointerLeft.set(nextLeft);
     pointerTop.set(nextTop);
-  };
+  }, [pointerLeft, pointerTop]);
+
+  const setCardPositionFromAnchor = useCallback(() => {
+    const rootRect = rootRef.current?.getBoundingClientRect();
+    if (!rootRect) return;
+    const cardRect = cardRef.current?.getBoundingClientRect();
+    const cardWidth = cardRect?.width ?? 330;
+    const cardHeight = cardRect?.height ?? 220;
+    const anchorX = rootRect.left + rootRect.width / 2;
+    const anchorY = rootRect.top + rootRect.height / 2;
+    const left = anchorX - cardWidth / 2 + previewOffsetX;
+    const top = anchorY - cardHeight - 18 + previewOffsetY;
+    setCardPosition(left, top);
+  }, [previewOffsetX, previewOffsetY, setCardPosition]);
 
   const handleMove = (event) => {
-    setCardPosition(event.clientX, event.clientY);
+    if (positionMode === "cursor") {
+      const cardRect = cardRef.current?.getBoundingClientRect();
+      const cardWidth = cardRect?.width ?? 330;
+      const cardHeight = cardRect?.height ?? 220;
+      const left = event.clientX - cardWidth / 2 + previewOffsetX;
+      const top = event.clientY - cardHeight - 18 + previewOffsetY;
+      setCardPosition(left, top);
+      return;
+    }
+    setCardPositionFromAnchor();
   };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const syncWithAnchor = () => {
+      setCardPositionFromAnchor();
+    };
+    window.addEventListener("scroll", syncWithAnchor, true);
+    window.addEventListener("resize", syncWithAnchor);
+    return () => {
+      window.removeEventListener("scroll", syncWithAnchor, true);
+      window.removeEventListener("resize", syncWithAnchor);
+    };
+  }, [isOpen, setCardPositionFromAnchor]);
 
   const previewCard = (
     <AnimatePresence>
@@ -117,7 +147,11 @@ export function LinkPreview({
       className={styles.root}
       onMouseEnter={(event) => {
         setIsOpen(true);
-        handleMove(event);
+        if (positionMode === "cursor") {
+          handleMove(event);
+          return;
+        }
+        setCardPositionFromAnchor();
       }}
       onMouseMove={handleMove}
       onMouseLeave={() => {
@@ -125,6 +159,7 @@ export function LinkPreview({
       }}
       onFocus={() => {
         setIsOpen(true);
+        setCardPositionFromAnchor();
       }}
       onBlur={() => {
         setIsOpen(false);
