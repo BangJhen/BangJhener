@@ -18,6 +18,10 @@ export default function Navigation() {
     []
   );
   const rulerTicks = useMemo(() => Array.from({ length: 44 }, (_, index) => index / 43), []);
+  const userDistance = hoverProgress === null ? Number.POSITIVE_INFINITY : Math.abs(hoverProgress - scrollProgress);
+  const userInfluence = Number.isFinite(userDistance) ? Math.exp(-((userDistance / 0.2) ** 2)) : 0;
+  const userPullX = userInfluence * 16;
+  const userScale = 1 + userInfluence * 0.95;
 
   useEffect(() => {
     const computeSections = () => {
@@ -81,30 +85,35 @@ export default function Navigation() {
           setHoverProgress(Math.min(Math.max(ratio, 0), 1));
         }}
         onMouseLeave={() => setHoverProgress(null)}>
-        <div className="absolute left-[22px] top-4 bottom-4 z-0 w-px bg-slate-400/45" aria-hidden="true" />
         <div className="absolute left-[22px] top-4 bottom-4 z-0" aria-hidden="true">
           {rulerTicks.map((tickRatio) => {
             const tickDistance = hoverProgress === null ? Number.POSITIVE_INFINITY : Math.abs(hoverProgress - tickRatio);
             const tickInfluence = Number.isFinite(tickDistance) ? Math.exp(-((tickDistance / 0.17) ** 2)) : 0;
+            const lineScale = 1 + tickInfluence * 2.6;
             const tickScale = 1 + tickInfluence * 2.1;
             const tickPullX = tickInfluence * 10;
             return (
-              <span
-                key={tickRatio}
-                className="absolute left-1/2 block h-[2px] w-[2px] rounded-full bg-slate-300/75 transition-transform duration-150 ease-out"
-                style={{ top: `${tickRatio * 100}%`, transform: `translate(-50%, -50%) translateX(${tickPullX}px) scale(${tickScale})` }}
-              />
+              <div key={tickRatio} className="absolute left-1/2" style={{ top: `${tickRatio * 100}%` }}>
+                <span
+                  className="absolute left-1/2 top-1/2 block h-[6px] w-px bg-slate-400/45 transition-transform duration-150 ease-out"
+                  style={{ transform: `translate(-50%, -50%) translateX(${tickPullX}px) scale(${1 + tickInfluence * 0.7}, ${lineScale})` }}
+                />
+                <span
+                  className="absolute left-1/2 top-1/2 block h-[2px] w-[2px] rounded-full bg-slate-300/75 transition-transform duration-150 ease-out"
+                  style={{ transform: `translate(-50%, -50%) translateX(${tickPullX}px) scale(${tickScale})` }}
+                />
+              </div>
             );
           })}
         </div>
         <div className="absolute left-[22px] top-4 bottom-4 z-30" aria-hidden="true">
           <div
             className="absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-100 bg-cyan-400/85 shadow-[0_0_14px_rgba(34,211,238,0.9)]"
-            style={{ top: `${scrollProgress * 100}%` }}
+            style={{ top: `${scrollProgress * 100}%`, transform: `translate(-50%, -50%) translateX(${userPullX}px) scale(${userScale})` }}
           />
         </div>
 
-        <ul className="absolute inset-0">
+        <ul className="absolute left-[22px] top-4 bottom-4 right-0">
           {sectionPoints.map((section) => {
             const isActive = section.id === activeSection;
             const distance = hoverProgress === null ? Number.POSITIVE_INFINITY : Math.abs(hoverProgress - section.ratio);
@@ -113,19 +122,16 @@ export default function Navigation() {
             const labelScale = 1 + influence * 0.48;
             const pullX = influence * 16;
             return (
-              <li
-                key={section.id}
-                className="absolute left-0 right-0"
-                style={{ top: `calc(16px + (100% - 32px) * ${section.ratio})` }}>
-                <a href={`#${section.id}`} className="group relative flex h-7 items-center pl-9">
+              <li key={section.id} className="absolute left-0 right-0" style={{ top: `${section.ratio * 100}%` }}>
+                <a href={`#${section.id}`} className="group relative block">
                   <span
-                    className={`absolute left-[22px] top-1/2 z-10 block h-2 w-2 rounded-full border transition-[transform,box-shadow,background-color,border-color] duration-180 ease-out ${
+                    className={`absolute left-0 top-0 z-10 block h-2 w-2 rounded-full border transition-[transform,box-shadow,background-color,border-color] duration-180 ease-out ${
                       isActive ? "border-cyan-100 bg-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.8)]" : "border-slate-400 bg-slate-700"
                     }`}
                     style={{ transform: `translate(-50%, -50%) translateX(${pullX}px) scale(${markerScale})` }}
                   />
                   <span
-                    className={`ml-2 origin-left text-[9px] font-semibold tracking-[0.14em] transition-[color,transform] duration-180 ease-out ${
+                    className={`absolute left-5 top-0 origin-left -translate-y-1/2 text-[9px] font-semibold tracking-[0.14em] transition-[color,transform] duration-180 ease-out ${
                       isActive ? "text-cyan-200" : "text-slate-400 group-hover:text-cyan-300"
                     }`}
                     style={{ transform: `translateX(${pullX}px) scale(${labelScale})` }}>
