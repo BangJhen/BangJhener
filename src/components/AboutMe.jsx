@@ -8,8 +8,8 @@ export default function AboutMe() {
   return (
     <section id="about" className="py-20 bg-[#0b1120] text-white">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row gap-12 items-start">
-          <div className="w-full md:w-3/5">
+        <div className="flex flex-col md:flex-row gap-10 items-start">
+          <div className="w-full md:w-2/5">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 flex items-center gap-3">
               <span className="w-12 h-[1px] bg-cyan-500"></span>
               About Me
@@ -42,16 +42,16 @@ export default function AboutMe() {
             </div>
           </div>
 
-          <div className="w-full md:w-2/5 flex justify-center md:justify-end md:pt-4">
+          <div className="w-full md:w-3/5 flex justify-center md:justify-end md:pt-2">
             <PixelatedCanvas
               src={ammarRidhoPicture.src}
-              width={320}
-              height={460}
+              width={420}
+              height={700}
               cellSize={3}
-              dotScale={0.9}
+              dotScale={.65}
               shape="square"
-              backgroundColor="transparent"
-              dropoutStrength={0.28}
+              backgroundColor="#0b1120"
+              dropoutStrength={0}
               interactive
               distortionStrength={2.8}
               distortionRadius={78}
@@ -62,7 +62,7 @@ export default function AboutMe() {
               sampleAverage
               tintColor="#dbeafe"
               tintStrength={0.08}
-              className="rounded-xl border border-cyan-900/40 shadow-[0_0_28px_rgba(34,211,238,0.12)]"
+              className="block"
             />
           </div>
         </div>
