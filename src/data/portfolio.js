@@ -1,7 +1,8 @@
 import telkomUniversityPreview from "../../website-telkom-university-preview.jpeg";
 import gdgocLinkPreview from "../../bevy-gdgoc-link-preview.png";
+import cciIgLinkPreview from "../../ig-cci-link-preview.jpeg";
 
-export { telkomUniversityPreview, gdgocLinkPreview };
+export { telkomUniversityPreview, gdgocLinkPreview, cciIgLinkPreview };
 
 export const DECOR_APPEAR_DELAY_MS = 8000;
 

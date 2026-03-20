@@ -1,4 +1,4 @@
-import { gdgocLinkPreview } from "@/data/portfolio";
+import { cciIgLinkPreview, gdgocLinkPreview } from "@/data/portfolio";
 import TechIconCloud from "@/components/TechIconCloud";
 import { LinkPreview } from "@/components/ui/link-preview";
 import { PixelatedCanvas } from "@/components/ui/pixelated-canvas";
@@ -18,7 +18,17 @@ export default function AboutMe() {
               I am <span className="font-semibold text-cyan-300">Muhammad Ammar Ridho</span>, a{" "}
               <span className="font-semibold text-cyan-300">Data Science undergraduate at Telkom University (GPA 3.91)</span>{" "}
               focused on building practical AI products, from web scraping pipelines with TypeScript (Puppeteer, Axios) to machine learning systems in forecasting and computer vision; currently I contribute as{" "}
-              <span className="rounded-md border border-cyan-700/40 bg-cyan-900/20 px-1.5 py-0.5 font-medium text-cyan-200">Mentor of Data Research</span>{" "}
+              <LinkPreview
+                url="https://www.instagram.com/cciunitel/"
+                title="Central Computer Improvement"
+                description="Official Instagram page of CCI Telkom University."
+                imageSrc={cciIgLinkPreview.src}
+                imageAlt="CCI Instagram page preview"
+                showDetails={false}
+                positionMode="anchor"
+                previewOffsetY={0}>
+                <span className="rounded-md border border-cyan-700/40 bg-cyan-900/20 px-1.5 py-0.5 font-medium text-cyan-200">Mentor of Data Research</span>
+              </LinkPreview>{" "}
               and{" "}
               <LinkPreview
                 url="https://gdg.community.dev/gdg-on-campus-telkom-university-bandung-indonesia/"
