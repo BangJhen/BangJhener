@@ -1,5 +1,5 @@
 "use client";
-import { useScroll, useTransform, motion } from "motion/react";
+import { useScroll, useTransform, useMotionValueEvent, motion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 
 export const Timeline = ({
@@ -9,14 +9,30 @@ export const Timeline = ({
 }) => {
   const ref = useRef(null);
   const containerRef = useRef(null);
+  const markerRefs = useRef([]);
   const [height, setHeight] = useState(0);
+  const [markerPositions, setMarkerPositions] = useState([]);
+  const [lineProgressPx, setLineProgressPx] = useState(0);
 
   useEffect(() => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      setHeight(rect.height);
-    }
-  }, [ref]);
+    const updateMeasurements = () => {
+      if (!ref.current) return;
+      const containerRect = ref.current.getBoundingClientRect();
+      setHeight(containerRect.height);
+      setMarkerPositions(
+        data.map((_, index) => {
+          const marker = markerRefs.current[index];
+          if (!marker) return Number.POSITIVE_INFINITY;
+          const markerRect = marker.getBoundingClientRect();
+          return markerRect.top - containerRect.top + markerRect.height / 2;
+        }),
+      );
+    };
+
+    updateMeasurements();
+    window.addEventListener("resize", updateMeasurements);
+    return () => window.removeEventListener("resize", updateMeasurements);
+  }, [data]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -25,6 +41,9 @@ export const Timeline = ({
 
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setLineProgressPx(latest * height);
+  });
 
   return (
     <div
@@ -47,7 +66,15 @@ export const Timeline = ({
               <div
                 className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-transparent flex items-center justify-center">
                 <div
-                  className="h-4 w-4 rounded-full bg-cyan-300 border border-cyan-100 p-2" />
+                  ref={(element) => {
+                    markerRefs.current[index] = element;
+                  }}
+                  className={`h-4 w-4 rounded-full border p-2 transition-all duration-500 ${
+                    lineProgressPx >= (markerPositions[index] ?? Number.POSITIVE_INFINITY)
+                      ? "bg-cyan-300 border-cyan-100 shadow-[0_0_14px_rgba(103,232,249,0.85)]"
+                      : "bg-slate-500/70 border-cyan-200/35"
+                  }`}
+                />
               </div>
               <h3
                 className="hidden md:block text-xl md:pl-20 md:text-4xl font-bold text-cyan-200/80">
