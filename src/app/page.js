@@ -37,6 +37,22 @@ export default function Home() {
     lenisRef.current = lenis;
     lenis.on("scroll", ScrollTrigger.update);
 
+    const handleScrollToHero = () => {
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo("#hero", {
+          duration: 1.35,
+          easing: (t) => 1 - Math.pow(1 - t, 3),
+        });
+        return;
+      }
+
+      const heroElement = document.getElementById("hero");
+      if (!heroElement) return;
+      heroElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    window.addEventListener("portfolio:scroll-to-hero", handleScrollToHero);
+
     const update = (time) => {
       lenis.raf(time * 1000);
     };
@@ -47,6 +63,7 @@ export default function Home() {
     return () => {
       if (hideTimer) window.clearTimeout(hideTimer);
       gsap.ticker.remove(update);
+      window.removeEventListener("portfolio:scroll-to-hero", handleScrollToHero);
       lenis.destroy();
       lenisRef.current = null;
       document.documentElement.classList.remove("parallax-no-bounce");

@@ -121,9 +121,7 @@ export default function ContactMe() {
         type="button"
         aria-label="Back to hero"
         onClick={() => {
-          const heroElement = document.getElementById("hero");
-          if (!heroElement) return;
-          heroElement.scrollIntoView({ behavior: "smooth", block: "start" });
+          window.dispatchEvent(new CustomEvent("portfolio:scroll-to-hero"));
         }}
         className="fixed bottom-4 right-4 z-[80] inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-200/35 bg-cyan-400/10 text-cyan-100 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-100/70 hover:bg-cyan-300/20 hover:shadow-[0_0_16px_rgba(34,211,238,0.45)] lg:bottom-6 lg:right-6">
         <ChevronUp size={18} aria-hidden="true" />
