@@ -1494,6 +1494,61 @@
 }
 
 @media (max-width: 768px) {
+  .hero {
+    height: 100svh;
+    min-height: 100svh;
+    --intro-duration: 3.6s;
+    --bigbang-core-duration: 3.1s;
+    --bigbang-shock-duration: 3.1s;
+    --title-appear-delay: 2.85s;
+    --decor-appear-delay: 4.2s;
+  }
+
+  .introBombReveal {
+    animation-duration: var(--intro-duration);
+  }
+
+  .content {
+    padding: 0 0.9rem 2rem;
+  }
+
+  .sinkTitle {
+    margin-top: -4rem;
+    transform: translateY(18px) scale(0.96) rotateX(8deg) translateZ(0);
+  }
+
+  .title {
+    font-size: clamp(1.8rem, 9vw, 2.9rem);
+    line-height: 1.12;
+  }
+
+  .titleStarfield {
+    animation: none;
+  }
+
+  .particlesLayer,
+  .epicCanvas,
+  .rippleLayer,
+  .cometIcon,
+  .galaxyIcon,
+  .saturnIcon {
+    display: none;
+  }
+
+  .moonIcon {
+    width: 64px;
+    height: 64px;
+    opacity: 0.72;
+    animation: none;
+  }
+
+  .starOne,
+  .starTwo,
+  .starThree,
+  .starFour {
+    animation-duration: 4.2s;
+  }
+
   .section {
     padding-top: 5.6rem;
     padding-bottom: 7rem;

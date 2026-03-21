@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Particles } from "@/components/ui/particles";
 import { LinkPreview } from "@/components/ui/link-preview";
 import { ScrollFloat } from "@/components/ui/scroll-float";
@@ -9,8 +9,27 @@ import { DECOR_APPEAR_DELAY_MS, telkomUniversityPreview } from "@/data/portfolio
 export default function HeroSection({ styles }) {
   const heroRef = useRef(null);
   const canvasRef = useRef(null);
+  const [enableHeroFx, setEnableHeroFx] = useState(false);
 
   useEffect(() => {
+    const mediaReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mediaDesktop = window.matchMedia("(min-width: 769px)");
+    const updateFxMode = () => {
+      setEnableHeroFx(mediaDesktop.matches && !mediaReduce.matches);
+    };
+    updateFxMode();
+    mediaReduce.addEventListener("change", updateFxMode);
+    mediaDesktop.addEventListener("change", updateFxMode);
+    return () => {
+      mediaReduce.removeEventListener("change", updateFxMode);
+      mediaDesktop.removeEventListener("change", updateFxMode);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!enableHeroFx) {
+      return;
+    }
     const heroElement = heroRef.current;
     const canvas = canvasRef.current;
 
@@ -197,25 +216,27 @@ export default function HeroSection({ styles }) {
       window.removeEventListener("resize", resize);
       ctx.clearRect(0, 0, width, height);
     };
-  }, []);
+  }, [enableHeroFx]);
 
   return (
     <section id="hero" ref={heroRef} className={`${styles.hero} ${styles.heroCinematic}`} data-parallax="hero">
       <div className={styles.introBombReveal} aria-hidden="true" />
       <div className={styles.bg} data-layer="bg" data-hover-depth="6" />
       <div className={styles.stars} data-layer="stars" data-hover-depth="14" />
-      <Particles
-        className={styles.particlesLayer}
-        data-layer="particles"
-        data-hover-depth="12"
-        quantity={76}
-        staticity={72}
-        ease={62}
-        size={0.75}
-        color="#c8e7ff"
-        vx={0.012}
-        vy={-0.008}
-      />
+      {enableHeroFx ? (
+        <Particles
+          className={styles.particlesLayer}
+          data-layer="particles"
+          data-hover-depth="12"
+          quantity={76}
+          staticity={72}
+          ease={62}
+          size={0.75}
+          color="#c8e7ff"
+          vx={0.012}
+          vy={-0.008}
+        />
+      ) : null}
       <div className={styles.decor} data-layer="decor" data-hover-depth="20">
         <span className={`${styles.star} ${styles.starOne}`} data-hover-depth="30" />
         <span className={`${styles.star} ${styles.starTwo}`} data-hover-depth="26" />
@@ -240,24 +261,27 @@ export default function HeroSection({ styles }) {
           </svg>
         </span>
 
-        <span className={`${styles.spaceIcon} ${styles.saturnIcon}`} data-hover-depth="24" aria-hidden="true">
-          <svg viewBox="0 0 180 120" role="presentation">
-            <ellipse cx="90" cy="64" rx="60" ry="15" fill="none" stroke="#91a9ff" strokeWidth="6" opacity="0.55" />
-            <ellipse cx="90" cy="64" rx="52" ry="12" fill="none" stroke="#d8e5ff" strokeWidth="2" opacity="0.7" />
-            <defs>
-              <radialGradient id="saturnFill" cx="30%" cy="30%" r="75%">
-                <stop offset="0%" stopColor="#ffe8b4" />
-                <stop offset="65%" stopColor="#f2c272" />
-                <stop offset="100%" stopColor="#bd7f44" />
-              </radialGradient>
-            </defs>
-            <circle cx="90" cy="60" r="24" fill="url(#saturnFill)" />
-            <path d="M68 55c6-3 30-3 43 0" stroke="#ffeec4" strokeWidth="3" opacity="0.55" />
-            <ellipse cx="90" cy="66" rx="60" ry="15" fill="none" stroke="#5f76cf" strokeWidth="6" opacity="0.4" />
-          </svg>
-        </span>
+        {enableHeroFx ? (
+          <span className={`${styles.spaceIcon} ${styles.saturnIcon}`} data-hover-depth="24" aria-hidden="true">
+            <svg viewBox="0 0 180 120" role="presentation">
+              <ellipse cx="90" cy="64" rx="60" ry="15" fill="none" stroke="#91a9ff" strokeWidth="6" opacity="0.55" />
+              <ellipse cx="90" cy="64" rx="52" ry="12" fill="none" stroke="#d8e5ff" strokeWidth="2" opacity="0.7" />
+              <defs>
+                <radialGradient id="saturnFill" cx="30%" cy="30%" r="75%">
+                  <stop offset="0%" stopColor="#ffe8b4" />
+                  <stop offset="65%" stopColor="#f2c272" />
+                  <stop offset="100%" stopColor="#bd7f44" />
+                </radialGradient>
+              </defs>
+              <circle cx="90" cy="60" r="24" fill="url(#saturnFill)" />
+              <path d="M68 55c6-3 30-3 43 0" stroke="#ffeec4" strokeWidth="3" opacity="0.55" />
+              <ellipse cx="90" cy="66" rx="60" ry="15" fill="none" stroke="#5f76cf" strokeWidth="6" opacity="0.4" />
+            </svg>
+          </span>
+        ) : null}
 
-        <span className={`${styles.spaceIcon} ${styles.cometIcon} ${styles.cometUltra}`} data-hover-depth="32" data-decor-delay="true" aria-hidden="true">
+        {enableHeroFx ? (
+          <span className={`${styles.spaceIcon} ${styles.cometIcon} ${styles.cometUltra}`} data-hover-depth="32" data-decor-delay="true" aria-hidden="true">
           <svg viewBox="0 0 260 120" role="presentation">
             <defs>
               <linearGradient id="cometTail" x1="0" y1="0" x2="1" y2="0">
@@ -289,27 +313,30 @@ export default function HeroSection({ styles }) {
             <path className={styles.cometSparkTwo} d="M78 94C144 90 202 70 250 28" stroke="#67e8f9" strokeOpacity="0.62" strokeWidth="1.8" strokeLinecap="round" fill="none" />
             <circle cx="246" cy="20" r="13" fill="url(#cometHead)" />
           </svg>
-        </span>
+          </span>
+        ) : null}
 
-        <span className={`${styles.spaceIcon} ${styles.galaxyIcon}`} data-hover-depth="20" aria-hidden="true">
-          <svg viewBox="0 0 160 160" role="presentation">
-            <defs>
-              <radialGradient id="galaxyCore" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#ffffff" />
-                <stop offset="35%" stopColor="#d9ccff" />
-                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
-              </radialGradient>
-            </defs>
-            <circle cx="80" cy="80" r="16" fill="url(#galaxyCore)" />
-            <path d="M28 83c20-36 84-42 109-5" stroke="#c4b5fd" strokeOpacity="0.55" strokeWidth="5" fill="none" strokeLinecap="round" />
-            <path d="M26 98c36 19 87 8 111-28" stroke="#93c5fd" strokeOpacity="0.45" strokeWidth="4" fill="none" strokeLinecap="round" />
-            <path d="M40 52c34 3 59 28 71 61" stroke="#f5d0fe" strokeOpacity="0.35" strokeWidth="3" fill="none" strokeLinecap="round" />
-          </svg>
-        </span>
+        {enableHeroFx ? (
+          <span className={`${styles.spaceIcon} ${styles.galaxyIcon}`} data-hover-depth="20" aria-hidden="true">
+            <svg viewBox="0 0 160 160" role="presentation">
+              <defs>
+                <radialGradient id="galaxyCore" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#ffffff" />
+                  <stop offset="35%" stopColor="#d9ccff" />
+                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              <circle cx="80" cy="80" r="16" fill="url(#galaxyCore)" />
+              <path d="M28 83c20-36 84-42 109-5" stroke="#c4b5fd" strokeOpacity="0.55" strokeWidth="5" fill="none" strokeLinecap="round" />
+              <path d="M26 98c36 19 87 8 111-28" stroke="#93c5fd" strokeOpacity="0.45" strokeWidth="4" fill="none" strokeLinecap="round" />
+              <path d="M40 52c34 3 59 28 71 61" stroke="#f5d0fe" strokeOpacity="0.35" strokeWidth="3" fill="none" strokeLinecap="round" />
+            </svg>
+          </span>
+        ) : null}
 
         <span className={`${styles.cosmicDust} ${styles.dustOne}`} data-hover-depth="14" aria-hidden="true" />
       </div>
-      <canvas ref={canvasRef} className={styles.epicCanvas} data-epic-canvas="asteroids" aria-hidden="true" />
+      {enableHeroFx ? <canvas ref={canvasRef} className={styles.epicCanvas} data-epic-canvas="asteroids" aria-hidden="true" /> : null}
 
       <div className={styles.content} data-layer="content">
         <div className={styles.sinkTitle} data-sink-title="hero">
