@@ -1527,12 +1527,51 @@
   }
 
   .particlesLayer,
-  .epicCanvas,
-  .rippleLayer,
-  .cometIcon,
   .galaxyIcon,
   .saturnIcon {
     display: none;
+  }
+
+  .epicCanvas {
+    display: block;
+    opacity: 0.58;
+    mix-blend-mode: screen;
+  }
+
+  .rippleLayer {
+    display: block;
+    height: 40%;
+  }
+
+  .rippleOne,
+  .rippleTwo,
+  .rippleThree {
+    animation-duration: 7.2s;
+    opacity: 0.52;
+  }
+
+  .cometIcon {
+    display: block;
+    width: 180px;
+    height: 84px;
+    left: -48%;
+    top: 73%;
+    opacity: 0.72;
+    animation:
+      decorReveal 0.95s ease-out var(--decor-appear-delay) both,
+      flyComet 42s linear var(--decor-appear-delay) infinite;
+  }
+
+  .cometFireOuter {
+    animation-duration: 2.2s;
+  }
+
+  .cometFireMid {
+    animation-duration: 1.55s;
+  }
+
+  .cometFireCore {
+    animation-duration: 1.1s;
   }
 
   .moonIcon {
@@ -1604,9 +1643,10 @@
 
   .heroSubtitleRow {
     max-width: min(74ch, 90vw);
+    font-size: clamp(0.7rem, 2.25vw, 0.86rem);
     column-gap: 0.22rem;
-    letter-spacing: 0.032em;
-    line-height: 1.45;
+    letter-spacing: 0.026em;
+    line-height: 1.4;
   }
 
   .heroSubtitleSeg {
@@ -1615,6 +1655,7 @@
   }
 
   .heroSubtitleMeta {
+    font-size: clamp(0.66rem, 2vw, 0.8rem);
     letter-spacing: 0.028em;
   }
 

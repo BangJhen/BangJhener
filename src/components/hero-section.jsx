@@ -10,19 +10,21 @@ export default function HeroSection({ styles }) {
   const heroRef = useRef(null);
   const canvasRef = useRef(null);
   const [enableHeroFx, setEnableHeroFx] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   useEffect(() => {
     const mediaReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mediaDesktop = window.matchMedia("(min-width: 769px)");
+    const mediaMobile = window.matchMedia("(max-width: 768px)");
     const updateFxMode = () => {
-      setEnableHeroFx(mediaDesktop.matches && !mediaReduce.matches);
+      setEnableHeroFx(!mediaReduce.matches);
+      setIsMobileViewport(mediaMobile.matches);
     };
     updateFxMode();
     mediaReduce.addEventListener("change", updateFxMode);
-    mediaDesktop.addEventListener("change", updateFxMode);
+    mediaMobile.addEventListener("change", updateFxMode);
     return () => {
       mediaReduce.removeEventListener("change", updateFxMode);
-      mediaDesktop.removeEventListener("change", updateFxMode);
+      mediaMobile.removeEventListener("change", updateFxMode);
     };
   }, []);
 
@@ -44,6 +46,7 @@ export default function HeroSection({ styles }) {
     }
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isLiteMobile = isMobileViewport;
     const trailPresets = {
       calm: {
         spawnInterval: 0.82,
@@ -73,6 +76,10 @@ export default function HeroSection({ styles }) {
     const activePresetName = "calm";
     const activePreset = trailPresets[activePresetName];
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const maxAsteroids = isLiteMobile ? 7 : 16;
+    const spawnIntervalMultiplier = isLiteMobile ? 1.95 : 1;
+    const mobileRadiusScale = isLiteMobile ? 0.78 : 1;
+    const mobileSpeedScale = isLiteMobile ? 0.54 : 1;
 
     let width = 0;
     let height = 0;
@@ -104,7 +111,7 @@ export default function HeroSection({ styles }) {
         y: startY,
         vx: activePreset.speedMin + Math.random() * (activePreset.speedMax - activePreset.speedMin),
         vy: activePreset.driftYMin + Math.random() * (activePreset.driftYMax - activePreset.driftYMin),
-        radius: activePreset.radiusMin + Math.random() * (activePreset.radiusMax - activePreset.radiusMin),
+        radius: (activePreset.radiusMin + Math.random() * (activePreset.radiusMax - activePreset.radiusMin)) * mobileRadiusScale,
         hue: 192 + Math.random() * 25,
         trail: [],
         isDead: false,
@@ -150,9 +157,9 @@ export default function HeroSection({ styles }) {
       ctx.clearRect(0, 0, width, height);
 
       spawnTimer += delta;
-      const interval = reduceMotion ? activePreset.spawnInterval * 1.8 : activePreset.spawnInterval;
+      const interval = (reduceMotion ? activePreset.spawnInterval * 1.8 : activePreset.spawnInterval) * spawnIntervalMultiplier;
 
-      while (spawnTimer >= interval) {
+      while (spawnTimer >= interval && asteroids.length < maxAsteroids) {
         spawnTimer -= interval;
         spawnAsteroid();
       }
@@ -160,7 +167,7 @@ export default function HeroSection({ styles }) {
       for (let i = asteroids.length - 1; i >= 0; i -= 1) {
         const asteroid = asteroids[i];
         if (!asteroid.isDead) {
-          const speedScale = reduceMotion ? 0.65 : 1;
+          const speedScale = (reduceMotion ? 0.65 : 1) * mobileSpeedScale;
           asteroid.x += asteroid.vx * delta * speedScale;
           asteroid.y += asteroid.vy * delta * speedScale;
           asteroid.trail.push({ x: asteroid.x, y: asteroid.y, age: 0, alpha: 1 });
@@ -216,14 +223,14 @@ export default function HeroSection({ styles }) {
       window.removeEventListener("resize", resize);
       ctx.clearRect(0, 0, width, height);
     };
-  }, [enableHeroFx]);
+  }, [enableHeroFx, isMobileViewport]);
 
   return (
     <section id="hero" ref={heroRef} className={`${styles.hero} ${styles.heroCinematic}`} data-parallax="hero">
       <div className={styles.introBombReveal} aria-hidden="true" />
       <div className={styles.bg} data-layer="bg" data-hover-depth="6" />
       <div className={styles.stars} data-layer="stars" data-hover-depth="14" />
-      {enableHeroFx ? (
+      {enableHeroFx && !isMobileViewport ? (
         <Particles
           className={styles.particlesLayer}
           data-layer="particles"
