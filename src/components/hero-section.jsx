@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Particles } from "@/components/ui/particles";
 import { LinkPreview } from "@/components/ui/link-preview";
-import { ScrollFloat } from "@/components/ui/scroll-float";
 import { DECOR_APPEAR_DELAY_MS, telkomUniversityPreview } from "@/data/portfolio";
 
 const MOBILE_SINK_CONFIG = {
@@ -19,30 +18,24 @@ const MOBILE_SINK_CONFIG = {
   rippleForceLineRatio: 0.4,
 };
 
+const DESKTOP_SINK_CONFIG = {
+  activationOffsetVh: 0.15,
+  sinkDistanceVh: 0.5,
+  easingPower: 0.88,
+  forceAtScrollVh: 0.8,
+  rippleForceLineRatio: 0.6,
+};
+
 function MobileAwareScrollFloat({
-  isMobile,
   as: Tag = "span",
   containerClassName,
   textClassName,
   children,
-  ...floatProps
 }) {
-  if (isMobile) {
-    return (
-      <Tag className={containerClassName}>
-        <span className={textClassName}>{children}</span>
-      </Tag>
-    );
-  }
-
   return (
-    <ScrollFloat
-      as={Tag}
-      containerClassName={containerClassName}
-      textClassName={textClassName}
-      {...floatProps}>
-      {children}
-    </ScrollFloat>
+    <Tag className={containerClassName}>
+      <span className={textClassName}>{children}</span>
+    </Tag>
   );
 }
 
@@ -275,8 +268,9 @@ export default function HeroSection({ styles }) {
       return;
     }
 
-    if (!isMobileViewport || !enableHeroFx) {
+    if (!enableHeroFx) {
       sinkElement.style.removeProperty("--mobile-sink-progress");
+      sinkElement.style.removeProperty("--desktop-sink-progress");
       return;
     }
 
@@ -286,25 +280,30 @@ export default function HeroSection({ styles }) {
       rafId = 0;
       const rect = heroElement.getBoundingClientRect();
       const viewportHeight = Math.max(window.innerHeight, 1);
-      const activationOffset = viewportHeight * MOBILE_SINK_CONFIG.activationOffsetVh;
-      const sinkDistance = viewportHeight * MOBILE_SINK_CONFIG.sinkDistanceVh;
+      const activeConfig = isMobileViewport ? MOBILE_SINK_CONFIG : DESKTOP_SINK_CONFIG;
+      const progressVarName = isMobileViewport ? "--mobile-sink-progress" : "--desktop-sink-progress";
+      const resetVarName = isMobileViewport ? "--desktop-sink-progress" : "--mobile-sink-progress";
+      sinkElement.style.setProperty(resetVarName, "0");
+
+      const activationOffset = viewportHeight * activeConfig.activationOffsetVh;
+      const sinkDistance = viewportHeight * activeConfig.sinkDistanceVh;
       const rawProgress = ((-rect.top) - activationOffset) / sinkDistance;
       const progress = Math.max(0, Math.min(1, rawProgress));
-      const easedProgress = Math.pow(progress, MOBILE_SINK_CONFIG.easingPower);
+      const easedProgress = Math.pow(progress, activeConfig.easingPower);
 
-      const forceByScroll = -rect.top >= viewportHeight * MOBILE_SINK_CONFIG.forceAtScrollVh;
+      const forceByScroll = -rect.top >= viewportHeight * activeConfig.forceAtScrollVh;
 
       let forceByRippleZone = false;
       if (rippleElement) {
         const sinkRect = sinkElement.getBoundingClientRect();
         const rippleRect = rippleElement.getBoundingClientRect();
         const sinkCenterY = sinkRect.top + sinkRect.height * 0.5;
-        const rippleForceLine = rippleRect.top + rippleRect.height * MOBILE_SINK_CONFIG.rippleForceLineRatio;
+        const rippleForceLine = rippleRect.top + rippleRect.height * activeConfig.rippleForceLineRatio;
         forceByRippleZone = sinkCenterY >= rippleForceLine;
       }
 
       const finalProgress = forceByScroll || forceByRippleZone ? 1 : easedProgress;
-      sinkElement.style.setProperty("--mobile-sink-progress", finalProgress.toFixed(4));
+      sinkElement.style.setProperty(progressVarName, finalProgress.toFixed(4));
     };
 
     const requestUpdate = () => {
@@ -451,12 +450,7 @@ export default function HeroSection({ styles }) {
         <div className={styles.sinkTitle} data-sink-title="hero">
           <div ref={sinkMotionRef} className={styles.sinkLensContent}>
             <MobileAwareScrollFloat
-              isMobile={isMobileViewport}
               as="h1"
-              reverse={!isMobileViewport}
-              scrollStart="top top+=50%"
-              scrollEnd="bottom top+=0%"
-              stagger={0.022}
               containerClassName={`${styles.title} ${styles.titleNebula}`}
               textClassName={`${styles.floatInlineText} ${styles.titleStarfield}`}>
               Ammar Ridho
@@ -464,61 +458,25 @@ export default function HeroSection({ styles }) {
             <div className={styles.heroSubtitleWrap}>
               <p className={styles.heroSubtitleRow}>
                 <MobileAwareScrollFloat
-                  isMobile={isMobileViewport}
                   as="span"
-                  reverse={!isMobileViewport}
-                  scrollStart="top top+=52%"
-                  scrollEnd="bottom top+=20%"
-                  stagger={0.016}
-                  reverseToYPercent={-50}
-                  reverseToScaleY={1.14}
-                  reverseToScaleX={0.96}
-                  reverseToOpacity={0}
                   containerClassName={styles.heroSubtitleSeg}
                   textClassName={styles.heroSubtitleLine}>
                   I am an
                 </MobileAwareScrollFloat>
                 <MobileAwareScrollFloat
-                  isMobile={isMobileViewport}
                   as="span"
-                  reverse={!isMobileViewport}
-                  scrollStart="top top+=52%"
-                  scrollEnd="bottom top+=20%"
-                  stagger={0.016}
-                  reverseToYPercent={-50}
-                  reverseToScaleY={1.14}
-                  reverseToScaleX={0.96}
-                  reverseToOpacity={0}
                   containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
                   textClassName={styles.heroSubtitleLine}>
                   AI/ML Engineer
                 </MobileAwareScrollFloat>
                 <MobileAwareScrollFloat
-                  isMobile={isMobileViewport}
                   as="span"
-                  reverse={!isMobileViewport}
-                  scrollStart="top top+=52%"
-                  scrollEnd="bottom top+=20%"
-                  stagger={0.016}
-                  reverseToYPercent={-50}
-                  reverseToScaleY={1.14}
-                  reverseToScaleX={0.96}
-                  reverseToOpacity={0}
                   containerClassName={styles.heroSubtitleSeg}
                   textClassName={styles.heroSubtitleLine}>
                   and
                 </MobileAwareScrollFloat>
                 <MobileAwareScrollFloat
-                  isMobile={isMobileViewport}
                   as="span"
-                  reverse={!isMobileViewport}
-                  scrollStart="top top+=52%"
-                  scrollEnd="bottom top+=20%"
-                  stagger={0.016}
-                  reverseToYPercent={-50}
-                  reverseToScaleY={1.14}
-                  reverseToScaleX={0.96}
-                  reverseToOpacity={0}
                   containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
                   textClassName={styles.heroSubtitleLine}>
                   Web Developer.
@@ -527,16 +485,7 @@ export default function HeroSection({ styles }) {
 
               <p className={`${styles.heroSubtitleRow} ${styles.heroSubtitleMeta}`}>
                 <MobileAwareScrollFloat
-                  isMobile={isMobileViewport}
                   as="span"
-                  reverse={!isMobileViewport}
-                  scrollStart="top top+=52%"
-                  scrollEnd="bottom top+=20%"
-                  stagger={0.016}
-                  reverseToYPercent={-50}
-                  reverseToScaleY={1.14}
-                  reverseToScaleX={0.96}
-                  reverseToOpacity={0}
                   containerClassName={styles.heroSubtitleSeg}
                   textClassName={styles.heroSubtitleLine}>
                   Active undergraduate Data Science student at
@@ -554,16 +503,7 @@ export default function HeroSection({ styles }) {
                   className={`${styles.heroLink} ${styles.heroHighlightSoft}`}
                   cardClassName={styles.heroLinkCard}>
                   <MobileAwareScrollFloat
-                    isMobile={isMobileViewport}
                     as="span"
-                    reverse={!isMobileViewport}
-                    scrollStart="top top+=52%"
-                    scrollEnd="bottom top+=20%"
-                    stagger={0.016}
-                    reverseToYPercent={-50}
-                    reverseToScaleY={1.14}
-                    reverseToScaleX={0.96}
-                    reverseToOpacity={0}
                     containerClassName={`${styles.heroSubtitleSeg} ${styles.heroLinkFloat}`}
                     textClassName={styles.heroSubtitleLine}>
                     Telkom University.
