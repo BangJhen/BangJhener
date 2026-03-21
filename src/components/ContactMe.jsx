@@ -99,16 +99,16 @@ export default function ContactMe() {
         </div>
       </div>
 
-      <footer className="mt-8 md:mt-16">
+      <footer className="mt-6 md:mt-16">
         <div className="mx-auto w-full max-w-7xl px-4 md:px-[5%]">
-          <div className="rounded-lg border border-cyan-900/45 bg-[#061022]/75 px-3 py-2.5 backdrop-blur-sm md:rounded-2xl md:px-5 md:py-4">
-            <div className="flex flex-col items-center justify-between gap-1.5 text-center sm:flex-row sm:text-left md:gap-3">
-              <div>
-                <p className="text-[0.7rem] font-semibold text-cyan-100 md:text-sm">Ammar Ridho</p>
-                <p className="text-[0.65rem] text-slate-400 md:text-xs">AI/ML Engineer · Web Developer</p>
+          <div className="rounded-md border border-cyan-900/45 bg-[#061022]/75 px-2.5 py-2 backdrop-blur-sm md:rounded-2xl md:px-5 md:py-4">
+            <div className="flex items-center justify-between gap-2 text-left">
+              <div className="min-w-0 flex-1">
+                <p className="truncate whitespace-nowrap text-[0.58rem] font-semibold text-cyan-100 md:text-xs">Ammar Ridho</p>
+                <p className="truncate whitespace-nowrap text-[0.54rem] text-slate-300 md:text-[0.7rem]">AI/ML Engineer · Web Developer</p>
               </div>
-              <div className="flex items-center gap-2 text-slate-400">
-                <span className="text-[0.65rem] md:text-xs">© {new Date().getFullYear()}</span>
+              <div className="flex items-center gap-1.5 whitespace-nowrap text-slate-400">
+                <span className="text-[0.6rem] leading-none md:text-xs">© {new Date().getFullYear()}</span>
               </div>
             </div>
           </div>
