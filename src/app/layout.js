@@ -26,6 +26,10 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Ammar Ridho — Portfolio",
   description: "AI/ML Engineer and Web Developer portfolio",
+  icons: {
+    icon: "/space-circle.svg",
+    shortcut: "/space-circle.svg",
+  },
 };
 
 export default function RootLayout({ children }) {
