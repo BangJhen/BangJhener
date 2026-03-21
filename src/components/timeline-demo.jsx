@@ -18,10 +18,7 @@ function JourneyEvent({ month, title, detail, imageSrc, imageAlt, imageHeightCla
         cardClassName="w-full overflow-hidden rounded-[1.6rem] border-2 border-cyan-300/70 bg-[#020617] p-3 sm:rounded-[2.2rem] sm:p-5 shadow-[0_0_0_2px_rgba(34,211,238,0.25),0_24px_56px_rgba(8,47,73,0.45)]"
         innerClassName="h-full w-full">
         <div className="relative h-full w-full rounded-[1.2rem] border border-cyan-300/40 bg-[linear-gradient(180deg,#061225_0%,#091a34_100%)] p-3 sm:rounded-[1.8rem] sm:p-5">
-          <div className="pointer-events-none absolute left-4 top-3.5 h-1.5 w-1.5 rounded-full bg-cyan-200/90 shadow-[14px_0_0_rgba(103,232,249,0.7),28px_0_0_rgba(103,232,249,0.5)] sm:left-5 sm:top-4 sm:h-2 sm:w-2 sm:shadow-[18px_0_0_rgba(103,232,249,0.7),36px_0_0_rgba(103,232,249,0.5)]" />
-          <div className="pointer-events-none absolute right-4 top-3.5 h-5 w-5 rounded-full border border-cyan-300/60 sm:right-5 sm:top-4 sm:h-6 sm:w-6">
-            <div className="absolute -left-1 top-1/2 h-px w-8 -translate-y-1/2 bg-cyan-300/70" />
-          </div>
+           <div className="pointer-events-none absolute left-4 top-3.5 h-1.5 w-1.5 rounded-full bg-cyan-200/90 shadow-[14px_0_0_rgba(103,232,249,0.7),28px_0_0_rgba(103,232,249,0.5)] sm:left-5 sm:top-4 sm:h-2 sm:w-2 sm:shadow-[18px_0_0_rgba(103,232,249,0.7),36px_0_0_rgba(103,232,249,0.5)]" />
           <div className={`relative mt-5 w-full overflow-hidden rounded-[1rem] border border-cyan-300/45 bg-[#0b1120] sm:mt-6 sm:rounded-[1.2rem] ${imageHeightClass}`}>
             {imageSrc ? (
               <Image
