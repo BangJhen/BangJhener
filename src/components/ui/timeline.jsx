@@ -55,14 +55,14 @@ export const Timeline = ({
     <div className="w-full font-sans md:px-10">
       <motion.div
         ref={headerRef}
-        className="max-w-7xl mx-auto min-h-[92vh] py-20 px-4 md:px-8 lg:px-10 text-center flex flex-col items-center justify-center">
+        className="max-w-7xl mx-auto min-h-[78vh] py-14 px-4 md:min-h-[92vh] md:py-20 md:px-8 lg:px-10 text-center flex flex-col items-center justify-center">
         <ScrollFloat
           as="h2"
           scrollStart="top bottom+=40%"
           scrollEnd="bottom top+=20%"
           animationDuration={3.4}
           stagger={0.04}
-          containerClassName="text-5xl md:text-7xl mb-5 text-white font-bold tracking-tight"
+          containerClassName="text-3xl md:text-7xl mb-4 md:mb-5 text-white font-bold tracking-tight"
           textClassName="inline-block">
           {typeof title === "string" ? title : "My Journey"}
         </ScrollFloat>
@@ -73,7 +73,7 @@ export const Timeline = ({
             scrollEnd="bottom top+=20%"
             animationDuration={2.4}
             stagger={0.008}
-            containerClassName="mt-12 text-xs md:text-sm uppercase tracking-[0.2em] text-cyan-300/80"
+            containerClassName="mt-8 md:mt-12 text-[0.62rem] md:text-sm uppercase tracking-[0.16em] md:tracking-[0.2em] text-cyan-300/80"
             textClassName="inline-block">
             Scroll down to explore the journey
           </ScrollFloat>
@@ -81,7 +81,7 @@ export const Timeline = ({
       </motion.div>
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {data.map((item, index) => (
-          <div key={index} className="flex justify-start pt-10 md:pt-20 md:gap-10">
+          <div key={index} className="flex justify-start pt-7 md:pt-20 md:gap-10">
             <div
               className="flex flex-col md:flex-row z-40 items-center self-start max-w-xs lg:max-w-sm md:w-full">
               <div
@@ -103,9 +103,9 @@ export const Timeline = ({
               </h3>
             </div>
 
-            <div className="relative pl-20 pr-4 md:pl-4 w-full">
+            <div className="relative pl-14 pr-2 md:pl-4 md:pr-4 w-full">
               <h3
-                className="md:hidden block text-2xl mb-4 text-left font-bold text-cyan-200/80">
+                className="md:hidden block text-lg mb-3 text-left font-bold text-cyan-200/80">
                 {item.title}
               </h3>
               {item.content}{" "}
