@@ -75,7 +75,7 @@ export default function Navigation() {
   const userScale = 1 + userInfluence * 1.35;
 
   return (
-    <nav className="fixed left-3 top-1/2 z-50 hidden -translate-y-1/2 md:block" aria-label="Section ruler navigation">
+    <nav className="fixed left-3 top-1/2 z-50 hidden -translate-y-1/2 lg:block" aria-label="Section ruler navigation">
       <div
         className="relative h-[78vh] w-24"
         onMouseMove={(event) => {
