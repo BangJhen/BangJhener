@@ -6,6 +6,33 @@ import { LinkPreview } from "@/components/ui/link-preview";
 import { ScrollFloat } from "@/components/ui/scroll-float";
 import { DECOR_APPEAR_DELAY_MS, telkomUniversityPreview } from "@/data/portfolio";
 
+function MobileAwareScrollFloat({
+  isMobile,
+  as: Tag = "span",
+  containerClassName,
+  textClassName,
+  children,
+  ...floatProps
+}) {
+  if (isMobile) {
+    return (
+      <Tag className={containerClassName}>
+        <span className={textClassName}>{children}</span>
+      </Tag>
+    );
+  }
+
+  return (
+    <ScrollFloat
+      as={Tag}
+      containerClassName={containerClassName}
+      textClassName={textClassName}
+      {...floatProps}>
+      {children}
+    </ScrollFloat>
+  );
+}
+
 export default function HeroSection({ styles }) {
   const heroRef = useRef(null);
   const canvasRef = useRef(null);
@@ -348,21 +375,23 @@ export default function HeroSection({ styles }) {
       <div className={styles.content} data-layer="content">
         <div className={styles.sinkTitle} data-sink-title="hero">
           <div className={styles.sinkLensContent}>
-            <ScrollFloat
+            <MobileAwareScrollFloat
+              isMobile={isMobileViewport}
               as="h1"
-              reverse
+              reverse={!isMobileViewport}
               scrollStart="top top+=50%"
               scrollEnd="bottom top+=0%"
               stagger={0.022}
               containerClassName={`${styles.title} ${styles.titleNebula}`}
               textClassName={`${styles.floatInlineText} ${styles.titleStarfield}`}>
               Ammar Ridho
-            </ScrollFloat>
+            </MobileAwareScrollFloat>
             <div className={styles.heroSubtitleWrap}>
               <p className={styles.heroSubtitleRow}>
-                <ScrollFloat
+                <MobileAwareScrollFloat
+                  isMobile={isMobileViewport}
                   as="span"
-                  reverse
+                  reverse={!isMobileViewport}
                   scrollStart="top top+=52%"
                   scrollEnd="bottom top+=20%"
                   stagger={0.016}
@@ -373,10 +402,11 @@ export default function HeroSection({ styles }) {
                   containerClassName={styles.heroSubtitleSeg}
                   textClassName={styles.heroSubtitleLine}>
                   I am an
-                </ScrollFloat>
-                <ScrollFloat
+                </MobileAwareScrollFloat>
+                <MobileAwareScrollFloat
+                  isMobile={isMobileViewport}
                   as="span"
-                  reverse
+                  reverse={!isMobileViewport}
                   scrollStart="top top+=52%"
                   scrollEnd="bottom top+=20%"
                   stagger={0.016}
@@ -387,10 +417,11 @@ export default function HeroSection({ styles }) {
                   containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
                   textClassName={styles.heroSubtitleLine}>
                   AI/ML Engineer
-                </ScrollFloat>
-                <ScrollFloat
+                </MobileAwareScrollFloat>
+                <MobileAwareScrollFloat
+                  isMobile={isMobileViewport}
                   as="span"
-                  reverse
+                  reverse={!isMobileViewport}
                   scrollStart="top top+=52%"
                   scrollEnd="bottom top+=20%"
                   stagger={0.016}
@@ -401,10 +432,11 @@ export default function HeroSection({ styles }) {
                   containerClassName={styles.heroSubtitleSeg}
                   textClassName={styles.heroSubtitleLine}>
                   and
-                </ScrollFloat>
-                <ScrollFloat
+                </MobileAwareScrollFloat>
+                <MobileAwareScrollFloat
+                  isMobile={isMobileViewport}
                   as="span"
-                  reverse
+                  reverse={!isMobileViewport}
                   scrollStart="top top+=52%"
                   scrollEnd="bottom top+=20%"
                   stagger={0.016}
@@ -415,13 +447,14 @@ export default function HeroSection({ styles }) {
                   containerClassName={`${styles.heroSubtitleSeg} ${styles.heroHighlight}`}
                   textClassName={styles.heroSubtitleLine}>
                   Web Developer.
-                </ScrollFloat>
+                </MobileAwareScrollFloat>
               </p>
 
               <p className={`${styles.heroSubtitleRow} ${styles.heroSubtitleMeta}`}>
-                <ScrollFloat
+                <MobileAwareScrollFloat
+                  isMobile={isMobileViewport}
                   as="span"
-                  reverse
+                  reverse={!isMobileViewport}
                   scrollStart="top top+=52%"
                   scrollEnd="bottom top+=20%"
                   stagger={0.016}
@@ -432,7 +465,7 @@ export default function HeroSection({ styles }) {
                   containerClassName={styles.heroSubtitleSeg}
                   textClassName={styles.heroSubtitleLine}>
                   Active undergraduate Data Science student at
-                </ScrollFloat>
+                </MobileAwareScrollFloat>
 
                 <LinkPreview
                   url="https://smb.telkomuniversity.ac.id/program/s1-data-sains/"
@@ -445,9 +478,10 @@ export default function HeroSection({ styles }) {
                   previewOffsetY={0}
                   className={`${styles.heroLink} ${styles.heroHighlightSoft}`}
                   cardClassName={styles.heroLinkCard}>
-                  <ScrollFloat
+                  <MobileAwareScrollFloat
+                    isMobile={isMobileViewport}
                     as="span"
-                    reverse
+                    reverse={!isMobileViewport}
                     scrollStart="top top+=52%"
                     scrollEnd="bottom top+=20%"
                     stagger={0.016}
@@ -458,7 +492,7 @@ export default function HeroSection({ styles }) {
                     containerClassName={`${styles.heroSubtitleSeg} ${styles.heroLinkFloat}`}
                     textClassName={styles.heroSubtitleLine}>
                     Telkom University.
-                  </ScrollFloat>
+                  </MobileAwareScrollFloat>
                 </LinkPreview>
               </p>
             </div>

@@ -160,36 +160,17 @@ export default function Home() {
         },
       });
 
-      ScrollTrigger.create({
-        trigger: "[data-parallax='hero']",
-        start: "100% top",
-        onEnter: () => {
-          gsap
-            .timeline({ defaults: { overwrite: "auto" } })
-            .to("[data-sink-title='hero']", {
-              y: () => window.innerHeight * 0.24,
-              scale: 0.98,
-              autoAlpha: 1,
-              duration: 0.24,
-              ease: "power1.in",
-            })
-            .to("[data-sink-title='hero']", {
-              y: () => window.innerHeight * 1.75,
-              scale: 0.66,
-              autoAlpha: 0,
-              duration: 0.5,
-              ease: "power4.in",
-            });
-        },
-        onLeaveBack: () => {
-          gsap.to("[data-sink-title='hero']", {
-            y: 0,
-            autoAlpha: 1,
-            scale: 1,
-            duration: 0.4,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
+      gsap.to("[data-sink-title='hero']", {
+        yPercent: 124,
+        scaleX: 0.84,
+        scaleY: 0.76,
+        transformOrigin: "50% 100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: "[data-parallax='hero']",
+          start: "40% top",
+          end: "bottom top",
+          scrub: 1.05,
         },
       });
 
