@@ -6,6 +6,19 @@ import { LinkPreview } from "@/components/ui/link-preview";
 import { ScrollFloat } from "@/components/ui/scroll-float";
 import { DECOR_APPEAR_DELAY_MS, telkomUniversityPreview } from "@/data/portfolio";
 
+const MOBILE_SINK_CONFIG = {
+  // Naikkan nilai ini kalau sink mau aktif lebih lambat (contoh 0.22)
+  activationOffsetVh: 0.15,
+  // Naikkan nilai ini kalau sink mau lebih panjang/perlahan
+  sinkDistanceVh: 0.8,
+  // Lebih kecil dari 1 = lebih sensitif di awal, lebih besar dari 1 = lebih lambat di awal
+  easingPower: 1,
+  // Paksa sink penuh saat sudah scroll sedalam ini (dalam satuan tinggi viewport)
+  forceAtScrollVh: 0.8,
+  // Garis paksa sink di dalam area ripple (0 = atas ripple, 1 = bawah ripple)
+  rippleForceLineRatio: 0.4,
+};
+
 function MobileAwareScrollFloat({
   isMobile,
   as: Tag = "span",
@@ -36,6 +49,7 @@ function MobileAwareScrollFloat({
 export default function HeroSection({ styles }) {
   const heroRef = useRef(null);
   const canvasRef = useRef(null);
+  const sinkMotionRef = useRef(null);
   const [enableHeroFx, setEnableHeroFx] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
 
@@ -252,6 +266,67 @@ export default function HeroSection({ styles }) {
     };
   }, [enableHeroFx, isMobileViewport]);
 
+  useEffect(() => {
+    const heroElement = heroRef.current;
+    const sinkElement = sinkMotionRef.current;
+    const rippleElement = heroElement?.querySelector("[data-layer='ripple']");
+
+    if (!heroElement || !sinkElement) {
+      return;
+    }
+
+    if (!isMobileViewport || !enableHeroFx) {
+      sinkElement.style.removeProperty("--mobile-sink-progress");
+      return;
+    }
+
+    let rafId = 0;
+
+    const updateSinkProgress = () => {
+      rafId = 0;
+      const rect = heroElement.getBoundingClientRect();
+      const viewportHeight = Math.max(window.innerHeight, 1);
+      const activationOffset = viewportHeight * MOBILE_SINK_CONFIG.activationOffsetVh;
+      const sinkDistance = viewportHeight * MOBILE_SINK_CONFIG.sinkDistanceVh;
+      const rawProgress = ((-rect.top) - activationOffset) / sinkDistance;
+      const progress = Math.max(0, Math.min(1, rawProgress));
+      const easedProgress = Math.pow(progress, MOBILE_SINK_CONFIG.easingPower);
+
+      const forceByScroll = -rect.top >= viewportHeight * MOBILE_SINK_CONFIG.forceAtScrollVh;
+
+      let forceByRippleZone = false;
+      if (rippleElement) {
+        const sinkRect = sinkElement.getBoundingClientRect();
+        const rippleRect = rippleElement.getBoundingClientRect();
+        const sinkCenterY = sinkRect.top + sinkRect.height * 0.5;
+        const rippleForceLine = rippleRect.top + rippleRect.height * MOBILE_SINK_CONFIG.rippleForceLineRatio;
+        forceByRippleZone = sinkCenterY >= rippleForceLine;
+      }
+
+      const finalProgress = forceByScroll || forceByRippleZone ? 1 : easedProgress;
+      sinkElement.style.setProperty("--mobile-sink-progress", finalProgress.toFixed(4));
+    };
+
+    const requestUpdate = () => {
+      if (rafId) {
+        return;
+      }
+      rafId = window.requestAnimationFrame(updateSinkProgress);
+    };
+
+    requestUpdate();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
+  }, [enableHeroFx, isMobileViewport]);
+
   return (
     <section id="hero" ref={heroRef} className={`${styles.hero} ${styles.heroCinematic}`} data-parallax="hero">
       <div className={styles.introBombReveal} aria-hidden="true" />
@@ -374,7 +449,7 @@ export default function HeroSection({ styles }) {
 
       <div className={styles.content} data-layer="content">
         <div className={styles.sinkTitle} data-sink-title="hero">
-          <div className={styles.sinkLensContent}>
+          <div ref={sinkMotionRef} className={styles.sinkLensContent}>
             <MobileAwareScrollFloat
               isMobile={isMobileViewport}
               as="h1"

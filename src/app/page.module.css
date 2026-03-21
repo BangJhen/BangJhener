@@ -1514,7 +1514,25 @@
 
   .sinkTitle {
     margin-top: -4rem;
-    transform: translateY(18px) scale(0.96) rotateX(8deg) translateZ(0);
+  }
+
+  .sinkLensContent {
+    --mobile-sink-progress: 0;
+    transform:
+      translateY(calc(0px + (236px * var(--mobile-sink-progress))))
+      scaleX(calc(1 - (0.98 * var(--mobile-sink-progress))))
+      scaleY(calc(1 - (0.98 * var(--mobile-sink-progress))))
+      rotateX(calc(0deg + (34deg * var(--mobile-sink-progress))))
+      skewX(calc(-10deg * var(--mobile-sink-progress)))
+      translateZ(0);
+    opacity: calc(1 - (1 * var(--mobile-sink-progress)));
+    filter: blur(calc(10px * var(--mobile-sink-progress))) brightness(calc(1 - (0.7 * var(--mobile-sink-progress))));
+    transform-origin: 50% 100%;
+    will-change: transform, opacity, filter;
+    transition:
+      opacity 180ms linear,
+      filter 180ms linear,
+      transform 180ms linear;
   }
 
   .title {

@@ -160,19 +160,23 @@ export default function Home() {
         },
       });
 
-      gsap.to("[data-sink-title='hero']", {
-        yPercent: 124,
-        scaleX: 0.84,
-        scaleY: 0.76,
-        transformOrigin: "50% 100%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: "[data-parallax='hero']",
-          start: "40% top",
-          end: "bottom top",
-          scrub: 1.05,
-        },
-      });
+      const mobileSink = window.matchMedia("(max-width: 768px)").matches;
+      if (!mobileSink) {
+        gsap.to("[data-sink-title='hero']", {
+          yPercent: 124,
+          scaleX: 0.84,
+          scaleY: 0.76,
+          transformOrigin: "50% 100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: "[data-parallax='hero']",
+            start: "40% top",
+            end: "bottom top",
+            scrub: 1.05,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
 
       if (!heroElement || hoverTargets.length === 0 || !window.matchMedia("(pointer: fine)").matches) {
         return;
