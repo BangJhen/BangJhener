@@ -40,7 +40,7 @@ export default function TechIconCloud() {
         return;
       }
 
-      setCloudSize(360);
+      setCloudSize(400);
     };
 
     updateSize();
