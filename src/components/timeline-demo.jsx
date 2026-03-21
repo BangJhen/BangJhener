@@ -14,6 +14,7 @@ function JourneyEvent({ month, title, detail, imageSrc, imageAlt, imageHeightCla
       <p className="mt-1.5 text-xs leading-5 text-slate-400 sm:mt-2 sm:text-sm sm:leading-6">{detail}</p>
       <ContainerScroll
         compact
+        mobileBreakpoint={1024}
         className="mt-8 max-w-[18rem] sm:mt-12 sm:max-w-[34rem] lg:max-w-[44rem]"
         cardClassName="w-full overflow-hidden rounded-[1.6rem] border-2 border-cyan-300/70 bg-[#020617] p-3 sm:rounded-[2.2rem] sm:p-5 shadow-[0_0_0_2px_rgba(34,211,238,0.25),0_24px_56px_rgba(8,47,73,0.45)]"
         innerClassName="h-full w-full">

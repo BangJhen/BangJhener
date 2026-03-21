@@ -52,17 +52,17 @@ export const Timeline = ({
   });
 
   return (
-    <div className="w-full font-sans md:px-10">
+    <div className="w-full font-sans lg:px-10">
       <motion.div
         ref={headerRef}
-        className="max-w-7xl mx-auto min-h-[78vh] py-14 px-4 md:min-h-[92vh] md:py-20 md:px-8 lg:px-10 text-center flex flex-col items-center justify-center">
+        className="max-w-7xl mx-auto min-h-[78vh] py-14 px-4 lg:min-h-[92vh] lg:py-20 lg:px-8 xl:px-10 text-center flex flex-col items-center justify-center">
         <ScrollFloat
           as="h2"
           scrollStart="top bottom+=40%"
           scrollEnd="bottom top+=20%"
           animationDuration={3.4}
           stagger={0.04}
-          containerClassName="text-3xl md:text-7xl mb-4 md:mb-5 text-white font-bold tracking-tight"
+          containerClassName="text-3xl lg:text-7xl mb-4 lg:mb-5 text-white font-bold tracking-tight"
           textClassName="inline-block">
           {typeof title === "string" ? title : "My Journey"}
         </ScrollFloat>
@@ -73,7 +73,7 @@ export const Timeline = ({
             scrollEnd="bottom top+=20%"
             animationDuration={2.4}
             stagger={0.008}
-            containerClassName="mt-8 md:mt-12 text-[0.62rem] md:text-sm uppercase tracking-[0.16em] md:tracking-[0.2em] text-cyan-300/80"
+            containerClassName="mt-8 lg:mt-12 text-[0.62rem] lg:text-sm uppercase tracking-[0.16em] lg:tracking-[0.2em] text-cyan-300/80"
             textClassName="inline-block">
             Scroll down to explore the journey
           </ScrollFloat>
@@ -81,11 +81,11 @@ export const Timeline = ({
       </motion.div>
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {data.map((item, index) => (
-          <div key={index} className="flex justify-start pt-7 md:pt-20 md:gap-10">
+          <div key={index} className="flex justify-start pt-7 lg:pt-20 lg:gap-10">
             <div
-              className="flex flex-col md:flex-row z-40 items-center self-start max-w-xs lg:max-w-sm md:w-full">
+              className="flex flex-col lg:flex-row z-40 items-center self-start max-w-xs xl:max-w-sm lg:w-full">
               <div
-                className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-transparent flex items-center justify-center">
+                className="h-10 absolute left-3 lg:left-3 w-10 rounded-full bg-transparent flex items-center justify-center">
                 <div
                   ref={(element) => {
                     markerRefs.current[index] = element;
@@ -98,14 +98,14 @@ export const Timeline = ({
                 />
               </div>
               <h3
-                className="hidden md:block text-xl md:pl-20 md:text-4xl font-bold text-cyan-200/80">
+                className="hidden lg:block text-xl lg:pl-20 lg:text-4xl font-bold text-cyan-200/80">
                 {item.title}
               </h3>
             </div>
 
-            <div className="relative pl-14 pr-2 md:pl-4 md:pr-4 w-full">
+            <div className="relative pl-14 pr-2 lg:pl-4 lg:pr-4 w-full">
               <h3
-                className="md:hidden block text-lg mb-3 text-left font-bold text-cyan-200/80">
+                className="lg:hidden block text-lg mb-3 text-left font-bold text-cyan-200/80">
                 {item.title}
               </h3>
               {item.content}{" "}
@@ -116,7 +116,7 @@ export const Timeline = ({
           style={{
             height: height + "px",
           }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-slate-700 to-transparent to-[99%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]">
+          className="absolute lg:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-slate-700 to-transparent to-[99%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]">
           <motion.div
             style={{
               height: heightTransform,

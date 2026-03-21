@@ -9,6 +9,7 @@ export const ContainerScroll = ({
   className = "",
   cardClassName = "",
   innerClassName = "",
+  mobileBreakpoint = 768,
 }) => {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -18,14 +19,14 @@ export const ContainerScroll = ({
 
   React.useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= mobileBreakpoint);
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => {
       window.removeEventListener("resize", checkMobile);
     };
-  }, []);
+  }, [mobileBreakpoint]);
 
   const scaleDimensions = () => {
     if (compact) {
