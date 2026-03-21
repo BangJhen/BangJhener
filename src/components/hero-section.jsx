@@ -15,7 +15,7 @@ const MOBILE_SINK_CONFIG = {
   // Paksa sink penuh saat sudah scroll sedalam ini (dalam satuan tinggi viewport)
   forceAtScrollVh: 0.8,
   // Garis paksa sink di dalam area ripple (0 = atas ripple, 1 = bawah ripple)
-  rippleForceLineRatio: 0.4,
+  rippleForceLineRatio: 0.55,
 };
 
 const DESKTOP_SINK_CONFIG = {
