@@ -1,7 +1,7 @@
 export default function sitemap() {
   return [
     {
-      url: 'https://bangjhener.vercel.app', // URL utama portofoliomu
+      url: 'https://ammarridho.dev/', // URL utama portofoliomu
       lastModified: new Date(),
       changeFrequency: 'monthly', // Beri tahu Google seberapa sering kamu update
       priority: 1, // Prioritas tertinggi karena ini halaman utama
