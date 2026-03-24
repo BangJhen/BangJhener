@@ -6,6 +6,13 @@ import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 const MODEL_URL = "/models/earth.mr.draco.webp.glb";
+const EARTH_CONFIG = {
+  position: [0, -0.8, 0],
+  scale: 0.009,
+  camera: { position: [0, 0.25, 3], fov: 34 },
+  rotationSpeed: { default: 0.16, reduced: 0.08 },
+  pointerTilt: 0.2,
+};
 
 function EarthModel({ reducedMotion }) {
   const groupRef = useRef(null);
@@ -33,18 +40,18 @@ function EarthModel({ reducedMotion }) {
     const group = groupRef.current;
     if (!group) return;
 
-    group.rotation.y += delta * (reducedMotion ? 0.08 : 0.16);
+    group.rotation.y += delta * (reducedMotion ? EARTH_CONFIG.rotationSpeed.reduced : EARTH_CONFIG.rotationSpeed.default);
 
-    const targetX = reducedMotion ? 0 : pointerRef.current.y * 0.18;
-    const targetZ = reducedMotion ? 0 : -pointerRef.current.x * 0.18;
+    const targetX = reducedMotion ? 0 : pointerRef.current.y * EARTH_CONFIG.pointerTilt;
+    const targetZ = reducedMotion ? 0 : -pointerRef.current.x * EARTH_CONFIG.pointerTilt;
 
     group.rotation.x = THREE.MathUtils.damp(group.rotation.x, targetX, 6, delta);
     group.rotation.z = THREE.MathUtils.damp(group.rotation.z, targetZ, 6, delta);
   });
 
   return (
-    <group ref={groupRef} position={[0, -0.35, 0]}>
-      <primitive object={clonedScene} scale={0.015} />
+    <group ref={groupRef} position={EARTH_CONFIG.position}>
+      <primitive object={clonedScene} scale={EARTH_CONFIG.scale} />
     </group>
   );
 }
@@ -53,7 +60,7 @@ function EarthScene({ reducedMotion }) {
   return (
     <Canvas
       dpr={[1, 1.8]}
-      camera={{ position: [0, 0.25, 3], fov: 34 }}
+      camera={EARTH_CONFIG.camera}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
       <ambientLight intensity={0.75} />
       <directionalLight position={[3, 2, 3]} intensity={1.2} color="#d9f4ff" />
