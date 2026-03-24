@@ -1,0 +1,149 @@
+"use client";
+
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
+
+const MODEL_URL = "/models/earth.mr.draco.webp.glb";
+
+function EarthModel({ reducedMotion }) {
+  const groupRef = useRef(null);
+  const pointerRef = useRef({ x: 0, y: 0 });
+  const { scene } = useGLTF(MODEL_URL);
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      pointerRef.current = { x: 0, y: 0 };
+      return;
+    }
+
+    const handlePointerMove = (event) => {
+      const nx = event.clientX / window.innerWidth - 0.5;
+      const ny = event.clientY / window.innerHeight - 0.5;
+      pointerRef.current = { x: nx, y: ny };
+    };
+
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    return () => window.removeEventListener("pointermove", handlePointerMove);
+  }, [reducedMotion]);
+
+  useFrame((_, delta) => {
+    const group = groupRef.current;
+    if (!group) return;
+
+    group.rotation.y += delta * (reducedMotion ? 0.08 : 0.16);
+
+    const targetX = reducedMotion ? 0 : pointerRef.current.y * 0.18;
+    const targetZ = reducedMotion ? 0 : -pointerRef.current.x * 0.18;
+
+    group.rotation.x = THREE.MathUtils.damp(group.rotation.x, targetX, 6, delta);
+    group.rotation.z = THREE.MathUtils.damp(group.rotation.z, targetZ, 6, delta);
+  });
+
+  return (
+    <group ref={groupRef} position={[0, -0.35, 0]}>
+      <primitive object={clonedScene} scale={0.015} />
+    </group>
+  );
+}
+
+function EarthScene({ reducedMotion }) {
+  return (
+    <Canvas
+      dpr={[1, 1.8]}
+      camera={{ position: [0, 0.25, 3], fov: 34 }}
+      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
+      <ambientLight intensity={0.75} />
+      <directionalLight position={[3, 2, 3]} intensity={1.2} color="#d9f4ff" />
+      <directionalLight position={[-2, -1, -2]} intensity={0.35} color="#88b3ff" />
+      <Suspense fallback={null}>
+        <EarthModel reducedMotion={reducedMotion} />
+      </Suspense>
+    </Canvas>
+  );
+}
+
+export default function EarthHero() {
+  const sectionRef = useRef(null);
+  const [shouldRenderScene, setShouldRenderScene] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [sinkProgress, setSinkProgress] = useState(0);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReducedMotion(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldRenderScene(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "240px" }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const updateProgress = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      const vh = Math.max(window.innerHeight, 1);
+      const start = vh * 0.08;
+      const travel = vh * 0.65;
+      const raw = ((-rect.top) - start) / travel;
+      const clamped = Math.min(Math.max(raw, 0), 1);
+      setSinkProgress(clamped);
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    return () => {
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, []);
+
+  return (
+    <section id="hero" ref={sectionRef} className="relative isolate min-h-screen overflow-hidden bg-[#040711] text-white" aria-label="Hero">
+      <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-[#040711]/90" aria-hidden="true" />
+
+      <div className="absolute inset-0" aria-hidden="true">
+        {shouldRenderScene ? <EarthScene reducedMotion={reducedMotion} /> : <div className="h-full w-full bg-[radial-gradient(circle_at_50%_45%,rgba(56,189,248,0.2),rgba(4,7,17,0.95)_56%)]" />}
+      </div>
+
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-6xl px-6 pb-16 text-center lg:pb-20"
+        style={{
+          transform: `translateY(${sinkProgress * 120}px) scale(${1 - sinkProgress * 0.08})`,
+          opacity: 1 - sinkProgress * 0.9,
+          filter: `blur(${sinkProgress * 3}px)`,
+        }}>
+        <h1 className="text-3xl font-bold tracking-tight text-cyan-100 drop-shadow-[0_0_16px_rgba(34,211,238,0.5)] lg:text-6xl">Ammar Ridho</h1>
+        <p className="mx-auto mt-3 max-w-3xl text-sm text-slate-200/90 lg:text-lg">
+          I am an <span className="font-semibold text-cyan-200">AI/ML Engineer</span> and <span className="font-semibold text-cyan-200">Web Developer.</span>
+        </p>
+        <p className="mx-auto mt-1 max-w-3xl text-xs text-slate-300/90 lg:text-base">Active undergraduate Data Science student at Telkom University.</p>
+      </div>
+    </section>
+  );
+}
+
+useGLTF.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+useGLTF.preload(MODEL_URL);

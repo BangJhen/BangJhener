@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 
 import Navigation from "@/components/Navigation";
-import SplineHero from "@/components/SplineHero";
+import EarthHero from "@/components/EarthHero";
 import AboutMe from "@/components/AboutMe";
 import Project from "@/components/Project";
 import ContactMe from "@/components/ContactMe";
@@ -71,7 +71,7 @@ export default function Home() {
   return (
     <main className={`${styles.page} bg-[#0f172a] min-h-screen text-white selection:bg-cyan-500/30 font-sans`}>
       <Navigation />
-      <SplineHero />
+      <EarthHero />
       <AboutMe />
       <Project />
       <ContactMe />
