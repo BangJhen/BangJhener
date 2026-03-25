@@ -215,17 +215,15 @@ export default function EarthHero() {
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-64 z-10 mx-auto w-full max-w-6xl px-6 text-center lg:bottom-[1200px]"
+        className="pointer-events-none absolute inset-x-0 bottom-[12vh] z-10 mx-auto w-full max-w-5xl px-6 text-center lg:bottom-[150vh]"
         style={{
           transform: `translateY(${sinkProgress * BASE_CONFIG.sink.travelY}px) scale(${1 - sinkProgress * (1 - BASE_CONFIG.sink.scaleMin)})`,
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
           filter: `blur(${sinkProgress * BASE_CONFIG.sink.blurMax}px)`,
         }}>
-        <h1 className="text-4xl font-bold tracking-tight text-cyan-100 drop-shadow-[0_0_16px_rgba(34,211,238,0.5)] lg:text-7xl">Ammar Ridho</h1>
-        <p className="mx-auto mt-3 max-w-3xl text-base text-slate-200/90 lg:text-xl">
-          I am an <span className="font-semibold text-cyan-200">AI/ML Engineer</span> and <span className="font-semibold text-cyan-200">Web Developer.</span>
-        </p>
-        <p className="mx-auto mt-1 max-w-3xl text-sm text-slate-300/90 lg:text-lg">Active undergraduate Data Science student at Telkom University.</p>
+        <h1 className="text-[clamp(2.75rem,5vw,4.5rem)] font-bold tracking-tight text-cyan-100 drop-shadow-[0_0_16px_rgba(34,211,238,0.5)] lg:text-[clamp(4rem,5.5vw,5.5rem)]">
+          Ammar Ridho
+        </h1>
       </div>
     </section>
   );
