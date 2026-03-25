@@ -20,8 +20,8 @@ const BASE_CONFIG = {
 function getViewportConfig(isDesktop) {
   if (isDesktop) {
     return {
-      position: [0, -0.6, 0],
-      scale: 0.014,
+      position: [0, -1, 0],
+      scale: 0.022,
       camera: { position: [0, 0.2, 9], fov: 34 },
     };
   }
@@ -174,7 +174,7 @@ export default function EarthHero() {
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-64 z-10 mx-auto w-full max-w-6xl px-6 text-center lg:bottom-[1500px]"
+        className="pointer-events-none absolute inset-x-0 bottom-64 z-10 mx-auto w-full max-w-6xl px-6 text-center lg:bottom-[1200px]"
         style={{
           transform: `translateY(${sinkProgress * BASE_CONFIG.sink.travelY}px) scale(${1 - sinkProgress * (1 - BASE_CONFIG.sink.scaleMin)})`,
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
