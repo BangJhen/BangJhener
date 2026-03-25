@@ -7,11 +7,17 @@ import * as THREE from "three";
 
 const MODEL_URL = "/models/earth.mr.draco.webp.glb";
 const EARTH_CONFIG = {
-  position: [0, -0.8, 0],
-  scale: 0.009,
-  camera: { position: [0, 0.25, 3], fov: 34 },
+  position: [0, -.2, 0],
+  scale: 0.014,
+  camera: { position: [0, 0.2, 9], fov: 34 },
   rotationSpeed: { default: 0.16, reduced: 0.08 },
   pointerTilt: 0.2,
+  sink: {
+    travelY: 180,
+    scaleMin: 0.9,
+    blurMax: 4,
+    opacityMin: 0.06,
+  },
 };
 
 function EarthModel({ reducedMotion }) {
@@ -112,7 +118,7 @@ export default function EarthHero() {
       const rect = section.getBoundingClientRect();
       const vh = Math.max(window.innerHeight, 1);
       const start = vh * 0.08;
-      const travel = vh * 0.65;
+      const travel = vh * 1.35;
       const raw = ((-rect.top) - start) / travel;
       const clamped = Math.min(Math.max(raw, 0), 1);
       setSinkProgress(clamped);
@@ -128,19 +134,23 @@ export default function EarthHero() {
   }, []);
 
   return (
-    <section id="hero" ref={sectionRef} className="relative isolate min-h-screen overflow-hidden bg-[#040711] text-white" aria-label="Hero">
-      <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-[#040711]/90" aria-hidden="true" />
+    <section id="hero" ref={sectionRef} className="relative isolate min-h-[220vh] overflow-visible bg-[#040711] text-white lg:min-h-[240vh]" aria-label="Hero">
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-[#040711]/90" aria-hidden="true" />
 
-      <div className="absolute inset-0" aria-hidden="true">
-        {shouldRenderScene ? <EarthScene reducedMotion={reducedMotion} /> : <div className="h-full w-full bg-[radial-gradient(circle_at_50%_45%,rgba(56,189,248,0.2),rgba(4,7,17,0.95)_56%)]" />}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[200vh] overflow-visible lg:h-[220vh]" aria-hidden="true">
+        {shouldRenderScene ? (
+          <EarthScene reducedMotion={reducedMotion} />
+        ) : (
+          <div className="h-full w-full bg-[radial-gradient(circle_at_50%_45%,rgba(56,189,248,0.2),rgba(4,7,17,0.95)_56%)]" />
+        )}
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-6xl px-6 pb-16 text-center lg:pb-20"
+        className="pointer-events-none absolute inset-x-0 bottom-96 z-10 mx-auto w-full max-w-6xl px-6 text-center lg:bottom-420"
         style={{
-          transform: `translateY(${sinkProgress * 120}px) scale(${1 - sinkProgress * 0.08})`,
-          opacity: 1 - sinkProgress * 0.9,
-          filter: `blur(${sinkProgress * 3}px)`,
+          transform: `translateY(${sinkProgress * EARTH_CONFIG.sink.travelY}px) scale(${1 - sinkProgress * (1 - EARTH_CONFIG.sink.scaleMin)})`,
+          opacity: 1 - sinkProgress * (1 - EARTH_CONFIG.sink.opacityMin),
+          filter: `blur(${sinkProgress * EARTH_CONFIG.sink.blurMax}px)`,
         }}>
         <h1 className="text-3xl font-bold tracking-tight text-cyan-100 drop-shadow-[0_0_16px_rgba(34,211,238,0.5)] lg:text-6xl">Ammar Ridho</h1>
         <p className="mx-auto mt-3 max-w-3xl text-sm text-slate-200/90 lg:text-lg">
