@@ -10,10 +10,10 @@ const BASE_CONFIG = {
   rotationSpeed: { default: 0.16, reduced: 0.08 },
   pointerTilt: 0.2,
   sink: {
-    travelY: 40,
+    travelY: 800,
     scaleMin: 0.9,
-    blurMax: 2,
-    opacityMin: 0.12,
+    blurMax: 0,
+    opacityMin: 0.9,
   },
 };
 
@@ -157,10 +157,10 @@ export default function EarthHero() {
   const viewportConfig = getViewportConfig(isDesktop);
 
   return (
-    <section id="hero" ref={sectionRef} className="relative isolate min-h-[220vh] overflow-visible bg-[#040711] text-white lg:min-h-[240vh]" aria-label="Hero">
+    <section id="hero" ref={sectionRef} className="relative isolate min-h-[180vh] overflow-visible bg-[#040711] text-white lg:min-h-[200vh]" aria-label="Hero">
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-[#040711]/90" aria-hidden="true" />
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[200vh] overflow-visible lg:h-[220vh]" aria-hidden="true">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[180vh] overflow-visible lg:h-[200vh]" aria-hidden="true">
         {shouldRenderScene ? (
           <EarthScene
             reducedMotion={reducedMotion}
@@ -174,7 +174,7 @@ export default function EarthHero() {
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-64 z-10 mx-auto w-full max-w-6xl px-6 text-center lg:bottom-[1600px]"
+        className="pointer-events-none absolute inset-x-0 bottom-64 z-10 mx-auto w-full max-w-6xl px-6 text-center lg:bottom-[1500px]"
         style={{
           transform: `translateY(${sinkProgress * BASE_CONFIG.sink.travelY}px) scale(${1 - sinkProgress * (1 - BASE_CONFIG.sink.scaleMin)})`,
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
