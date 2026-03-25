@@ -21,8 +21,8 @@ const BASE_CONFIG = {
 function getViewportConfig(isDesktop) {
   if (isDesktop) {
     return {
-      position: [0, -1, 0],
-      scale: 0.022,
+      position: [0, -0.8, 0],
+      scale: 0.018,
       camera: { position: [0, 0.2, 9], fov: 34 },
     };
   }
@@ -33,27 +33,10 @@ function getViewportConfig(isDesktop) {
   };
 }
 
-function EarthModel({ reducedMotion, position, scale }) {
+function EarthModel({ reducedMotion, position, scale, pointer }) {
   const groupRef = useRef(null);
-  const pointerRef = useRef({ x: 0, y: 0 });
   const { scene } = useGLTF(MODEL_URL);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
-
-  useEffect(() => {
-    if (reducedMotion) {
-      pointerRef.current = { x: 0, y: 0 };
-      return;
-    }
-
-    const handlePointerMove = (event) => {
-      const nx = event.clientX / window.innerWidth - 0.5;
-      const ny = event.clientY / window.innerHeight - 0.5;
-      pointerRef.current = { x: nx, y: ny };
-    };
-
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    return () => window.removeEventListener("pointermove", handlePointerMove);
-  }, [reducedMotion]);
 
   useFrame((_, delta) => {
     const group = groupRef.current;
@@ -61,8 +44,10 @@ function EarthModel({ reducedMotion, position, scale }) {
 
     group.rotation.y += delta * (reducedMotion ? BASE_CONFIG.rotationSpeed.reduced : BASE_CONFIG.rotationSpeed.default);
 
-    const targetX = reducedMotion ? 0 : pointerRef.current.y * BASE_CONFIG.pointerTilt;
-    const targetZ = reducedMotion ? 0 : -pointerRef.current.x * BASE_CONFIG.pointerTilt;
+    const px = reducedMotion ? 0 : pointer?.current?.x || 0;
+    const py = reducedMotion ? 0 : pointer?.current?.y || 0;
+    const targetX = py * BASE_CONFIG.pointerTilt;
+    const targetZ = -px * BASE_CONFIG.pointerTilt;
 
     group.rotation.x = THREE.MathUtils.damp(group.rotation.x, targetX, 6, delta);
     group.rotation.z = THREE.MathUtils.damp(group.rotation.z, targetZ, 6, delta);
@@ -75,26 +60,33 @@ function EarthModel({ reducedMotion, position, scale }) {
   );
 }
 
-function SpaceBackground({ reducedMotion }) {
+function SpaceBackground({ reducedMotion, pointer }) {
   const groupRef = useRef(null);
   const { scene } = useGLTF(SPACE_MODEL_URL);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   useFrame((_, delta) => {
     if (!groupRef.current || reducedMotion) return;
-    const t = performance.now() * 0.0001;
-    const targetX = Math.sin(t) * 0.1; // gentle tilt forward/back
-    groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 4, delta);
+    const t = performance.now() * 0.0004;
+    // const targetX =  // gentle tilt forward/back
+    // groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 4, delta);
+    
+    const px = pointer?.current?.x || 0;
+    const py = pointer?.current?.y || 0;
+    const targetX = py * 0.08 * Math.sin(t) * 0.5;;
+    const targetZ = -px * 0.08;
+    groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 3, delta);
+    groupRef.current.rotation.z = THREE.MathUtils.damp(groupRef.current.rotation.z, targetZ, 3, delta);
   });
 
   return (
-    <group ref={groupRef} position={[-4, -4, 6]}>
+    <group ref={groupRef} position={[-4, -4, 8]}>
       <primitive object={clonedScene} scale={3} />
     </group>
   );
 }
 
-function EarthScene({ reducedMotion, camera, position, scale }) {
+function EarthScene({ reducedMotion, camera, position, scale, pointer }) {
   return (
     <Canvas
       dpr={[1, 1.8]}
@@ -104,7 +96,7 @@ function EarthScene({ reducedMotion, camera, position, scale }) {
       <directionalLight position={[3, 2, 3]} intensity={1.2} color="#d9f4ff" />
       <directionalLight position={[-2, -1, -2]} intensity={0.35} color="#88b3ff" />
       <Suspense fallback={null}>
-        <EarthModel reducedMotion={reducedMotion} position={position} scale={scale} />
+        <EarthModel reducedMotion={reducedMotion} position={position} scale={scale} pointer={pointer} />
       </Suspense>
     </Canvas>
   );
@@ -112,6 +104,7 @@ function EarthScene({ reducedMotion, camera, position, scale }) {
 
 export default function EarthHero() {
   const sectionRef = useRef(null);
+  const pointerRef = useRef({ x: 0, y: 0 });
   const [shouldRenderScene, setShouldRenderScene] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [sinkProgress, setSinkProgress] = useState(0);
@@ -174,6 +167,19 @@ export default function EarthHero() {
     };
   }, []);
 
+  useEffect(() => {
+    if (reducedMotion) return;
+
+    const handlePointer = (e) => {
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      pointerRef.current = { x, y };
+    };
+
+    window.addEventListener("pointermove", handlePointer, { passive: true });
+    return () => window.removeEventListener("pointermove", handlePointer);
+  }, [reducedMotion]);
+
   const viewportConfig = getViewportConfig(isDesktop);
 
   return (
@@ -186,7 +192,7 @@ export default function EarthHero() {
             <ambientLight intensity={0.3} />
             <directionalLight position={[2, 1, 3]} intensity={0.5} color="#9ccfff" />
             <Suspense fallback={null}>
-              <SpaceBackground reducedMotion={reducedMotion} />
+              <SpaceBackground reducedMotion={reducedMotion} pointer={pointerRef} />
             </Suspense>
           </Canvas>
         ) : (
@@ -201,6 +207,7 @@ export default function EarthHero() {
             camera={viewportConfig.camera}
             position={viewportConfig.position}
             scale={viewportConfig.scale}
+            pointer={pointerRef}
           />
         ) : (
           <div className="h-full w-full bg-[radial-gradient(circle_at_50%_45%,rgba(56,189,248,0.2),rgba(4,7,17,0.95)_56%)]" />
