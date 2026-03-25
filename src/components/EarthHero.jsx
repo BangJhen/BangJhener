@@ -221,11 +221,11 @@ export default function EarthHero() {
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
           filter: `blur(${sinkProgress * BASE_CONFIG.sink.blurMax}px)`,
         }}>
-        <h1 className="text-3xl font-bold tracking-tight text-cyan-100 drop-shadow-[0_0_16px_rgba(34,211,238,0.5)] lg:text-6xl">Ammar Ridho</h1>
-        <p className="mx-auto mt-3 max-w-3xl text-sm text-slate-200/90 lg:text-lg">
+        <h1 className="text-4xl font-bold tracking-tight text-cyan-100 drop-shadow-[0_0_16px_rgba(34,211,238,0.5)] lg:text-7xl">Ammar Ridho</h1>
+        <p className="mx-auto mt-3 max-w-3xl text-base text-slate-200/90 lg:text-xl">
           I am an <span className="font-semibold text-cyan-200">AI/ML Engineer</span> and <span className="font-semibold text-cyan-200">Web Developer.</span>
         </p>
-        <p className="mx-auto mt-1 max-w-3xl text-xs text-slate-300/90 lg:text-base">Active undergraduate Data Science student at Telkom University.</p>
+        <p className="mx-auto mt-1 max-w-3xl text-sm text-slate-300/90 lg:text-lg">Active undergraduate Data Science student at Telkom University.</p>
       </div>
     </section>
   );
