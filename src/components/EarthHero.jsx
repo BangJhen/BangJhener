@@ -6,6 +6,7 @@ import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 const MODEL_URL = "/models/earth.mr.draco.webp.glb";
+const SPACE_MODEL_URL = "/models/need_some_space.glb";
 const BASE_CONFIG = {
   rotationSpeed: { default: 0.16, reduced: 0.08 },
   pointerTilt: 0.2,
@@ -70,6 +71,25 @@ function EarthModel({ reducedMotion, position, scale }) {
   return (
     <group ref={groupRef} position={position}>
       <primitive object={clonedScene} scale={scale} />
+    </group>
+  );
+}
+
+function SpaceBackground({ reducedMotion }) {
+  const groupRef = useRef(null);
+  const { scene } = useGLTF(SPACE_MODEL_URL);
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useFrame((_, delta) => {
+    if (!groupRef.current || reducedMotion) return;
+    const t = performance.now() * 0.0001;
+    const targetX = Math.sin(t) * 0.1; // gentle tilt forward/back
+    groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 4, delta);
+  });
+
+  return (
+    <group ref={groupRef} position={[-4, -4, 6]}>
+      <primitive object={clonedScene} scale={3} />
     </group>
   );
 }
@@ -160,6 +180,20 @@ export default function EarthHero() {
     <section id="hero" ref={sectionRef} className="relative isolate min-h-[180vh] overflow-visible bg-[#040711] text-white lg:min-h-[200vh]" aria-label="Hero">
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-[#040711]/90" aria-hidden="true" />
 
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-5 h-full overflow-visible" aria-hidden="true">
+        {shouldRenderScene ? (
+          <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 10], fov: 35 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
+            <ambientLight intensity={0.3} />
+            <directionalLight position={[2, 1, 3]} intensity={0.5} color="#9ccfff" />
+            <Suspense fallback={null}>
+              <SpaceBackground reducedMotion={reducedMotion} />
+            </Suspense>
+          </Canvas>
+        ) : (
+          <div className="h-full w-full bg-[#040711]" />
+        )}
+      </div>
+
       <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[180vh] overflow-visible lg:h-[200vh]" aria-hidden="true">
         {shouldRenderScene ? (
           <EarthScene
@@ -192,3 +226,4 @@ export default function EarthHero() {
 
 useGLTF.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
 useGLTF.preload(MODEL_URL);
+useGLTF.preload(SPACE_MODEL_URL);
