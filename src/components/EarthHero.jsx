@@ -248,9 +248,18 @@ export default function EarthHero() {
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
           filter: `blur(${sinkProgress * BASE_CONFIG.sink.blurMax}px)`,
         }}>
-        <h1 className="text-[clamp(2.75rem,5vw,4.5rem)] font-bold tracking-tight text-cyan-100 drop-shadow-[0_0_16px_rgba(34,211,238,0.5)] lg:text-[clamp(4rem,5.5vw,5.5rem)]">
+        <p className="text-[0.9rem] uppercase tracking-[0.32em] text-sky-100/70 lg:text-base">Celestial Engineer</p>
+        <h1 className="mt-3 bg-gradient-to-r from-cyan-100 via-sky-200 to-indigo-200 bg-clip-text text-[clamp(2.85rem,5.4vw,4.8rem)] font-extrabold leading-tight text-transparent drop-shadow-[0_0_24px_rgba(56,189,248,0.35)] lg:text-[clamp(4.2rem,5.8vw,5.8rem)]">
           Ammar Ridho
         </h1>
+        <p className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-slate-200/90 lg:text-[clamp(1.1rem,2vw,1.5rem)]">
+          Orchestrating AI constellations and immersive web frontiers so ideas can travel at light speed.
+        </p>
+        <div className="mt-5 flex flex-wrap justify-center gap-3 text-sm font-semibold lg:text-base">
+          <span className="rounded-full border border-cyan-300/40 bg-cyan-300/10 px-4 py-2 text-cyan-100 shadow-[0_0_18px_rgba(56,189,248,0.35)]">AI/ML Engineer</span>
+          <span className="rounded-full border border-indigo-300/40 bg-indigo-300/10 px-4 py-2 text-indigo-100 shadow-[0_0_18px_rgba(129,140,248,0.3)]">Web Developer</span>
+          <span className="rounded-full border border-emerald-200/40 bg-emerald-200/10 px-4 py-2 text-emerald-100 shadow-[0_0_18px_rgba(52,211,153,0.3)]">Data Science Explorer</span>
+        </div>
       </div>
     </section>
   );
