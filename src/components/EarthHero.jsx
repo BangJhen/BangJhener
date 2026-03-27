@@ -4,6 +4,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 import * as THREE from "three";
 
 const MODEL_URL = "/models/earth.mr.draco.webp.glb";
@@ -37,9 +38,9 @@ function getViewportConfig(isDesktop) {
 
 function getMoonConfig(isDesktop) {
   if (isDesktop) {
-    return { position: [2, 1.45, -0.8], scale: 0.003 };
+    return { position: [2, 1, -0.8], scale: 0.003 };
   }
-  return { position: [2.2, 1.05, -0.6], scale: 0.45 };
+  return { position: [2.2, 0.9, -0.6], scale: 0.45 };
 }
 
 function EarthModel({ reducedMotion, position, scale, pointer }) {
@@ -331,9 +332,20 @@ export default function EarthHero() {
           filter: `blur(${sinkProgress * BASE_CONFIG.sink.blurMax}px)`,
         }}>
         <p className="text-[0.9rem] uppercase tracking-[0.32em] text-sky-100/70 lg:text-base">AI/ML Engineer</p>
-        <h1 className="mt-3 bg-gradient-to-r from-cyan-100 via-sky-200 to-indigo-200 bg-clip-text text-[clamp(2.85rem,5.4vw,4.8rem)] font-extrabold leading-tight text-transparent drop-shadow-[0_0_24px_rgba(56,189,248,0.35)] lg:text-[clamp(4.2rem,5.8vw,5.8rem)]">
-          Ammar Ridho
-        </h1>
+        <div className="pointer-events-auto relative mx-auto mt-2 h-[105px] w-full max-w-[680px] lg:h-[140px]">
+          <TextHoverEffect
+            text="AMMAR RIDHO"
+            duration={0.15}
+            textClassName="text-[64px] lg:text-[94px] tracking-[0.03em]"
+            gradientStops={[
+              { offset: "0%", color: "#dbeafe" },
+              { offset: "25%", color: "#67e8f9" },
+              { offset: "55%", color: "#38bdf8" },
+              { offset: "80%", color: "#818cf8" },
+              { offset: "100%", color: "#c4b5fd" },
+            ]}
+          />
+        </div>
         <p className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-slate-200/90 lg:text-[clamp(1.1rem,2vw,1.5rem)]">
           Orchestrating AI constellations and immersive web frontiers so ideas can travel at light speed.
         </p>
