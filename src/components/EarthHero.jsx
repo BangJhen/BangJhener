@@ -73,6 +73,26 @@ function MoonModel({ reducedMotion, position, scale }) {
   const { scene } = useGLTF(MOON_MODEL_URL);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if (child.isMesh && child.material) {
+        const map = child.material.map || child.material.baseColorTexture || child.material.specularColorTexture;
+        if (map) {
+          map.encoding = THREE.sRGBEncoding;
+        }
+        child.material = new THREE.MeshStandardMaterial({
+          map: map || null,
+          color: new THREE.Color("#ffffff"),
+          roughness: 0.78,
+          metalness: 0.08,
+          emissive: new THREE.Color("#0b1220"),
+          emissiveIntensity: 0.12,
+        });
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [clonedScene]);
+
   useFrame((_, delta) => {
     const group = groupRef.current;
     if (!group) return;
