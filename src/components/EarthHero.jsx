@@ -189,6 +189,28 @@ export default function EarthHero() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(56,189,248,0.18),transparent_55%)] opacity-80" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_60%,rgba(129,140,248,0.16),transparent_60%)] mix-blend-screen opacity-70" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_85%,rgba(14,165,233,0.12),transparent_55%)] opacity-60" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(115deg, rgba(56,189,248,0.14), rgba(14,165,233,0.06), transparent 65%)",
+            filter: "blur(28px)",
+            transform: "translate3d(calc(var(--px, 0) * 2px), calc(var(--py, 0) * 2px), 0) rotate(4deg)",
+            opacity: 0.8,
+            mixBlendMode: "screen",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(155deg, rgba(129,140,248,0.14), rgba(94,234,212,0.08), transparent 70%)",
+            filter: "blur(32px)",
+            transform: "translate3d(calc(var(--px, 0) * -2px), calc(var(--py, 0) * 1px), 0) rotate(-6deg)",
+            opacity: 0.65,
+            mixBlendMode: "screen",
+          }}
+        />
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 top-0 z-5 h-full overflow-visible" aria-hidden="true">
