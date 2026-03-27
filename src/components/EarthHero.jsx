@@ -188,23 +188,23 @@ export default function EarthHero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative isolate min-h-[180vh] overflow-hidden bg-[#040711] text-white lg:min-h-[200vh] lg:overflow-visible"
+      className="relative isolate min-h-[180vh] overflow-hidden bg-[#040711] text-white lg:min-h-[200vh] lg:overflow-x-hidden lg:overflow-y-visible"
       aria-label="Hero"
       style={{ "--px": 0, "--py": 0 }}>
       <div className="pointer-events-none absolute inset-0 z-0">
         <div
           className="absolute inset-0 bg-gradient-to-b from-[#0c1224] via-transparent to-[#040711] transition-transform duration-300"
-          style={{ transform: "translate3d(calc(var(--px) * 6px), calc(var(--py) * 4px), 0)" }}
+          style={{ transform: "translate3d(calc(var(--px) * 4px), calc(var(--py) * 3px), 0) scale(1.05)" }}
           aria-hidden="true"
         />
         <div
-          className="absolute inset-[-10%] bg-[radial-gradient(circle_at_50%_35%,rgba(94,234,212,0.16),transparent_55%)] blur-3xl transition-transform duration-500"
-          style={{ transform: "translate3d(calc(var(--px) * 10px), calc(var(--py) * 8px), 0)" }}
+          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(94,234,212,0.16),transparent_55%)] blur-3xl transition-transform duration-500"
+          style={{ transform: "translate3d(calc(var(--px) * 8px), calc(var(--py) * 6px), 0) scale(1.08)" }}
           aria-hidden="true"
         />
         <div
-          className="absolute inset-[-8%] bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.18),transparent_60%)] blur-3xl mix-blend-screen opacity-70 transition-transform duration-500"
-          style={{ transform: "translate3d(calc(var(--px) * -8px), calc(var(--py) * -6px), 0)" }}
+          className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.18),transparent_60%)] blur-3xl mix-blend-screen opacity-70 transition-transform duration-500"
+          style={{ transform: "translate3d(calc(var(--px) * -6px), calc(var(--py) * -5px), 0) scale(1.05)" }}
           aria-hidden="true"
         />
       </div>
