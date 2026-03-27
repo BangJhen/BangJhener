@@ -245,7 +245,7 @@ export default function EarthHero() {
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-[12vh] z-10 mx-auto w-full max-w-5xl px-6 text-center lg:bottom-[18vh]"
+        className="pointer-events-none absolute inset-x-0 bottom-[12vh] z-10 mx-auto w-full max-w-5xl px-6 text-center lg:bottom-[clamp(120vh,150vh,180vh)]"
         style={{
           transform: `translateY(${sinkProgress * BASE_CONFIG.sink.travelY}px) scale(${1 - sinkProgress * (1 - BASE_CONFIG.sink.scaleMin)})`,
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
