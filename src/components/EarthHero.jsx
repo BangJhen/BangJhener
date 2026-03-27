@@ -188,7 +188,7 @@ export default function EarthHero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative isolate min-h-[180vh] overflow-visible bg-[#040711] text-white lg:min-h-[200vh]"
+      className="relative isolate min-h-[180vh] overflow-hidden bg-[#040711] text-white lg:min-h-[200vh] lg:overflow-visible"
       aria-label="Hero"
       style={{ "--px": 0, "--py": 0 }}>
       <div className="pointer-events-none absolute inset-0 z-0">
