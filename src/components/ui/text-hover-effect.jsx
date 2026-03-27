@@ -83,8 +83,8 @@ export const TextHoverEffect = ({
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
-        className={`fill-transparent stroke-sky-100/70 font-[helvetica] text-7xl font-bold ${textClassName}`}
+        strokeWidth="0.55"
+        className={`fill-transparent stroke-sky-100/75 font-[helvetica] text-7xl font-extrabold ${textClassName}`}
         style={{ opacity: hovered ? 0.7 : 0 }}>
         {text}
       </text>
@@ -93,8 +93,8 @@ export const TextHoverEffect = ({
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
-        className={`fill-transparent stroke-sky-100/80 font-[helvetica] text-7xl font-bold ${textClassName}`}
+        strokeWidth="0.55"
+        className={`fill-transparent stroke-sky-100/90 font-[helvetica] text-7xl font-extrabold ${textClassName}`}
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{
           strokeDashoffset: 0,
@@ -112,9 +112,9 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         stroke={`url(#${gradientId})`}
-        strokeWidth="0.3"
+        strokeWidth="0.55"
         mask={`url(#${maskId})`}
-        className={`fill-transparent font-[helvetica] text-7xl font-bold ${textClassName}`}>
+        className={`fill-transparent font-[helvetica] text-7xl font-extrabold ${textClassName}`}>
         {text}
       </text>
     </svg>
