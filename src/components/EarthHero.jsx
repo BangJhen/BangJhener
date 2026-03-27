@@ -77,8 +77,8 @@ function MoonModel({ reducedMotion, position, scale }) {
     clonedScene.traverse((child) => {
       if (child.isMesh && child.material) {
         const map = child.material.map || child.material.baseColorTexture || child.material.specularColorTexture;
-        if (map) {
-          map.encoding = THREE.sRGBEncoding;
+        if (map && "colorSpace" in map) {
+          map.colorSpace = THREE.SRGBColorSpace;
         }
         child.material = new THREE.MeshStandardMaterial({
           map: map || null,
