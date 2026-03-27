@@ -62,38 +62,26 @@ function EarthModel({ reducedMotion, position, scale, pointer }) {
 
 function SpaceBackground({ reducedMotion, pointer }) {
   const groupRef = useRef(null);
-  const tileARef = useRef(null);
-  const tileBRef = useRef(null);
-  const scrollRef = useRef(0);
   const { scene } = useGLTF(SPACE_MODEL_URL);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   useFrame((_, delta) => {
     if (!groupRef.current || reducedMotion) return;
-    groupRef.current.rotation.y += delta * 0.018; // steady spin on center
-
+    const t = performance.now() * 0.0004;
+    // const targetX =  // gentle tilt forward/back
+    // groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 4, delta);
+    
     const px = pointer?.current?.x || 0;
     const py = pointer?.current?.y || 0;
-    const targetX = py * 0.01;
-    const targetZ = -px * 0.01;
-    groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 4, delta);
-    groupRef.current.rotation.z = THREE.MathUtils.damp(groupRef.current.rotation.z, targetZ, 4, delta);
-
-    const span = 14;
-    scrollRef.current -= delta * 0.35;
-    if (scrollRef.current <= -span) scrollRef.current += span;
-    if (tileARef.current) tileARef.current.position.x = scrollRef.current;
-    if (tileBRef.current) tileBRef.current.position.x = scrollRef.current + span;
+    const targetX = py * 0.08 * Math.sin(t) * 0.5;;
+    const targetZ = -px * 0.08;
+    groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 3, delta);
+    groupRef.current.rotation.z = THREE.MathUtils.damp(groupRef.current.rotation.z, targetZ, 3, delta);
   });
 
   return (
-    <group ref={groupRef} position={[0, -3.5, 7]}>
-      <group ref={tileARef}>
-        <primitive object={clonedScene} scale={3} />
-      </group>
-      <group ref={tileBRef}>
-        <primitive object={clonedScene} scale={3} />
-      </group>
+    <group ref={groupRef} position={[-4, -4, 8]}>
+      <primitive object={clonedScene} scale={3} />
     </group>
   );
 }
@@ -186,10 +174,6 @@ export default function EarthHero() {
       const x = (e.clientX / window.innerWidth) * 2 - 1;
       const y = (e.clientY / window.innerHeight) * 2 - 1;
       pointerRef.current = { x, y };
-      if (sectionRef.current) {
-        sectionRef.current.style.setProperty("--px", x.toString());
-        sectionRef.current.style.setProperty("--py", y.toString());
-      }
     };
 
     window.addEventListener("pointermove", handlePointer, { passive: true });
@@ -199,34 +183,10 @@ export default function EarthHero() {
   const viewportConfig = getViewportConfig(isDesktop);
 
   return (
-    <section
-      id="hero"
-      ref={sectionRef}
-      className="relative isolate min-h-[180vh] overflow-hidden bg-[#040711] text-white lg:min-h-[200vh] lg:overflow-x-hidden lg:overflow-y-visible"
-      aria-label="Hero"
-      style={{ "--px": 0, "--py": 0 }}>
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-[#0c1224] via-transparent to-[#040711] transition-transform duration-300"
-          style={{ transform: "translate3d(calc(var(--px) * 2px), calc(var(--py) * 2px), 0)" }}
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(94,234,212,0.16),transparent_55%)] blur-3xl transition-transform duration-500"
-          style={{ transform: "translate3d(calc(var(--px) * 3px), calc(var(--py) * 3px), 0)" }}
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.18),transparent_60%)] blur-3xl mix-blend-screen opacity-70 transition-transform duration-500"
-          style={{ transform: "translate3d(calc(var(--px) * -3px), calc(var(--py) * -3px), 0)" }}
-          aria-hidden="true"
-        />
-      </div>
+    <section id="hero" ref={sectionRef} className="relative isolate min-h-[180vh] overflow-visible bg-[#040711] text-white lg:min-h-[200vh]" aria-label="Hero">
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-[#040711]/90" aria-hidden="true" />
 
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-5 h-full overflow-visible transition-transform duration-500"
-        style={{ transform: "translate3d(calc(var(--px) * 12px), calc(var(--py) * 10px), 0)" }}
-        aria-hidden="true">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-5 h-full overflow-visible" aria-hidden="true">
         {shouldRenderScene ? (
           <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 10], fov: 35 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
             <ambientLight intensity={0.3} />
@@ -240,10 +200,7 @@ export default function EarthHero() {
         )}
       </div>
 
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[180vh] overflow-visible transition-transform duration-500 lg:h-[200vh]"
-        style={{ transform: "translate3d(calc(var(--px) * 6px), calc(var(--py) * 5px), 0)" }}
-        aria-hidden="true">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[180vh] overflow-visible lg:h-[200vh]" aria-hidden="true">
         {shouldRenderScene ? (
           <EarthScene
             reducedMotion={reducedMotion}
@@ -258,7 +215,7 @@ export default function EarthHero() {
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-[12vh] z-10 mx-auto w-full max-w-5xl px-6 text-center lg:bottom-[clamp(120vh,150vh,180vh)]"
+        className="pointer-events-none absolute inset-x-0 bottom-[12vh] z-10 mx-auto w-full max-w-5xl px-6 text-center lg:bottom-[150vh]"
         style={{
           transform: `translateY(${sinkProgress * BASE_CONFIG.sink.travelY}px) scale(${1 - sinkProgress * (1 - BASE_CONFIG.sink.scaleMin)})`,
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
