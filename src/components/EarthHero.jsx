@@ -1,8 +1,9 @@
 "use client";
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as THREE from "three";
 
 const MODEL_URL = "/models/earth.mr.draco.webp.glb";
@@ -70,8 +71,8 @@ function EarthModel({ reducedMotion, position, scale, pointer }) {
 
 function MoonModel({ reducedMotion, position, scale }) {
   const groupRef = useRef(null);
-  const { scene } = useGLTF(MOON_MODEL_URL);
-  const clonedScene = useMemo(() => scene.clone(), [scene]);
+  const { scene } = useLoader(GLTFLoader, MOON_MODEL_URL);
+  const clonedScene = useMemo(() => scene.clone(true), [scene]);
 
   useEffect(() => {
     clonedScene.traverse((child) => {
@@ -313,4 +314,3 @@ export default function EarthHero() {
 useGLTF.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
 useGLTF.preload(MODEL_URL);
 useGLTF.preload(SPACE_MODEL_URL);
-useGLTF.preload(MOON_MODEL_URL);
