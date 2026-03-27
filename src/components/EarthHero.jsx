@@ -73,24 +73,6 @@ function MoonModel({ reducedMotion, position, scale }) {
   const { scene } = useGLTF(MOON_MODEL_URL);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
-  useEffect(() => {
-    clonedScene.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = false;
-        child.receiveShadow = false;
-        if (child.material) {
-          child.material = child.material.clone();
-          child.material.color = new THREE.Color("#d8dbe6");
-          child.material.roughness = 0.65;
-          child.material.metalness = 0.12;
-          child.material.emissive = new THREE.Color("#1f2937");
-          child.material.emissiveIntensity = 0.08;
-          child.material.needsUpdate = true;
-        }
-      }
-    });
-  }, [clonedScene]);
-
   useFrame((_, delta) => {
     const group = groupRef.current;
     if (!group) return;
@@ -139,7 +121,7 @@ function EarthScene({ reducedMotion, camera, position, scale, pointer, moon }) {
       <ambientLight intensity={0.75} />
       <directionalLight position={[3, 2, 3]} intensity={1.2} color="#d9f4ff" />
       <directionalLight position={[-2, -1, -2]} intensity={0.35} color="#88b3ff" />
-      <pointLight position={[moon.position[0], moon.position[1], moon.position[2] + 1.5]} intensity={1.4} color="#cdd5ff" distance={12} decay={2} />
+      <pointLight position={[moon.position[0], moon.position[1], moon.position[2] + 1.5]} intensity={0.9} color="#e5e9ff" distance={14} decay={2.2} />
       <Suspense fallback={null}>
         <EarthModel reducedMotion={reducedMotion} position={position} scale={scale} pointer={pointer} />
         <MoonModel reducedMotion={reducedMotion} position={moon.position} scale={moon.scale} />
