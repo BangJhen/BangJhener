@@ -7,6 +7,7 @@ import * as THREE from "three";
 
 const MODEL_URL = "/models/earth.mr.draco.webp.glb";
 const SPACE_MODEL_URL = "/models/need_some_space.glb";
+const MOON_MODEL_URL = "/models/moon.glb";
 const BASE_CONFIG = {
   rotationSpeed: { default: 0.16, reduced: 0.08 },
   pointerTilt: 0.2,
@@ -33,6 +34,13 @@ function getViewportConfig(isDesktop) {
   };
 }
 
+function getMoonConfig(isDesktop) {
+  if (isDesktop) {
+    return { position: [3.2, 2.4, -0.8], scale: 0.7 };
+  }
+  return { position: [2.2, 1.6, -0.6], scale: 0.45 };
+}
+
 function EarthModel({ reducedMotion, position, scale, pointer }) {
   const groupRef = useRef(null);
   const { scene } = useGLTF(MODEL_URL);
@@ -51,6 +59,30 @@ function EarthModel({ reducedMotion, position, scale, pointer }) {
 
     group.rotation.x = THREE.MathUtils.damp(group.rotation.x, targetX, 6, delta);
     group.rotation.z = THREE.MathUtils.damp(group.rotation.z, targetZ, 6, delta);
+  });
+
+  return (
+    <group ref={groupRef} position={position}>
+      <primitive object={clonedScene} scale={scale} />
+    </group>
+  );
+}
+
+function MoonModel({ reducedMotion, position, scale, pointer }) {
+  const groupRef = useRef(null);
+  const { scene } = useGLTF(MOON_MODEL_URL);
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useFrame((_, delta) => {
+    const group = groupRef.current;
+    if (!group) return;
+    group.rotation.y += delta * 0.08;
+    const px = reducedMotion ? 0 : pointer?.current?.x || 0;
+    const py = reducedMotion ? 0 : pointer?.current?.y || 0;
+    const targetX = py * 0.06;
+    const targetZ = -px * 0.06;
+    group.rotation.x = THREE.MathUtils.damp(group.rotation.x, targetX, 4, delta);
+    group.rotation.z = THREE.MathUtils.damp(group.rotation.z, targetZ, 4, delta);
   });
 
   return (
@@ -86,7 +118,7 @@ function SpaceBackground({ reducedMotion, pointer }) {
   );
 }
 
-function EarthScene({ reducedMotion, camera, position, scale, pointer }) {
+function EarthScene({ reducedMotion, camera, position, scale, pointer, moon }) {
   return (
     <Canvas
       dpr={[1, 1.8]}
@@ -97,6 +129,7 @@ function EarthScene({ reducedMotion, camera, position, scale, pointer }) {
       <directionalLight position={[-2, -1, -2]} intensity={0.35} color="#88b3ff" />
       <Suspense fallback={null}>
         <EarthModel reducedMotion={reducedMotion} position={position} scale={scale} pointer={pointer} />
+        <MoonModel reducedMotion={reducedMotion} position={moon.position} scale={moon.scale} pointer={pointer} />
       </Suspense>
     </Canvas>
   );
@@ -181,6 +214,7 @@ export default function EarthHero() {
   }, [reducedMotion]);
 
   const viewportConfig = getViewportConfig(isDesktop);
+  const moonConfig = getMoonConfig(isDesktop);
 
   return (
     <section id="hero" ref={sectionRef} className="relative isolate min-h-[180vh] overflow-visible bg-[#040711] text-white lg:min-h-[200vh]" aria-label="Hero">
@@ -235,6 +269,7 @@ export default function EarthHero() {
             position={viewportConfig.position}
             scale={viewportConfig.scale}
             pointer={pointerRef}
+            moon={moonConfig}
           />
         ) : (
           <div className="h-full w-full bg-[radial-gradient(circle_at_50%_45%,rgba(56,189,248,0.2),rgba(4,7,17,0.95)_56%)]" />
@@ -248,18 +283,13 @@ export default function EarthHero() {
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
           filter: `blur(${sinkProgress * BASE_CONFIG.sink.blurMax}px)`,
         }}>
-        <p className="text-[0.9rem] uppercase tracking-[0.32em] text-sky-100/70 lg:text-base">Celestial Engineer</p>
+        <p className="text-[0.9rem] uppercase tracking-[0.32em] text-sky-100/70 lg:text-base">AI/ML Engineer</p>
         <h1 className="mt-3 bg-gradient-to-r from-cyan-100 via-sky-200 to-indigo-200 bg-clip-text text-[clamp(2.85rem,5.4vw,4.8rem)] font-extrabold leading-tight text-transparent drop-shadow-[0_0_24px_rgba(56,189,248,0.35)] lg:text-[clamp(4.2rem,5.8vw,5.8rem)]">
           Ammar Ridho
         </h1>
         <p className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-slate-200/90 lg:text-[clamp(1.1rem,2vw,1.5rem)]">
           Orchestrating AI constellations and immersive web frontiers so ideas can travel at light speed.
         </p>
-        <div className="mt-5 flex flex-wrap justify-center gap-3 text-sm font-semibold lg:text-base">
-          <span className="rounded-full border border-cyan-300/40 bg-cyan-300/10 px-4 py-2 text-cyan-100 shadow-[0_0_18px_rgba(56,189,248,0.35)]">AI/ML Engineer</span>
-          <span className="rounded-full border border-indigo-300/40 bg-indigo-300/10 px-4 py-2 text-indigo-100 shadow-[0_0_18px_rgba(129,140,248,0.3)]">Web Developer</span>
-          <span className="rounded-full border border-emerald-200/40 bg-emerald-200/10 px-4 py-2 text-emerald-100 shadow-[0_0_18px_rgba(52,211,153,0.3)]">Data Science Explorer</span>
-        </div>
       </div>
     </section>
   );
@@ -268,3 +298,4 @@ export default function EarthHero() {
 useGLTF.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
 useGLTF.preload(MODEL_URL);
 useGLTF.preload(SPACE_MODEL_URL);
+useGLTF.preload(MOON_MODEL_URL);
