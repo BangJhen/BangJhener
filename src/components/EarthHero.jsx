@@ -69,8 +69,9 @@ function EarthModel({ reducedMotion, position, scale, pointer }) {
   );
 }
 
-function MoonModel({ reducedMotion, position, scale }) {
+function MoonModel({ reducedMotion, position, scale, earthPosition }) {
   const groupRef = useRef(null);
+  const angleRef = useRef(0);
   const { scene } = useLoader(GLTFLoader, MOON_MODEL_URL);
   const clonedScene = useMemo(() => scene.clone(true), [scene]);
 
@@ -97,12 +98,22 @@ function MoonModel({ reducedMotion, position, scale }) {
   useFrame((_, delta) => {
     const group = groupRef.current;
     if (!group) return;
+    const ox = position[0] - earthPosition[0];
+    const oz = position[2] - earthPosition[2];
+    const radius = Math.hypot(ox, oz) || 2;
+    const baseAngle = Math.atan2(oz, ox);
+    angleRef.current += delta * (reducedMotion ? 0.12 : 0.22);
+    const theta = baseAngle + angleRef.current;
+    group.position.x = earthPosition[0] + Math.cos(theta) * radius;
+    group.position.z = earthPosition[2] + Math.sin(theta) * radius;
+    group.position.y = position[1] + Math.sin(theta * 0.8) * 0.08;
     group.rotation.y += delta * (reducedMotion ? 0.04 : 0.16);
   });
 
   return (
     <group ref={groupRef} position={position}>
       <primitive object={clonedScene} scale={scale} />
+      <pointLight position={[0, 0, 1.5]} intensity={0.9} color="#e5e9ff" distance={14} decay={2.2} />
     </group>
   );
 }
@@ -142,10 +153,9 @@ function EarthScene({ reducedMotion, camera, position, scale, pointer, moon }) {
       <ambientLight intensity={0.75} />
       <directionalLight position={[3, 2, 3]} intensity={1.2} color="#d9f4ff" />
       <directionalLight position={[-2, -1, -2]} intensity={0.35} color="#88b3ff" />
-      <pointLight position={[moon.position[0], moon.position[1], moon.position[2] + 1.5]} intensity={0.9} color="#e5e9ff" distance={14} decay={2.2} />
       <Suspense fallback={null}>
         <EarthModel reducedMotion={reducedMotion} position={position} scale={scale} pointer={pointer} />
-        <MoonModel reducedMotion={reducedMotion} position={moon.position} scale={moon.scale} />
+        <MoonModel reducedMotion={reducedMotion} position={moon.position} scale={moon.scale} earthPosition={position} />
       </Suspense>
     </Canvas>
   );
