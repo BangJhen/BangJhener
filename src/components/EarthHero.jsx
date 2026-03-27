@@ -62,6 +62,9 @@ function EarthModel({ reducedMotion, position, scale, pointer }) {
 
 function SpaceBackground({ reducedMotion, pointer }) {
   const groupRef = useRef(null);
+  const tileARef = useRef(null);
+  const tileBRef = useRef(null);
+  const scrollRef = useRef(0);
   const { scene } = useGLTF(SPACE_MODEL_URL);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
@@ -75,11 +78,22 @@ function SpaceBackground({ reducedMotion, pointer }) {
     const targetZ = -px * 0.01;
     groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 4, delta);
     groupRef.current.rotation.z = THREE.MathUtils.damp(groupRef.current.rotation.z, targetZ, 4, delta);
+
+    const span = 14;
+    scrollRef.current -= delta * 0.35;
+    if (scrollRef.current <= -span) scrollRef.current += span;
+    if (tileARef.current) tileARef.current.position.x = scrollRef.current;
+    if (tileBRef.current) tileBRef.current.position.x = scrollRef.current + span;
   });
 
   return (
-    <group ref={groupRef} position={[0, 0, -7]}>
-      <primitive object={clonedScene} scale={2.9} />
+    <group ref={groupRef} position={[0, -3.5, 7]}>
+      <group ref={tileARef}>
+        <primitive object={clonedScene} scale={3} />
+      </group>
+      <group ref={tileBRef}>
+        <primitive object={clonedScene} scale={3} />
+      </group>
     </group>
   );
 }
