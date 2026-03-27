@@ -7,7 +7,7 @@ import * as THREE from "three";
 
 const MODEL_URL = "/models/earth.mr.draco.webp.glb";
 const SPACE_MODEL_URL = "/models/need_some_space.glb";
-const MOON_MODEL_URL = "/models/moon.mr.glb";
+const MOON_MODEL_URL = "/models/moon.glb";
 const BASE_CONFIG = {
   rotationSpeed: { default: 0.16, reduced: 0.08 },
   pointerTilt: 0.2,
