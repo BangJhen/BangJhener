@@ -36,7 +36,7 @@ function getViewportConfig(isDesktop) {
 
 function getMoonConfig(isDesktop) {
   if (isDesktop) {
-    return { position: [3.2, 2.4, -0.8], scale: 0.7 };
+    return { position: [2, 2.5, -0.8], scale: 0.003 };
   }
   return { position: [2.2, 1.6, -0.6], scale: 0.45 };
 }
@@ -68,7 +68,7 @@ function EarthModel({ reducedMotion, position, scale, pointer }) {
   );
 }
 
-function MoonModel({ reducedMotion, position, scale, pointer }) {
+function MoonModel({ reducedMotion, position, scale }) {
   const groupRef = useRef(null);
   const { scene } = useGLTF(MOON_MODEL_URL);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
@@ -76,13 +76,7 @@ function MoonModel({ reducedMotion, position, scale, pointer }) {
   useFrame((_, delta) => {
     const group = groupRef.current;
     if (!group) return;
-    group.rotation.y += delta * 0.08;
-    const px = reducedMotion ? 0 : pointer?.current?.x || 0;
-    const py = reducedMotion ? 0 : pointer?.current?.y || 0;
-    const targetX = py * 0.06;
-    const targetZ = -px * 0.06;
-    group.rotation.x = THREE.MathUtils.damp(group.rotation.x, targetX, 4, delta);
-    group.rotation.z = THREE.MathUtils.damp(group.rotation.z, targetZ, 4, delta);
+    group.rotation.y += delta * (reducedMotion ? 0.04 : 0.16);
   });
 
   return (
@@ -129,7 +123,7 @@ function EarthScene({ reducedMotion, camera, position, scale, pointer, moon }) {
       <directionalLight position={[-2, -1, -2]} intensity={0.35} color="#88b3ff" />
       <Suspense fallback={null}>
         <EarthModel reducedMotion={reducedMotion} position={position} scale={scale} pointer={pointer} />
-        <MoonModel reducedMotion={reducedMotion} position={moon.position} scale={moon.scale} pointer={pointer} />
+        <MoonModel reducedMotion={reducedMotion} position={moon.position} scale={moon.scale} />
       </Suspense>
     </Canvas>
   );
