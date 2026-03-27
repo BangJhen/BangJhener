@@ -332,11 +332,11 @@ export default function EarthHero() {
           filter: `blur(${sinkProgress * BASE_CONFIG.sink.blurMax}px)`,
         }}>
         <p className="text-[0.9rem] uppercase tracking-[0.32em] text-sky-100/70 lg:text-base">AI/ML Engineer</p>
-        <div className="pointer-events-auto relative mx-auto mt-2 h-[105px] w-full max-w-[680px] lg:h-[140px]">
+        <div className="pointer-events-auto relative mx-auto mt-2 h-[120px] w-full max-w-[760px] lg:h-[170px]">
           <TextHoverEffect
             text="AMMAR RIDHO"
             duration={0.15}
-            textClassName="text-[64px] lg:text-[94px] tracking-[0.03em]"
+            textClassName="text-[78px] lg:text-[118px] tracking-[0.03em]"
             gradientStops={[
               { offset: "0%", color: "#dbeafe" },
               { offset: "25%", color: "#67e8f9" },
