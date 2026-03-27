@@ -67,14 +67,14 @@ function SpaceBackground({ reducedMotion, pointer }) {
 
   useFrame((_, delta) => {
     if (!groupRef.current || reducedMotion) return;
-    groupRef.current.rotation.y += delta * 0.02; // steady spin on center
+    groupRef.current.rotation.y += delta * 0.018; // steady spin on center
 
     const px = pointer?.current?.x || 0;
     const py = pointer?.current?.y || 0;
-    const targetX = py * 0.04;
-    const targetZ = -px * 0.04;
-    groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 3.5, delta);
-    groupRef.current.rotation.z = THREE.MathUtils.damp(groupRef.current.rotation.z, targetZ, 3.5, delta);
+    const targetX = py * 0.01;
+    const targetZ = -px * 0.01;
+    groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 4, delta);
+    groupRef.current.rotation.z = THREE.MathUtils.damp(groupRef.current.rotation.z, targetZ, 4, delta);
   });
 
   return (
