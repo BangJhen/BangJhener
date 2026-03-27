@@ -37,9 +37,9 @@ function getViewportConfig(isDesktop) {
 
 function getMoonConfig(isDesktop) {
   if (isDesktop) {
-    return { position: [2, 2.5, -0.8], scale: 0.003 };
+    return { position: [2, 1.45, -0.8], scale: 0.003 };
   }
-  return { position: [2.2, 1.6, -0.6], scale: 0.45 };
+  return { position: [2.2, 1.05, -0.6], scale: 0.45 };
 }
 
 function EarthModel({ reducedMotion, position, scale, pointer }) {
@@ -144,7 +144,7 @@ function SpaceBackground({ reducedMotion, pointer }) {
   );
 }
 
-function EarthScene({ reducedMotion, camera, position, scale, pointer, moon }) {
+function EarthScene({ reducedMotion, camera, position, scale, pointer }) {
   return (
     <Canvas
       dpr={[1, 1.8]}
@@ -155,7 +155,18 @@ function EarthScene({ reducedMotion, camera, position, scale, pointer, moon }) {
       <directionalLight position={[-2, -1, -2]} intensity={0.35} color="#88b3ff" />
       <Suspense fallback={null}>
         <EarthModel reducedMotion={reducedMotion} position={position} scale={scale} pointer={pointer} />
-        <MoonModel reducedMotion={reducedMotion} position={moon.position} scale={moon.scale} earthPosition={position} />
+      </Suspense>
+    </Canvas>
+  );
+}
+
+function MoonScene({ reducedMotion, camera, moon, earthPosition }) {
+  return (
+    <Canvas dpr={[1, 1.6]} camera={camera} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
+      <ambientLight intensity={0.45} />
+      <directionalLight position={[2.4, 1.8, 2]} intensity={0.8} color="#d9e4ff" />
+      <Suspense fallback={null}>
+        <MoonModel reducedMotion={reducedMotion} position={moon.position} scale={moon.scale} earthPosition={earthPosition} />
       </Suspense>
     </Canvas>
   );
@@ -295,11 +306,21 @@ export default function EarthHero() {
             position={viewportConfig.position}
             scale={viewportConfig.scale}
             pointer={pointerRef}
-            moon={moonConfig}
           />
         ) : (
           <div className="h-full w-full bg-[radial-gradient(circle_at_50%_45%,rgba(56,189,248,0.2),rgba(4,7,17,0.95)_56%)]" />
         )}
+      </div>
+
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-9 h-[180vh] overflow-visible lg:h-[200vh]" aria-hidden="true">
+        {shouldRenderScene ? (
+          <MoonScene
+            reducedMotion={reducedMotion}
+            camera={viewportConfig.camera}
+            moon={moonConfig}
+            earthPosition={viewportConfig.position}
+          />
+        ) : null}
       </div>
 
       <div
