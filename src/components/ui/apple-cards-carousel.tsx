@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { motion } from "framer-motion";
 import BorderGlow from "./BorderGlow";
+import TechStackIcon from "./TechStackIcon";
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -93,7 +94,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
         >
           <div className="absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l from-[#0f172a]"></div>
 
-          <div className="flex flex-row justify-start gap-4 pl-4 md:gap-6 md:pl-6">
+          <div className="flex flex-row justify-start gap-4 pl-16 pr-16 md:gap-6 md:pl-24 md:pr-24 lg:pl-32 lg:pr-32">
             {items.map((item, index) => (
               <motion.div
                 initial={{
@@ -189,25 +190,23 @@ export const Card = ({
       {/* Image */}
       <div className="relative w-full h-48 flex items-center justify-center bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-t-2xl flex-shrink-0 z-0 p-2">
         <div className="relative w-full h-full rounded-lg overflow-hidden">
-          {card.src && card.src.includes("unsplash") ? (
-            <>
-              <img
-                src={card.src}
-                alt={card.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 relative z-0"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  const parent = e.currentTarget.parentElement;
-                  if (parent) {
-                    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                    svg.setAttribute("class", "w-full h-full absolute inset-0 z-0");
-                    svg.setAttribute("viewBox", "0 0 300 200");
-                    svg.innerHTML = '<defs><linearGradient id="dummyGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#06b6d4" /><stop offset="100%" stopColor="#0ea5e9" /></linearGradient></defs><rect width="300" height="200" fill="url(#dummyGradient)" /><circle cx="150" cy="100" r="40" fill="#0f172a" opacity="0.3" /><path d="M 110 140 L 150 80 L 190 140 Z" fill="#0f172a" opacity="0.3" />';
-                    parent.appendChild(svg);
-                  }
-                }}
-              />
-            </>
+          {card.src ? (
+            <img
+              src={card.src}
+              alt={card.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 relative z-0"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+                const parent = e.currentTarget.parentElement;
+                if (parent) {
+                  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                  svg.setAttribute("class", "w-full h-full absolute inset-0 z-0");
+                  svg.setAttribute("viewBox", "0 0 300 200");
+                  svg.innerHTML = '<defs><linearGradient id="dummyGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#06b6d4" /><stop offset="100%" stopColor="#0ea5e9" /></linearGradient></defs><rect width="300" height="200" fill="url(#dummyGradient)" /><circle cx="150" cy="100" r="40" fill="#0f172a" opacity="0.3" /><path d="M 110 140 L 150 80 L 190 140 Z" fill="#0f172a" opacity="0.3" />';
+                  parent.appendChild(svg);
+                }
+              }}
+            />
           ) : (
             <div className="w-full h-full relative z-0">
               <DummyImage />
@@ -236,20 +235,10 @@ export const Card = ({
 
         {/* Tech Stack */}
         {card.technologies && card.technologies.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {card.technologies.slice(0, 2).map((tech, idx) => (
-              <span
-                key={idx}
-                className="inline-block px-1.5 py-0.5 text-xs rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-medium whitespace-nowrap"
-              >
-                {tech}
-              </span>
+          <div className="flex flex-wrap gap-1.5 mt-1">
+            {card.technologies.map((tech, idx) => (
+              <TechStackIcon key={idx} tech={tech} className="w-4 h-4" />
             ))}
-            {card.technologies.length > 2 && (
-              <span className="inline-block px-1.5 py-0.5 text-xs rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-medium">
-                +{card.technologies.length - 2}
-              </span>
-            )}
           </div>
         )}
 

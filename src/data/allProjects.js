@@ -8,14 +8,16 @@ export const allProjects = [
     description: "Production-ready monorepo platform for UMKM workforce management with role-based dashboards and AI-powered analysis.",
     language: "TypeScript",
     url: "https://github.com/BangJhen/BinaHub",
+    image: "/binahub.png",
     technologies: ["Next.js", "FastAPI", "Supabase", "TypeScript", "Python"],
   },
   {
     id: 2,
-    name: "smp-pgri8-web",
+    name: "SMPN 8 Website",
     description: "Modern school information portal with CMS capabilities, news management, facility showcase, and student registration system.",
     language: "TypeScript",
     url: "https://github.com/BangJhen/smp-pgri8-web",
+    image: "/smp-pgri-8.png",
     technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS", "Vite"],
   },
   {
@@ -24,6 +26,7 @@ export const allProjects = [
     description: "Web-based sentiment analysis tool for Indonesian text using IndoBERT and OLLAMA/Qwen with real-time analysis and AI evaluation.",
     language: "Python",
     url: "https://github.com/BangJhen/Sentiment-Analisis-With-LLM-Qwen2.5-1.5B",
+    image: "https://images.unsplash.com/photo-1677442d019cecf8d5c2d0f512d5a4b9?q=80&w=800&auto=format&fit=crop",
     technologies: ["Python", "Streamlit", "PyTorch", "Transformers", "Plotly"],
     liveDemo: "https://sentiment-analysis-with-qwen.streamlit.app",
   },
@@ -33,6 +36,7 @@ export const allProjects = [
     description: "Comprehensive agricultural decision support system with ML-based crop prediction, AI environmental optimization, and SHAP explainability.",
     language: "Jupyter Notebook",
     url: "https://github.com/BangJhen/agriculture-ai-powered",
+    image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?q=80&w=800&auto=format&fit=crop",
     technologies: ["Python", "Streamlit", "Random Forest", "SHAP", "MongoDB", "Qdrant"],
   },
   {
@@ -41,15 +45,17 @@ export const allProjects = [
     description: "Hybrid boardgame combining physical and digital gameplay. Built with React Native for cross-platform mobile experience.",
     language: "TypeScript",
     url: "https://github.com/BangJhen/BugOut",
+    image: "/BugOut.png",
     technologies: ["React Native", "TypeScript"],
   },
   {
     id: 6,
     name: "Retinopathy Detection",
     description: "Disease detection system using computer vision techniques for medical image analysis. Part of The Hack competition.",
-    language: "JavaScript",
-    url: "https://github.com/BangJhen/Retinopathy-Disease-Detection",
-    technologies: ["JavaScript", "Computer Vision", "ML"],
+    language: "Python",
+    url: "https://github.com/yashanathaniel26-byte/retinopaty-disease-detection",
+    image: "/retinopaty-detection.png",
+    technologies: ["Python", "TensorFlow", "Keras", "OpenCV", "Computer Vision"],
   },
   {
     id: 7,
@@ -57,14 +63,16 @@ export const allProjects = [
     description: "Speaker and music control system using hand gestures and landmarks detection with Mediapipe and TensorFlow Keras.",
     language: "Jupyter Notebook",
     url: "https://github.com/BangJhen/Music-Control-With-Hand-Gestures",
+    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=800&auto=format&fit=crop",
     technologies: ["Python", "Mediapipe", "TensorFlow", "Keras", "OpenCV"],
   },
   {
     id: 8,
-    name: "Library Management",
+    name: "Manajemen Perpustakaan",
     description: "School library management system for SMA 1 Dayeuhkolot. Manages textbook and learning material inventory.",
     language: "Blade",
     url: "https://github.com/BangJhen/manajemen-perpustakaan-buku-paket",
+    image: "https://images.unsplash.com/photo-1507842217343-583f20270319?q=80&w=800&auto=format&fit=crop",
     technologies: ["Laravel", "Blade", "PHP", "MySQL"],
   },
   {
@@ -73,6 +81,7 @@ export const allProjects = [
     description: "E-commerce product review sentiment analysis competition project. Analyzes customer sentiments from product reviews.",
     language: "Jupyter Notebook",
     url: "https://github.com/BangJhen/Kelompok1-TheHack",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f70d504f0?q=80&w=800&auto=format&fit=crop",
     technologies: ["Python", "Jupyter", "NLP", "Pandas", "Scikit-learn"],
   },
   {
@@ -81,24 +90,9 @@ export const allProjects = [
     description: "AI-powered financial analysis and insights platform for financial data analysis and visualization.",
     language: "JavaScript",
     url: "https://github.com/BangJhen/Finsight",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
     technologies: ["Next.js", "JavaScript", "React"],
-  },
-  {
-    id: 11,
-    name: "Portfolio Website",
-    description: "Interactive portfolio website built with React and Tailwind CSS.",
-    language: "JavaScript",
-    url: "https://github.com/BangJhen/React-Tailwind-Portofolio",
-    technologies: ["React", "Tailwind CSS", "JavaScript"],
-  },
-  {
-    id: 12,
-    name: "Bug-Out",
-    description: "Bug-Out hybrid boardgame implementation in C#.",
-    language: "C#",
-    url: "https://github.com/BangJhen/Bug-Out",
-    technologies: ["C#", "Game Development", "Unity"],
-  },
+  }
 ];
 
 // Get unique languages

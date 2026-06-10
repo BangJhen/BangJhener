@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${spaceGrotesk.variable} ${orbitron.variable} ${audiowide.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <SplashCursor
           DYE_RESOLUTION={720}
           DENSITY_DISSIPATION={5}

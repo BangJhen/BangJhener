@@ -73,9 +73,9 @@ export default function Home() {
     <main className={`${styles.page} bg-[#0f172a] min-h-screen text-white selection:bg-cyan-500/30 font-sans`}>
       <Navigation />
       <EarthHero />
-      <ProjectCarousel />
       <AboutMe />
       <Project />
+      <ProjectCarousel />
       <ContactMe />
     </main>
   );

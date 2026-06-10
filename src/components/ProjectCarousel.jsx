@@ -9,7 +9,7 @@ export default function ProjectCarousel() {
     <Card
       key={project.id}
       card={{
-        src: `https://images.unsplash.com/photo-${1593508512255 + index * 100000}-?q=80&w=800&auto=format&fit=crop`,
+        src: project.image,
         title: project.name,
         category: project.language || "Project",
         description: project.description,
