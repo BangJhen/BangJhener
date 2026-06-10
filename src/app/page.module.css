@@ -4,15 +4,6 @@
   color: #f3f7ff;
 }
 
-:global(html.parallax-no-bounce),
-:global(body.parallax-no-bounce) {
-  overscroll-behavior-y: none;
-  background: #0b1020;
-}
-
-:global(body.parallax-no-bounce) {
-  margin: 0;
-}
 
 .hero {
   position: relative;

@@ -139,3 +139,13 @@
     cursor: default !important;
   }
 }
+
+html.parallax-no-bounce,
+body.parallax-no-bounce {
+  overscroll-behavior-y: none;
+  background: #0b1020;
+}
+
+body.parallax-no-bounce {
+  margin: 0;
+}

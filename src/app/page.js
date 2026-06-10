@@ -7,6 +7,7 @@ import Navigation from "@/components/Navigation";
 import EarthHero from "@/components/EarthHero";
 import AboutMe from "@/components/AboutMe";
 import Project from "@/components/Project";
+import GalleryProject from "@/components/GalleryProject";
 import ContactMe from "@/components/ContactMe";
 import styles from "./page.module.css";
 
@@ -72,6 +73,7 @@ export default function Home() {
     <main className={`${styles.page} bg-[#0f172a] min-h-screen text-white selection:bg-cyan-500/30 font-sans`}>
       <Navigation />
       <EarthHero />
+      <GalleryProject />
       <AboutMe />
       <Project />
       <ContactMe />
