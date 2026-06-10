@@ -20,7 +20,7 @@ export const allProjects = [
   },
   {
     id: 3,
-    name: "Sentiment-Analisis-With-LLM-Qwen2.5-1.5B",
+    name: "Sentiment Analysis AI",
     description: "Web-based sentiment analysis tool for Indonesian text using IndoBERT and OLLAMA/Qwen with real-time analysis and AI evaluation.",
     language: "Python",
     url: "https://github.com/BangJhen/Sentiment-Analisis-With-LLM-Qwen2.5-1.5B",
@@ -29,7 +29,7 @@ export const allProjects = [
   },
   {
     id: 4,
-    name: "agriculture-ai-powered",
+    name: "TaniCerdas",
     description: "Comprehensive agricultural decision support system with ML-based crop prediction, AI environmental optimization, and SHAP explainability.",
     language: "Jupyter Notebook",
     url: "https://github.com/BangJhen/agriculture-ai-powered",
@@ -45,7 +45,7 @@ export const allProjects = [
   },
   {
     id: 6,
-    name: "Retinopathy-Disease-Detection",
+    name: "Retinopathy Detection",
     description: "Disease detection system using computer vision techniques for medical image analysis. Part of The Hack competition.",
     language: "JavaScript",
     url: "https://github.com/BangJhen/Retinopathy-Disease-Detection",
@@ -53,7 +53,7 @@ export const allProjects = [
   },
   {
     id: 7,
-    name: "Music-Control-With-Hand-Gestures",
+    name: "Gesture Music Control",
     description: "Speaker and music control system using hand gestures and landmarks detection with Mediapipe and TensorFlow Keras.",
     language: "Jupyter Notebook",
     url: "https://github.com/BangJhen/Music-Control-With-Hand-Gestures",
@@ -61,7 +61,7 @@ export const allProjects = [
   },
   {
     id: 8,
-    name: "manajemen-perpustakaan-buku-paket",
+    name: "Library Management",
     description: "School library management system for SMA 1 Dayeuhkolot. Manages textbook and learning material inventory.",
     language: "Blade",
     url: "https://github.com/BangJhen/manajemen-perpustakaan-buku-paket",
@@ -69,7 +69,7 @@ export const allProjects = [
   },
   {
     id: 9,
-    name: "Kelompok1-TheHack",
+    name: "Review Sentiment NLP",
     description: "E-commerce product review sentiment analysis competition project. Analyzes customer sentiments from product reviews.",
     language: "Jupyter Notebook",
     url: "https://github.com/BangJhen/Kelompok1-TheHack",
@@ -85,7 +85,7 @@ export const allProjects = [
   },
   {
     id: 11,
-    name: "React-Tailwind-Portofolio",
+    name: "Portfolio Website",
     description: "Interactive portfolio website built with React and Tailwind CSS.",
     language: "JavaScript",
     url: "https://github.com/BangJhen/React-Tailwind-Portofolio",
