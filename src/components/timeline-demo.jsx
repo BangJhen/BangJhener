@@ -28,6 +28,7 @@ function JourneyEvent({ month, title, detail, imageSrc, imageAlt, imageHeightCla
                 fill
                 sizes="(max-width: 768px) 92vw, 480px"
                 className="object-cover scale-[1.08]"
+                loading="lazy"
               />
             ) : (
               <div className={imagePlaceholderClass}>Image Placeholder</div>

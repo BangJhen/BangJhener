@@ -195,6 +195,7 @@ export const Card = ({
               src={card.src}
               alt={card.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 relative z-0"
+              loading="lazy"
               onError={(e) => {
                 e.currentTarget.style.display = "none";
                 const parent = e.currentTarget.parentElement;

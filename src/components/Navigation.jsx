@@ -13,11 +13,12 @@ export default function Navigation() {
       { id: "hero", label: "HERO" },
       { id: "about", label: "ABOUT" },
       { id: "projects", label: "JOURNEY" },
+      { id: "gallery-projects", label: "GALLERY" },
       { id: "contact", label: "CONTACT" },
     ],
     []
   );
-  const rulerTicks = useMemo(() => Array.from({ length: 44 }, (_, index) => index / 43), []);
+  const rulerTicks = useMemo(() => Array.from({ length: 55 }, (_, index) => index / 54), []);
   const influenceRadius = 0.28;
   const maxPull = 26;
   const handleSectionClick = (event, id) => {
