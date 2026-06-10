@@ -5,6 +5,7 @@ import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
+import { motion } from "motion/react";
 import * as THREE from "three";
 
 const MODEL_URL = "/models/earth.mr.draco.webp.glb";
@@ -285,7 +286,14 @@ export default function EarthHero() {
         />
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-5 h-full overflow-visible" aria-hidden="true">
+      {/* Space debris — fade only */}
+      <motion.div
+        className="pointer-events-none absolute inset-x-0 top-0 z-5 h-full overflow-visible"
+        aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={shouldRenderScene ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 2.4, ease: "easeOut" }}
+      >
         {shouldRenderScene ? (
           <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 10], fov: 35 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
             <ambientLight intensity={0.3} />
@@ -294,12 +302,17 @@ export default function EarthHero() {
               <SpaceBackground reducedMotion={reducedMotion} pointer={pointerRef} />
             </Suspense>
           </Canvas>
-        ) : (
-          <div className="h-full w-full bg-[#040711]" />
-        )}
-      </div>
+        ) : null}
+      </motion.div>
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[180vh] overflow-visible lg:h-[200vh]" aria-hidden="true">
+      {/* Earth — bottom to top */}
+      <motion.div
+        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[180vh] overflow-visible lg:h-[200vh]"
+        aria-hidden="true"
+        initial={{ opacity: 0, y: 120 }}
+        animate={shouldRenderScene ? { opacity: 1, y: 0 } : { opacity: 0, y: 120 }}
+        transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+      >
         {shouldRenderScene ? (
           <EarthScene
             reducedMotion={reducedMotion}
@@ -308,12 +321,17 @@ export default function EarthHero() {
             scale={viewportConfig.scale}
             pointer={pointerRef}
           />
-        ) : (
-          <div className="h-full w-full bg-[radial-gradient(circle_at_50%_45%,rgba(56,189,248,0.2),rgba(4,7,17,0.95)_56%)]" />
-        )}
-      </div>
+        ) : null}
+      </motion.div>
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-9 h-[180vh] overflow-visible lg:h-[200vh]" aria-hidden="true">
+      {/* Moon — bottom to top, slightly after Earth */}
+      <motion.div
+        className="pointer-events-none absolute inset-x-0 top-0 z-9 h-[180vh] overflow-visible lg:h-[200vh]"
+        aria-hidden="true"
+        initial={{ opacity: 0, y: 80 }}
+        animate={shouldRenderScene ? { opacity: 1, y: 0 } : { opacity: 0, y: 80 }}
+        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
+      >
         {shouldRenderScene ? (
           <MoonScene
             reducedMotion={reducedMotion}
@@ -322,8 +340,9 @@ export default function EarthHero() {
             earthPosition={viewportConfig.position}
           />
         ) : null}
-      </div>
+      </motion.div>
 
+      {/* Text content */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-[12vh] z-10 mx-auto w-full max-w-5xl px-6 text-center lg:bottom-[150vh]"
         style={{
@@ -331,7 +350,15 @@ export default function EarthHero() {
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
           filter: `blur(${sinkProgress * BASE_CONFIG.sink.blurMax}px)`,
         }}>
-        <p className="text-[0.9rem] uppercase tracking-[0.32em] text-sky-100/70 lg:text-base">AI/ML Engineer</p>
+        {/* "AI/ML Engineer" — fade after title */}
+        <motion.p
+          className="text-[0.9rem] uppercase tracking-[0.32em] text-sky-100/70 lg:text-base"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 1.4 }}
+        >
+          AI/ML Engineer
+        </motion.p>
         <div className="pointer-events-auto relative mx-auto mt-2 h-[120px] w-full max-w-[760px] lg:h-[170px]">
           <TextHoverEffect
             text="AMMAR RIDHO"
@@ -346,9 +373,15 @@ export default function EarthHero() {
             ]}
           />
         </div>
-        <p className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-slate-200/90 lg:text-[clamp(1.1rem,2vw,1.5rem)]">
+        {/* Description — fade after title */}
+        <motion.p
+          className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-slate-200/90 lg:text-[clamp(1.1rem,2vw,1.5rem)]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 1.7 }}
+        >
           Orchestrating AI constellations and immersive web frontiers so ideas can travel at light speed.
-        </p>
+        </motion.p>
       </div>
     </section>
   );
