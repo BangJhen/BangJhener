@@ -265,15 +265,15 @@ export default function EarthHero() {
     <section id="hero" ref={sectionRef} className="relative isolate min-h-[120vh] overflow-visible bg-[#040711] text-white lg:min-h-[120vh] z-0" aria-label="Hero">
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <DotField
-          dotRadius={1.5}
-          dotSpacing={16}
-          bulgeStrength={70}
-          glowRadius={220}
+          dotRadius={3}
+          dotSpacing={15}
+          bulgeStrength={40}
+          glowRadius={50}
           sparkle={true}
-          waveAmplitude={0}
+          waveAmplitude={3}
           gradientFrom="rgba(30, 144, 255, 0.4)"
           gradientTo="rgba(65, 105, 225, 0.25)"
-          glowColor="rgba(100, 180, 255, 0.6)"
+          glowColor=""
         />
       </div>
 
@@ -324,7 +324,16 @@ export default function EarthHero() {
         }}>
         {/* "AI/ML Engineer" label */}
         <motion.p
-          className="text-[0.9rem] uppercase tracking-[0.32em] text-cyan-300 lg:text-base"
+          className="text-[0.9rem] uppercase tracking-[0.32em] text-cyan-300 lg:text-base font-semibold"
+          style={{
+            backgroundImage: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #06b6d4 100%)',
+            backgroundSize: '200% 200%',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            textShadow: '0 0 30px rgba(6, 182, 212, 0.5)',
+            filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.4))',
+          }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.0, ease: "easeOut", delay: 2.5 }}
@@ -349,7 +358,15 @@ export default function EarthHero() {
         </div>
         {/* Description */}
         <motion.p
-          className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-sky-100/80 lg:text-[clamp(1.1rem,2vw,1.5rem)]"
+          className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-sky-100 lg:text-[clamp(1.1rem,2vw,1.5rem)] font-light"
+          style={{
+            backgroundImage: 'linear-gradient(135deg, rgba(226, 232, 240, 0.9) 0%, rgba(241, 245, 249, 1) 50%, rgba(226, 232, 240, 0.9) 100%)',
+            backgroundSize: '200% 200%',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            filter: 'drop-shadow(0 0 15px rgba(100, 180, 255, 0.3))',
+          }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.0, ease: "easeOut", delay: 2.65 }}

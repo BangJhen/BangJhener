@@ -48,6 +48,7 @@ export default function RootLayout({ children }) {
           SPLAT_RADIUS={0.1}
           SPLAT_FORCE={1400}
           COLOR_UPDATE_SPEED={4}
+          disableOnHero={true}
         />
         {children}
       </body>

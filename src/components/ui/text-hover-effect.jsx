@@ -47,6 +47,14 @@ export const TextHoverEffect = ({
       onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
       className={`select-none ${className}`}>
       <defs>
+        <filter id="shinyGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+          <feMerge>
+            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        
         <linearGradient
           id={gradientId}
           gradientUnits="userSpaceOnUse"
@@ -89,13 +97,19 @@ export const TextHoverEffect = ({
         style={{ opacity: hovered ? 0.7 : 0 }}>
         {text}
       </text>
+      {/* Glow layer for shiny effect */}
       <motion.text
         x="50%"
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.55"
-        className={`fill-transparent stroke-sky-100/90 font-[helvetica] text-7xl font-extrabold ${textClassName}`}
+        strokeWidth="2"
+        className={`fill-none font-[helvetica] text-7xl font-extrabold ${textClassName}`}
+        style={{
+          stroke: 'rgba(100, 200, 255, 0.6)',
+          filter: 'blur(2px)',
+          opacity: 0.8,
+        }}
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{
           strokeDashoffset: 0,
@@ -108,6 +122,30 @@ export const TextHoverEffect = ({
         }}>
         {text}
       </motion.text>
+
+      {/* Main stroke text */}
+      <motion.text
+        x="50%"
+        y="50%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        strokeWidth="0.55"
+        className={`fill-transparent stroke-sky-100/90 font-[helvetica] text-7xl font-extrabold ${textClassName}`}
+        style={{ filter: 'drop-shadow(0 0 8px rgba(100, 200, 255, 0.8))' }}
+        initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
+        animate={{
+          strokeDashoffset: 0,
+          strokeDasharray: 1000,
+        }}
+        transition={{
+          duration: 4,
+          ease: "easeInOut",
+          delay: entranceDelay,
+        }}>
+        {text}
+      </motion.text>
+
+      {/* Gradient overlay text */}
       <text
         x="50%"
         y="50%"

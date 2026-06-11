@@ -15,7 +15,8 @@ function SplashCursor({
   SHADING = true,
   COLOR_UPDATE_SPEED = 10,
   BACK_COLOR = { r: 0.5, g: 0, b: 0 },
-  TRANSPARENT = true
+  TRANSPARENT = true,
+  disableOnHero = false
 }) {
   const canvasRef = useRef(null);
   const animationFrameId = useRef(null);
@@ -26,6 +27,22 @@ function SplashCursor({
 
     // Track if the effect is still active for cleanup
     let isActive = true;
+    let isHeroVisible = false;
+
+    // Function to check if hero is visible
+    const checkHeroVisibility = () => {
+      if (!disableOnHero) return false;
+      const heroSection = document.getElementById('hero');
+      if (!heroSection) return false;
+      const heroRect = heroSection.getBoundingClientRect();
+      return heroRect.bottom > 0 && heroRect.top < window.innerHeight;
+    };
+
+    // Initial check
+    isHeroVisible = checkHeroVisibility();
+    if (isHeroVisible) {
+      return; // Don't initialize on hero section
+    }
 
     function pointerPrototype() {
       this.id = -1;
@@ -696,6 +713,13 @@ function SplashCursor({
 
     function updateFrame() {
       if (!isActive) return;
+      
+      // Skip rendering if hero is visible and disableOnHero is true
+      if (isHeroVisible) {
+        animationFrameId.current = requestAnimationFrame(updateFrame);
+        return;
+      }
+      
       const dt = calcDeltaTime();
       if (resizeCanvas()) initFramebuffers();
       updateColors(dt);
@@ -1057,12 +1081,18 @@ function SplashCursor({
       }
     }
 
+    // Add scroll listener to check hero visibility
+    const handleScroll = () => {
+      isHeroVisible = checkHeroVisibility();
+    };
+
     // Add event listeners
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('touchstart', handleTouchStart);
     window.addEventListener('touchmove', handleTouchMove, false);
     window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     updateFrame();
 
@@ -1082,6 +1112,7 @@ function SplashCursor({
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('scroll', handleScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
