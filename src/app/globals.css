@@ -140,6 +140,13 @@
   }
 }
 
+/* Prevent any horizontal overflow globally */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 html.parallax-no-bounce,
 body.parallax-no-bounce {
   overscroll-behavior-y: none;
