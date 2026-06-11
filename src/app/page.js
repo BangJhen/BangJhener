@@ -74,7 +74,7 @@ function ParallaxVideoBackground() {
           preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/spaceman-background-scrub.mp4" type="video/mp4" />
+          <source src="/earth-video-scrub.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-[#0a0f1e]/55" />
       </div>
