@@ -5,6 +5,7 @@ import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
+import DotField from "@/components/ui/DotField";
 import { motion } from "motion/react";
 import * as THREE from "three";
 
@@ -263,52 +264,18 @@ export default function EarthHero() {
   return (
     <section id="hero" ref={sectionRef} className="relative isolate min-h-[120vh] overflow-visible bg-[#040711] text-white lg:min-h-[120vh] z-0" aria-label="Hero">
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1224] via-transparent to-[#040711]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(56,189,248,0.18),transparent_55%)] opacity-80" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_60%,rgba(129,140,248,0.16),transparent_60%)] mix-blend-screen opacity-70" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_85%,rgba(14,165,233,0.12),transparent_55%)] opacity-60" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(115deg, rgba(56,189,248,0.14), rgba(14,165,233,0.06), transparent 65%)",
-            filter: "blur(28px)",
-            transform: "translate3d(calc(var(--px, 0) * 2px), calc(var(--py, 0) * 2px), 0) rotate(4deg)",
-            opacity: 0.8,
-            mixBlendMode: "screen",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(155deg, rgba(129,140,248,0.14), rgba(94,234,212,0.08), transparent 70%)",
-            filter: "blur(32px)",
-            transform: "translate3d(calc(var(--px, 0) * -2px), calc(var(--py, 0) * 1px), 0) rotate(-6deg)",
-            opacity: 0.65,
-            mixBlendMode: "screen",
-          }}
+        <DotField
+          dotRadius={1.5}
+          dotSpacing={16}
+          bulgeStrength={70}
+          glowRadius={220}
+          sparkle={true}
+          waveAmplitude={0}
+          gradientFrom="rgba(30, 144, 255, 0.4)"
+          gradientTo="rgba(65, 105, 225, 0.25)"
+          glowColor="rgba(100, 180, 255, 0.6)"
         />
       </div>
-
-      {/* Space debris — fade only */}
-      <motion.div
-        className="pointer-events-none absolute inset-x-0 top-0 z-5 h-full overflow-visible"
-        aria-hidden="true"
-        initial={{ opacity: 0 }}
-        animate={shouldRenderScene ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 2.4, ease: "easeOut" }}
-      >
-        {shouldRenderScene ? (
-          <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 10], fov: 35 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
-            <ambientLight intensity={0.3} />
-            <directionalLight position={[2, 1, 3]} intensity={0.5} color="#9ccfff" />
-            <Suspense fallback={null}>
-              <SpaceBackground reducedMotion={reducedMotion} pointer={pointerRef} />
-            </Suspense>
-          </Canvas>
-        ) : null}
-      </motion.div>
 
       {/* Earth — bottom to top */}
       <motion.div
