@@ -5,7 +5,7 @@ import AboutPixelatedCanvas from "@/components/about-pixelated-canvas";
 
 export default function AboutMe() {
   return (
-    <section id="about" className="bg-[#0b1120] py-16 text-white md:py-20">
+    <section id="about" className="relative z-10 bg-[#0b1120] py-16 text-white md:py-20">
       <div className="container mx-auto px-5 md:px-[5%]">
         <h2 className="mb-4 flex items-center gap-3 text-3xl font-bold md:mb-6 md:text-4xl">
           <span className="h-[1px] w-12 bg-cyan-500"></span>

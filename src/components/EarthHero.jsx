@@ -126,17 +126,22 @@ function SpaceBackground({ reducedMotion, pointer }) {
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   useFrame((_, delta) => {
-    if (!groupRef.current || reducedMotion) return;
-    const t = performance.now() * 0.0004;
-    // const targetX =  // gentle tilt forward/back
-    // groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 4, delta);
-    
+    if (!groupRef.current) return;
+    const t = performance.now() * 0.0003;
+    const s = reducedMotion ? 0.4 : 1;
+
+    // Fully oscillating — never drifts out of frame
+    const targetX = Math.sin(t * 0.6)  * 0.07 * s;
+    const targetY = Math.sin(t * 0.4)  * 0.05 * s;
+    const targetZ = Math.cos(t * 0.5)  * 0.06 * s;
+
+    // Subtle pointer nudge on top
     const px = pointer?.current?.x || 0;
     const py = pointer?.current?.y || 0;
-    const targetX = py * 0.08 * Math.sin(t) * 0.5;;
-    const targetZ = -px * 0.08;
-    groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX, 3, delta);
-    groupRef.current.rotation.z = THREE.MathUtils.damp(groupRef.current.rotation.z, targetZ, 3, delta);
+
+    groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, targetX + py * 0.03, 1.5, delta);
+    groupRef.current.rotation.y = THREE.MathUtils.damp(groupRef.current.rotation.y, targetY + px * 0.03, 1.5, delta);
+    groupRef.current.rotation.z = THREE.MathUtils.damp(groupRef.current.rotation.z, targetZ,             1.5, delta);
   });
 
   return (
@@ -256,7 +261,7 @@ export default function EarthHero() {
   const moonConfig = getMoonConfig(isDesktop);
 
   return (
-    <section id="hero" ref={sectionRef} className="relative isolate min-h-[180vh] overflow-visible bg-[#040711] text-white lg:min-h-[200vh]" aria-label="Hero">
+    <section id="hero" ref={sectionRef} className="relative isolate min-h-[120vh] overflow-visible bg-[#040711] text-white lg:min-h-[120vh] z-0" aria-label="Hero">
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0b1224] via-transparent to-[#040711]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(56,189,248,0.18),transparent_55%)] opacity-80" />
@@ -309,9 +314,9 @@ export default function EarthHero() {
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[180vh] overflow-visible lg:h-[200vh]"
         aria-hidden="true"
-        initial={{ opacity: 0, y: 120 }}
-        animate={shouldRenderScene ? { opacity: 1, y: 0 } : { opacity: 0, y: 120 }}
-        transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+        initial={{ opacity: 0, y: 620 }}
+        animate={shouldRenderScene ? { opacity: 1, y: 0 } : { opacity: 0, y: 620 }}
+        transition={{ duration: 3.8, ease: [0.08, 0.82, 0.17, 1], delay: 0.1 }}
       >
         {shouldRenderScene ? (
           <EarthScene
@@ -328,9 +333,9 @@ export default function EarthHero() {
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 z-9 h-[180vh] overflow-visible lg:h-[200vh]"
         aria-hidden="true"
-        initial={{ opacity: 0, y: 80 }}
-        animate={shouldRenderScene ? { opacity: 1, y: 0 } : { opacity: 0, y: 80 }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
+        initial={{ opacity: 0, y: 500 }}
+        animate={shouldRenderScene ? { opacity: 1, y: 0 } : { opacity: 0, y: 500 }}
+        transition={{ duration: 4.2, ease: [0.08, 0.82, 0.17, 1], delay: 0.45 }}
       >
         {shouldRenderScene ? (
           <MoonScene
@@ -342,43 +347,45 @@ export default function EarthHero() {
         ) : null}
       </motion.div>
 
-      {/* Text content */}
+      {/* Text content — waits for Earth+Moon to finish (~4.65s) */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-[12vh] z-10 mx-auto w-full max-w-5xl px-6 text-center lg:bottom-[150vh]"
+        className="pointer-events-none absolute inset-x-0 top-1/2 z-19 mx-auto w-full max-w-5xl px-6 text-center -translate-y-1/2"
         style={{
-          transform: `translateY(${sinkProgress * BASE_CONFIG.sink.travelY}px) scale(${1 - sinkProgress * (1 - BASE_CONFIG.sink.scaleMin)})`,
+          transform: `translateY(calc(-50% + ${sinkProgress * BASE_CONFIG.sink.travelY}px)) scale(${1 - sinkProgress * (1 - BASE_CONFIG.sink.scaleMin)})`,
           opacity: 1 - sinkProgress * (1 - BASE_CONFIG.sink.opacityMin),
           filter: `blur(${sinkProgress * BASE_CONFIG.sink.blurMax}px)`,
         }}>
-        {/* "AI/ML Engineer" — fade after title */}
+        {/* "AI/ML Engineer" label */}
         <motion.p
-          className="text-[0.9rem] uppercase tracking-[0.32em] text-sky-100/70 lg:text-base"
+          className="text-[0.9rem] uppercase tracking-[0.32em] text-cyan-300 lg:text-base"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut", delay: 1.4 }}
+          transition={{ duration: 1.0, ease: "easeOut", delay: 2.5 }}
         >
           AI/ML Engineer
         </motion.p>
+        {/* Title — with stroke animation entrance delay */}
         <div className="pointer-events-auto relative mx-auto mt-2 h-[120px] w-full max-w-[760px] lg:h-[170px]">
           <TextHoverEffect
             text="AMMAR RIDHO"
             duration={0.15}
             textClassName="text-[78px] lg:text-[118px] tracking-[0.03em]"
             gradientStops={[
-              { offset: "0%", color: "#dbeafe" },
-              { offset: "25%", color: "#67e8f9" },
-              { offset: "55%", color: "#38bdf8" },
-              { offset: "80%", color: "#818cf8" },
+              { offset: "0%",   color: "#dbeafe" },
+              { offset: "25%",  color: "#67e8f9" },
+              { offset: "55%",  color: "#38bdf8" },
+              { offset: "80%",  color: "#818cf8" },
               { offset: "100%", color: "#c4b5fd" },
             ]}
+            entranceDelay={2.5}
           />
         </div>
-        {/* Description — fade after title */}
+        {/* Description */}
         <motion.p
-          className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-slate-200/90 lg:text-[clamp(1.1rem,2vw,1.5rem)]"
+          className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-sky-100/80 lg:text-[clamp(1.1rem,2vw,1.5rem)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut", delay: 1.7 }}
+          transition={{ duration: 1.0, ease: "easeOut", delay: 2.65 }}
         >
           Orchestrating AI constellations and immersive web frontiers so ideas can travel at light speed.
         </motion.p>

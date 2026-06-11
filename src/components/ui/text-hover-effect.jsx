@@ -13,6 +13,7 @@ export const TextHoverEffect = ({
     { offset: "60%", color: "#6366f1" },
     { offset: "100%", color: "#a78bfa" },
   ],
+  entranceDelay = 0,
 }) => {
   const gradientId = React.useId();
   const maskId = React.useId();
@@ -103,6 +104,7 @@ export const TextHoverEffect = ({
         transition={{
           duration: 4,
           ease: "easeInOut",
+          delay: entranceDelay,
         }}>
         {text}
       </motion.text>
