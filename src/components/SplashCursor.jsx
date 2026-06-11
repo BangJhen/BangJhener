@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function SplashCursor({
   SIM_RESOLUTION = 128,
@@ -20,29 +20,49 @@ function SplashCursor({
 }) {
   const canvasRef = useRef(null);
   const animationFrameId = useRef(null);
+  const [isHeroVisible, setIsHeroVisible] = useState(false);
+
+  // Check hero visibility on mount and scroll
+  useEffect(() => {
+    const checkHeroVisibility = () => {
+      if (!disableOnHero) {
+        setIsHeroVisible(false);
+        return;
+      }
+      const heroSection = document.getElementById('hero');
+      if (!heroSection) {
+        setIsHeroVisible(false);
+        return;
+      }
+      const heroRect = heroSection.getBoundingClientRect();
+      const visible = heroRect.bottom > 0 && heroRect.top < window.innerHeight;
+      setIsHeroVisible(visible);
+    };
+
+    // Initial check
+    checkHeroVisibility();
+
+    // Add scroll listener
+    window.addEventListener('scroll', checkHeroVisibility, { passive: true });
+    window.addEventListener('resize', checkHeroVisibility, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', checkHeroVisibility);
+      window.removeEventListener('resize', checkHeroVisibility);
+    };
+  }, [disableOnHero]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Don't initialize if hero is visible
+    if (isHeroVisible) {
+      return;
+    }
+
     // Track if the effect is still active for cleanup
     let isActive = true;
-    let isHeroVisible = false;
-
-    // Function to check if hero is visible
-    const checkHeroVisibility = () => {
-      if (!disableOnHero) return false;
-      const heroSection = document.getElementById('hero');
-      if (!heroSection) return false;
-      const heroRect = heroSection.getBoundingClientRect();
-      return heroRect.bottom > 0 && heroRect.top < window.innerHeight;
-    };
-
-    // Initial check
-    isHeroVisible = checkHeroVisibility();
-    if (isHeroVisible) {
-      return; // Don't initialize on hero section
-    }
 
     function pointerPrototype() {
       this.id = -1;
@@ -714,12 +734,6 @@ function SplashCursor({
     function updateFrame() {
       if (!isActive) return;
       
-      // Skip rendering if hero is visible and disableOnHero is true
-      if (isHeroVisible) {
-        animationFrameId.current = requestAnimationFrame(updateFrame);
-        return;
-      }
-      
       const dt = calcDeltaTime();
       if (resizeCanvas()) initFramebuffers();
       updateColors(dt);
@@ -1081,18 +1095,12 @@ function SplashCursor({
       }
     }
 
-    // Add scroll listener to check hero visibility
-    const handleScroll = () => {
-      isHeroVisible = checkHeroVisibility();
-    };
-
     // Add event listeners
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('touchstart', handleTouchStart);
     window.addEventListener('touchmove', handleTouchMove, false);
     window.addEventListener('touchend', handleTouchEnd);
-    window.addEventListener('scroll', handleScroll, { passive: true });
 
     updateFrame();
 
@@ -1112,10 +1120,8 @@ function SplashCursor({
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
-      window.removeEventListener('scroll', handleScroll);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isHeroVisible]);
 
   return (
     <div

@@ -23,13 +23,8 @@ export default function ProjectCarousel() {
   return (
     <section
       id="gallery-projects"
-      className="relative py-20 bg-[#0f172a] text-white overflow-x-hidden"
+      className="relative py-20 text-white overflow-x-hidden z-10"
     >
-      {/* Cosmic background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
-      </div>
 
       <div className="relative w-full z-10">
         {/* Header */}
