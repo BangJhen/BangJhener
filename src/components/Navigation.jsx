@@ -47,11 +47,22 @@ export default function Navigation() {
 
       setScrollProgress(progress);
 
+      // Deteksi section berdasarkan posisi viewport — section active jika top-nya di atas 40% viewport
       let currentSection = "hero";
+      let closestDistance = Number.POSITIVE_INFINITY;
+
       for (const section of sections) {
         const el = document.getElementById(section.id);
         if (!el) continue;
-        if (currentY + window.innerHeight * 0.35 >= el.offsetTop) {
+
+        const rect = el.getBoundingClientRect();
+        // Trigger point: 40% dari atas viewport
+        const triggerPoint = window.innerHeight * 0.4;
+        const distance = Math.abs(rect.top - triggerPoint);
+
+        // Ambil section yang paling dekat dengan trigger point
+        if (distance < closestDistance) {
+          closestDistance = distance;
           currentSection = section.id;
         }
       }
