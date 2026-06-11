@@ -182,13 +182,13 @@ export const Card = ({
       borderRadius={16}
       glowRadius={30}
       coneSpread={25}
-      className="relative z-10 flex flex-col h-96 w-48 md:h-96 md:w-72 overflow-hidden group"
+      className="relative z-10 flex flex-col flex-shrink-0 h-80 w-56 sm:h-96 sm:w-72 md:h-96 md:w-72 overflow-hidden group"
     >
       <motion.div
         className="flex flex-col h-full w-full"
       >
       {/* Image */}
-      <div className="relative w-full h-48 flex items-center justify-center bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-t-2xl flex-shrink-0 z-0 p-2">
+      <div className="relative w-full h-40 sm:h-44 md:h-48 flex items-center justify-center bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-t-2xl flex-shrink-0 z-0 p-3">
         <div className="relative w-full h-full rounded-lg overflow-hidden">
           {card.src ? (
             <img
@@ -218,14 +218,14 @@ export const Card = ({
       </div>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-3 md:p-4 space-y-2">
+      <div className="flex flex-col flex-1 p-3 sm:p-3 md:p-4 space-y-2">
         {/* Category */}
         <p className="text-xs text-cyan-300 font-medium">
           {card.category}
         </p>
 
         {/* Title */}
-        <h3 className="text-sm md:text-base font-bold text-cyan-100 line-clamp-2">
+        <h3 className="text-sm sm:text-sm md:text-base font-bold text-cyan-100 line-clamp-2">
           {card.title}
         </h3>
 

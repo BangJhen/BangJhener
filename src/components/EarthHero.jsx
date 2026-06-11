@@ -31,10 +31,11 @@ function getViewportConfig(isDesktop) {
       camera: { position: [0, 0.2, 9], fov: 34 },
     };
   }
+  // Mobile: Earth jauh lebih besar, posisi jauh di bawah (tenggelam)
   return {
-    position: [0, -0.2, 0],
-    scale: 0.013,
-    camera: { position: [0, 0.16, 9.4], fov: 36 },
+    position: [0, -2.5, 0],
+    scale: 0.025,
+    camera: { position: [0, 0.2, 9], fov: 34 },
   };
 }
 
@@ -42,7 +43,8 @@ function getMoonConfig(isDesktop) {
   if (isDesktop) {
     return { position: [2, 1, -0.8], scale: 0.003 };
   }
-  return { position: [2.2, 0.9, -0.6], scale: 0.45 };
+  // Mobile: Moon lebih kecil & sedikit lebih jauh
+  return { position: [1.8, 0.7, -0.5], scale: 0.28 };
 }
 
 function EarthModel({ reducedMotion, position, scale, pointer }) {
@@ -262,7 +264,7 @@ export default function EarthHero() {
   const moonConfig = getMoonConfig(isDesktop);
 
   return (
-    <section id="hero" ref={sectionRef} className="relative isolate min-h-[120vh] overflow-visible bg-[#040711] text-white lg:min-h-[120vh] z-0" aria-label="Hero">
+    <section id="hero" ref={sectionRef} className="relative isolate min-h-[100vh] sm:min-h-[110vh] lg:min-h-[120vh] overflow-visible bg-[#040711] text-white z-0" aria-label="Hero">
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <DotField
           dotRadius={3}
@@ -279,7 +281,7 @@ export default function EarthHero() {
 
       {/* Earth — bottom to top */}
       <motion.div
-        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[180vh] overflow-visible lg:h-[200vh]"
+        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[110vh] overflow-visible sm:h-[150vh] lg:h-[200vh]"
         aria-hidden="true"
         initial={{ opacity: 0, y: 620 }}
         animate={shouldRenderScene ? { opacity: 1, y: 0 } : { opacity: 0, y: 620 }}
@@ -298,7 +300,7 @@ export default function EarthHero() {
 
       {/* Moon — bottom to top, slightly after Earth */}
       <motion.div
-        className="pointer-events-none absolute inset-x-0 top-0 z-9 h-[180vh] overflow-visible lg:h-[200vh]"
+        className="pointer-events-none absolute inset-x-0 top-0 z-9 h-[110vh] overflow-visible sm:h-[150vh] lg:h-[200vh]"
         aria-hidden="true"
         initial={{ opacity: 0, y: 500 }}
         animate={shouldRenderScene ? { opacity: 1, y: 0 } : { opacity: 0, y: 500 }}
@@ -324,7 +326,7 @@ export default function EarthHero() {
         }}>
         {/* "AI/ML Engineer" label */}
         <motion.p
-          className="text-[0.9rem] uppercase tracking-[0.32em] text-cyan-300 lg:text-base font-semibold"
+          className="text-[0.75rem] sm:text-[0.9rem] lg:text-base uppercase tracking-[0.25em] sm:tracking-[0.3em] lg:tracking-[0.32em] text-cyan-300 font-semibold"
           style={{
             backgroundImage: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #06b6d4 100%)',
             backgroundSize: '200% 200%',
@@ -341,11 +343,11 @@ export default function EarthHero() {
           AI/ML Engineer
         </motion.p>
         {/* Title — with stroke animation entrance delay */}
-        <div className="pointer-events-auto relative mx-auto mt-2 h-[120px] w-full max-w-[760px] lg:h-[170px]">
+        <div className="pointer-events-auto relative mx-auto -mt-1 sm:mt-0 h-[70px] sm:h-[95px] w-full max-w-[760px] lg:h-[170px]">
           <TextHoverEffect
             text="AMMAR RIDHO"
             duration={0.15}
-            textClassName="text-[78px] lg:text-[118px] tracking-[0.03em]"
+            textClassName="text-[48px] sm:text-[68px] lg:text-[118px] tracking-[0.03em]"
             gradientStops={[
               { offset: "0%",   color: "#dbeafe" },
               { offset: "25%",  color: "#67e8f9" },
@@ -358,7 +360,7 @@ export default function EarthHero() {
         </div>
         {/* Description */}
         <motion.p
-          className="mx-auto mt-3 max-w-3xl text-[clamp(1rem,2.4vw,1.35rem)] text-sky-100 lg:text-[clamp(1.1rem,2vw,1.5rem)] font-light"
+          className="mx-auto -mt-1 sm:mt-1 lg:mt-3 max-w-3xl text-[0.85rem] sm:text-[1rem] lg:text-[clamp(1.1rem,2vw,1.5rem)] text-sky-100 font-light px-2 sm:px-0 leading-snug"
           style={{
             backgroundImage: 'linear-gradient(135deg, rgba(226, 232, 240, 0.9) 0%, rgba(241, 245, 249, 1) 50%, rgba(226, 232, 240, 0.9) 100%)',
             backgroundSize: '200% 200%',

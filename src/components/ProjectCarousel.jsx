@@ -12,17 +12,19 @@ gsap.registerPlugin(ScrollTrigger);
 export default function ProjectCarousel() {
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
+  const mobileTrackRef = useRef(null);
 
   useGSAP(
     () => {
       const section = sectionRef.current;
       const track = trackRef.current;
-      if (!section || !track) return;
+      if (!section) return;
 
       const mm = gsap.matchMedia();
 
       // Desktop (≥768px): vertical scroll drives horizontal carousel
       mm.add("(min-width: 768px)", () => {
+        if (!track) return;
         // Hitung jarak translasi: lebar track dikurangi lebar viewport
         const getDistance = () => track.scrollWidth - window.innerWidth;
 
@@ -35,15 +37,36 @@ export default function ProjectCarousel() {
             end: () => `+=${getDistance()}`,
             pin: true,
             pinSpacing: true,
-            scrub: true,          // langsung (tidak ada lag tambahan — Lenis sudah smooth)
+            scrub: true,
             invalidateOnRefresh: true,
           },
         });
       });
 
-      // Mobile: tidak di-pin, fallback ke swipe horizontal
+      // Mobile (<768px): staggered card entrance animation saat section masuk viewport
       mm.add("(max-width: 767px)", () => {
-        // no-op — mobile pakai native scroll
+        const mobileTrack = mobileTrackRef.current;
+        if (!mobileTrack) return;
+
+        const cardEls = mobileTrack.querySelectorAll(".border-glow-card");
+        if (!cardEls.length) return;
+
+        // Set initial state: invisible & shifted down
+        gsap.set(cardEls, { opacity: 0, y: 40 });
+
+        // Animate in dengan stagger saat section masuk viewport
+        gsap.to(cardEls, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",    // mulai animasi saat top section menyentuh 80% viewport
+            toggleActions: "play none none reverse",
+          },
+        });
       });
 
       return () => mm.revert();
@@ -101,8 +124,8 @@ export default function ProjectCarousel() {
       </div>
 
       {/* ── Mobile: native swipe horizontal ── */}
-      <div className="md:hidden py-16 text-white">
-        <div className="px-6 mb-8">
+      <div className="md:hidden py-12 text-white">
+        <div className="px-6 mb-6">
           <p className="text-xs font-semibold tracking-[0.2em] text-cyan-400 uppercase mb-2">
             Portfolio
           </p>
@@ -112,7 +135,10 @@ export default function ProjectCarousel() {
           <p className="text-slate-400 text-sm mt-1">Swipe to explore →</p>
         </div>
 
-        <div className="flex overflow-x-auto gap-4 pl-6 pr-6 pb-4 [scrollbar-width:none] [-webkit-overflow-scrolling:touch]">
+        <div
+          ref={mobileTrackRef}
+          className="flex overflow-x-auto gap-6 pl-6 pr-6 pb-6 [scrollbar-width:none] [-webkit-overflow-scrolling:touch] justify-start"
+        >
           {cards}
         </div>
       </div>
