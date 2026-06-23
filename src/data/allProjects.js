@@ -28,7 +28,7 @@ export const allProjects = [
     description: "Web-based sentiment analysis tool for Indonesian text using IndoBERT and OLLAMA/Qwen with real-time analysis and AI evaluation.",
     language: "Python",
     url: "https://github.com/BangJhen/Sentiment-Analisis-With-LLM-Qwen2.5-1.5B",
-    image: "https://images.unsplash.com/photo-1677442d019cecf8d5c2d0f512d5a4b9?q=80&w=800&auto=format&fit=crop",
+    image: "/sentiment-analysis-ai.jpeg",
     technologies: ["Python", "Streamlit", "PyTorch", "Transformers", "Plotly"],
     liveDemo: "https://sentiment-analysis-with-qwen.streamlit.app",
   },
@@ -39,7 +39,7 @@ export const allProjects = [
     language: "Jupyter Notebook",
     url: "https://github.com/BangJhen/agriculture-ai-powered",
     image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?q=80&w=800&auto=format&fit=crop",
-    technologies: ["Python", "Streamlit", "Random Forest", "SHAP", "MongoDB", "Qdrant"],
+    technologies: ["Python", "Streamlit", "SHAP", "MongoDB", "Qdrant"],
   },
   {
     id: 5,
@@ -95,6 +95,16 @@ export const allProjects = [
     url: "https://github.com/BangJhen/Finsight",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
     technologies: ["Next.js", "JavaScript", "React"],
+  },
+  {
+    id: 11,
+    name: "Suma Barbershop POS",
+    description: "Dashboard and POS admin application for Suma Barbershop with KPI cards, revenue charts, transaction management, and stock tracking.",
+    language: "TypeScript",
+    url: "https://github.com/BangJhen/suma-dashboard",
+    image: "/suma-barbershop.png",
+    technologies: ["React", "TypeScript", "Vite", "Recharts"],
+    liveDemo: "https://suma-dashboard.vercel.app/",
   }
 ];
 
