@@ -10,6 +10,7 @@ export const allProjects = [
     url: "https://github.com/BangJhen/BinaHub",
     image: "/binahub.png",
     technologies: ["Next.js", "FastAPI", "Supabase", "TypeScript", "Python"],
+    liveDemo: "https://letsbinahub.vercel.app/",
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ export const allProjects = [
     url: "https://github.com/BangJhen/smp-pgri8-web",
     image: "/smp-pgri-8.png",
     technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS", "Vite"],
+    liveDemo: "https://smp-pgri-8-bogor.vercel.app/",
   },
   {
     id: 3,
@@ -56,6 +58,7 @@ export const allProjects = [
     url: "https://github.com/yashanathaniel26-byte/retinopaty-disease-detection",
     image: "/retinopaty-detection.png",
     technologies: ["Python", "TensorFlow", "Keras", "OpenCV", "Computer Vision"],
+    liveDemo: "https://retinopatydetect.vercel.app/",
   },
   {
     id: 7,

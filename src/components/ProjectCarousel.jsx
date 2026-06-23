@@ -74,7 +74,20 @@ export default function ProjectCarousel() {
     { scope: sectionRef }
   );
 
-  const cards = allProjects.map((project, index) => (
+  // Priority ordering:
+  // 1. Cards with liveDemo URLs (deployed websites)
+  // 2. Cards with preview images but no liveDemo
+  // 3. Remaining cards
+  const sortedProjects = [...allProjects].sort((a, b) => {
+    const getPriority = (p) => {
+      if (p.liveDemo) return 0;
+      if (p.image) return 1;
+      return 2;
+    };
+    return getPriority(a) - getPriority(b);
+  });
+
+  const cards = sortedProjects.map((project, index) => (
     <Card
       key={project.id}
       card={{
@@ -84,6 +97,7 @@ export default function ProjectCarousel() {
         description: project.description,
         technologies: project.technologies || [],
         url: project.url,
+        liveDemo: project.liveDemo || null,
       }}
       index={index}
     />

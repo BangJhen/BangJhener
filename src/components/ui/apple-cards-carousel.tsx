@@ -22,6 +22,7 @@ type Card = {
   description: string;
   technologies: string[];
   url: string;
+  liveDemo?: string | null;
 };
 
 export const CarouselContext = createContext<{
@@ -217,6 +218,13 @@ export const Card = ({
         </div>
       </div>
 
+        {/* Live Demo badge on image */}
+        {card.liveDemo && (
+          <div className="absolute top-5 right-5 z-20 px-2 py-0.5 rounded-full bg-emerald-500/90 text-[0.55rem] font-bold uppercase tracking-wider text-white shadow-lg">
+            Live
+          </div>
+        )}
+
       {/* Content */}
       <div className="flex flex-col flex-1 p-3 sm:p-3 md:p-4 space-y-2">
         {/* Category */}
@@ -243,16 +251,30 @@ export const Card = ({
           </div>
         )}
 
-        {/* GitHub Link */}
-        <a
-          href={card.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="inline-flex items-center text-xs text-cyan-300 hover:text-cyan-100 transition-colors font-semibold mt-auto"
-        >
-          GitHub →
-        </a>
+        {/* Links */}
+        <div className="flex items-center gap-3 mt-auto pt-1">
+          {card.liveDemo && (
+            <a
+              href={card.liveDemo}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 text-[0.65rem] font-semibold uppercase tracking-wider transition-all hover:bg-emerald-500/25 hover:border-emerald-300/60"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Live
+            </a>
+          )}
+          <a
+            href={card.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center text-xs text-cyan-300 hover:text-cyan-100 transition-colors font-semibold"
+          >
+            GitHub →
+          </a>
+        </div>
       </div>
       </motion.div>
     </BorderGlow>
